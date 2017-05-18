@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "NWEN 304 Group Project",
   "main": "index.js",
+  "engines": {
+    "node": "6.10.2"
+  },
   "scripts": {
+  	"start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jonathan Miller, Li Li, Clinton Norman",
