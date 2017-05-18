@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var fs = require('fs');
 var path = require('path');
-var pg = require('pg').native;
+//var pg = require('pg').native;
 var port = process.env.PORT || 8080;
 
 //MongoDB Connection

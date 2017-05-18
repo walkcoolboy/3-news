@@ -6,14 +6,15 @@
   "engines": {
     "node": "6.10.2"
   },
-  "repository":"git@gitlab.ecs.vuw.ac.nz:millerjona1/3-news.git",
+  "repository": "git@gitlab.ecs.vuw.ac.nz:millerjona1/3-news.git",
   "scripts": {
-  	"start": "node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jonathan Miller, Li Li, Clinton Norman",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "mongodb": "^2.2.26"
   }
 }
