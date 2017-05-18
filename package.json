@@ -1,0 +1,14 @@
+{
+  "name": "3_news",
+  "version": "0.1.0",
+  "description": "NWEN 304 Group Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonathan Miller, Li Li, Clinton Norman",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
