@@ -6,6 +6,7 @@
   "engines": {
     "node": "6.10.2"
   },
+  "repository":"git@gitlab.ecs.vuw.ac.nz:millerjona1/3-news.git",
   "scripts": {
   	"start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
