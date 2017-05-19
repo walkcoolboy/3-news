@@ -28,6 +28,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+          <a class="navbar-brand" href="#">Top</a>
           <a class="navbar-brand" href="#">World</a>
           <a class="navbar-brand" href="#">National</a>
           <a class="navbar-brand" href="#">Sport</a>
@@ -52,12 +53,23 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Trending posts</h1>
+        <h1>Top content</h1>
       </div>
     </div>
 
-    <div class="container">
+    <div>
       <!-- Example row of columns -->
+      <div class="col-xs-6 col-sm-1 sidebar-offcanvas" id="sidebar">
+      <div class="list-group">
+                <a href="#" class="list-group-item active">Common tags</a>
+        <input type="text" placeholder="Search" class="form-control search-box">
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+      </div>
+    </div><!--/.sidebar-offcanvas-->
+    <div class="container">
       <div class="row">
         <div class="col-md-5">
           <h2>Heading</h2>
@@ -83,12 +95,13 @@
           <p><a class="btn btn-default" href="#" role="button">View more &raquo;</a></p>
        </div>
       </div>
-
       <hr>
-    <footer >
-      <p>&copy; 2017 ECS, VUW.</p>
-    </footer>
-    </div> <!-- /container -->
+              <footer>
+        <p>&copy; 2017 ECS, VUW.</p>
+      </footer>
+       <!-- /container -->
+     </div>
+     </div>
 
 
     <!-- Bootstrap core JavaScript
@@ -97,4 +110,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
   </body>
+
 </html>

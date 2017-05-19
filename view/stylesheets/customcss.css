@@ -5,3 +5,10 @@ body {
 }
 
 
+footer{
+	text-align: right;
+}
+
+.form-control .search-box{
+	border:1px solid red;
+}
