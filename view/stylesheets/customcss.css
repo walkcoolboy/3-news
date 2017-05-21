@@ -9,6 +9,36 @@ footer{
 	text-align: right;
 }
 
-.form-control .search-box{
-	border:1px solid red;
+span{
+	margin: 2px;
+}
+
+.main-container{
+	margin-top: 50px;
+}
+
+/* set color of side nave bar header*/
+.list-group-item.active{
+	background-color: #333;
+	background-image: linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
+}
+.list-group-item.active:hover{
+	background-color: #333;
+	background-image: linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
+}
+
+.search-result{
+	margin-top: 5px;
+	margin-left: 30%;
+	margin-right: 30%;
+	padding-top: 5px;
+}
+
+.search-inline{
+		margin-left: 30%;
+	margin-right: 30%;
+}
+
+img{
+	margin-left: 50px;
 }
