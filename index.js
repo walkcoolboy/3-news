@@ -103,7 +103,33 @@ app.get('/get_recommended', function(req, res) {
  *  - result (string?) : The link to the new article
  */
 app.post('/create_article', function(req, res) {
-		
+	
+	var title = req.body.title;
+	var content = req.body.content;
+	var tags = req.body.tags;
+
+	console.log('/create_article:' + title);
+
+	if(!title || !content || !tags){ //Check for invalid requests
+		res.json({
+			success:false,
+			message: 'ERROR: Request missing a field'
+		});
+		return;
+	}
+
+	var articles = [];
+
+	//DATABASE CODE HERE
+
+	//example
+	query.on('end', function() {
+		res.json({
+			success: true,
+			message: 'SUCCESS',
+			results: articles
+		});
+	});
 });
 
 /**
@@ -225,7 +251,7 @@ app.delete('/delete_user', function(req, res) {
  * Returns:
  *  - results (array<history>) : Array of history elements
  */
-app.GET('/view_history', function(req, res) {
+app.get('/view_history', function(req, res) {
 	
 });
 
@@ -239,7 +265,7 @@ app.GET('/view_history', function(req, res) {
  *  - success (bool) : Whether editing was successful
  *  - message (string) : Message informing the client of the result e.g. "EDIT HISTORY FAILED: User not found"
  */
-app.PUT('/edit_history', function(req, res) {
+app.put('/edit_history', function(req, res) {
 	
 });
 
@@ -254,7 +280,7 @@ app.PUT('/edit_history', function(req, res) {
  *  - success (bool) : Whether editing was successful
  *  - message (string) : Message informing the client of the result e.g. "CLEAR HISTORY FAILED: User not found"
  */
-app.DELETE('/clear_history', function(req, res) {
+app.delete('/clear_history', function(req, res) {
 	
 });
 
