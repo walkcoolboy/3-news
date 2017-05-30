@@ -1,6 +1,1 @@
- 
- 
-exports.getArticle(req, res){
 
-
-};

@@ -2,7 +2,7 @@
 // Load required packages
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
-var User = require('./models/user');
+//var User = require('./models/user');
 
 passport.use('require-user', new BasicStrategy(
   function(username, password, callback) {
@@ -36,7 +36,7 @@ passport.use('require-admin', new BasicStrategy(
 
       //User is not an admin
       if(user.type != 'admin'){ return callback(null, false); }
-      
+
       // Make sure the password is correct
       user.verifyPassword(password, function(err, isMatch) {
         if (err) { return callback(err); }
