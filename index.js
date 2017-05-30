@@ -10,20 +10,8 @@ var path = require('path');
 //var pg = require('pg').native;
 var port = process.env.PORT || 8080;
 
-//MongoDB Connection
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var db = require('./api/database');
 
-// Connection URL
-var url = 'mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.mlab.com:43131/heroku_khwjm57z';
-
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  db.close();
-});
 
 //-----------------------------------------
 //Middleware code starts here
@@ -202,9 +190,7 @@ app.post('/login', function(req, res) {
  *  - success (bool) : Whether logout was successful
  *  - message (string) : Message informing the client of the result e.g. "LOGOUT FAILED: User was not logged in"
  */
-app.post('/logout', function(req, res) {
-		
-});
+app.post('/logout', 
 
 /**
  * A request to update a user's details. Does not use OAuth.
