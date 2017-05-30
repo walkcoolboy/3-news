@@ -103,6 +103,7 @@ app.get('/get_recommended', function(req, res) {
  *  - result (string?) : The link to the new article
  */
 app.post('/create_article', function(req, res) {
+<<<<<<< HEAD
 	
 	var title = req.body.title;
 	var content = req.body.content;
@@ -130,6 +131,9 @@ app.post('/create_article', function(req, res) {
 			results: articles
 		});
 	});
+=======
+		
+>>>>>>> 9e11ed4c0d7e7a3070220553cff12084fbc594c1
 });
 
 /**
@@ -251,7 +255,11 @@ app.delete('/delete_user', function(req, res) {
  * Returns:
  *  - results (array<history>) : Array of history elements
  */
+<<<<<<< HEAD
 app.get('/view_history', function(req, res) {
+=======
+app.GET('/view_history', function(req, res) {
+>>>>>>> 9e11ed4c0d7e7a3070220553cff12084fbc594c1
 	
 });
 
@@ -265,7 +273,11 @@ app.get('/view_history', function(req, res) {
  *  - success (bool) : Whether editing was successful
  *  - message (string) : Message informing the client of the result e.g. "EDIT HISTORY FAILED: User not found"
  */
+<<<<<<< HEAD
 app.put('/edit_history', function(req, res) {
+=======
+app.PUT('/edit_history', function(req, res) {
+>>>>>>> 9e11ed4c0d7e7a3070220553cff12084fbc594c1
 	
 });
 
@@ -280,7 +292,11 @@ app.put('/edit_history', function(req, res) {
  *  - success (bool) : Whether editing was successful
  *  - message (string) : Message informing the client of the result e.g. "CLEAR HISTORY FAILED: User not found"
  */
+<<<<<<< HEAD
 app.delete('/clear_history', function(req, res) {
+=======
+app.DELETE('/clear_history', function(req, res) {
+>>>>>>> 9e11ed4c0d7e7a3070220553cff12084fbc594c1
 	
 });
 
