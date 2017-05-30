@@ -1,6 +1,13 @@
 //load required packages
 var express = require('express');
 var app = express();
+var fs = require('fs');
+var https = require('https');
+
+var https_options = {
+  key: fs.readFileSync('domain.key'),
+  cert: fs.readFileSync('domain.crt')
+};
 var mongoose = require('mongoose');
 
 //connect to MongoDB
@@ -11,7 +18,9 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-var fs = require('fs');
+
+
+
 var path = require('path');
 //var pg = require('pg').native;
 var port = process.env.PORT || 8080;
@@ -36,10 +45,13 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.listen(port, function () {
-	console.log('App listening on port 8080');
-});
+//HTTP
+// app.listen(port, function () {
+// 	console.log('App listening on port 8080');
+// });
 
+//HTTPS
+var server = https.createServer(https_options, app).listen(8443, 'localhost');
 
 //-----------------------------------------
 //Routes start here
@@ -53,7 +65,8 @@ app.get('/', function (req, res) {
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
-app.use('/', express.static(__dirname + '/'));
+ app.use('/', express.static(__dirname + '/'));
+
 
 app.get('/article', articleController.getArticles);
 
