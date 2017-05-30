@@ -1,5 +1,11 @@
+//load required packages
 var express = require('express');
 var app = express();
+var mongoose = require('mongoose');
+
+//connect to MongoDB
+mongoose.connect('mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.mlab.com:43131/heroku_khwjm57z');
+
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -49,7 +55,7 @@ app.get('/', function (req, res) {
 //Temporary measure for ease of use
 app.use('/', express.static(__dirname + '/'));
 
-app.get('/article', );
+app.get('/article', articleController.getArticles);
 
 app.get('/article/:article_id', articleController.getArticle)
 	.put('/article/:article_id', articleController.putArticle)
