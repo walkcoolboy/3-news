@@ -68,14 +68,14 @@ app.get('/', function (req, res) {
  app.use('/', express.static(__dirname + '/'));
 
 
-app.get('/article', articleController.getArticles);
-
+app.get('/article', articleController.getArticles)
+	.post('/article/', articleController.postArticle);
+	
 app.get('/article/:article_id', articleController.getArticle)
 	.put('/article/:article_id', articleController.putArticle)
-	.post('/article/:article_id', articleController.postArticle)
 	.delete('/article/:article_id', articleController.deleteArticle);
-
-app.post('/users/:username', userController.postUser)
-	.get('/users/:username', userController.getUser)
-	.put('/users/:username', userController.putUser)
-	.delete('/users/:username', authController.requireAdmin, userController.deleteUser);
+//
+// app.post('/users/:username', userController.postUser)
+// 	.get('/users/:username', userController.getUser)
+// 	.put('/users/:username', userController.putUser)
+// 	.delete('/users/:username', authController.requireAdmin, userController.deleteUser);

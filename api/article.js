@@ -63,7 +63,7 @@ exports.putArticle = function(req, res) {
 // Create endpoint /article/:article_id for DELETE
 exports.deleteArticle = function(req, res) {
   // Use the Article model to find a specific article and remove it
-  Article.Remove({articleID:req.params.article_id}, function(err) {
+  Article.remove({articleID:req.params.article_id}, function(err) {
     if (err)
       res.send(err);
 
