@@ -2,7 +2,7 @@
 var Article = require('../models/article');
 
 //create endpoint /article for GET
-exports.getArticles(req, res) {
+exports.getArticles = function (req, res) {
   //find 3 articles
   Article.find().limit(3).exec(function (err, articles) {
     if (err)
@@ -14,7 +14,7 @@ exports.getArticles(req, res) {
 };
 
 //create endpoint /article for POST
-exports.postArticle(req, res) {
+exports.postArticle = function (req, res) {
   //Create a new instance of the Article model
   var article = new Article();
   article.articleID = req.body.articleID;
