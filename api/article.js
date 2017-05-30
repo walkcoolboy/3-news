@@ -43,7 +43,7 @@ exports.getArticle = function(req, res) {
 // Create endpoint /article/:article_id for PUT
 exports.putArticle = function(req, res) {
   // Use the Article model to find a specific article
-  Article.find({articleID:req.params.article_id}, function(err, article) {
+  Article.findOne({articleID:req.params.article_id}, function(err, article) {
     if (err)
       res.send(err);
 
