@@ -44,17 +44,25 @@ app.use(function (req, res, next) {
 //Hosts all files within the directory for access
 app.use('/', express.static(__dirname + '/'));
 
+//setup navigation routes
 var index = require('./routes/index');
-app.get('/', index.index);
+app.get('/', function(req, res){
+	//do database trans
+	//dummy json creation()
+	req.params.category = "Top Content"
+	req.params.jsonData = {title: "Dummy article title" + req.params.category, description: "Short description of article in index."}
+	index.category(req,res); //send to routes for view creation
+});
 
 
-// app.get('/', function (req, res) {
-//     // var filepath = 'index.html';
-//     // fs.readFile(filepath, function (err, data) {
-//     //   res.send(data);
-//     // });
+app.get('/:category', function(req, res){
+	//do database trans to get json
 
-// });
+	//dummy json creation
+	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
+	index.category(req,res); //send to routes for view creation
+});
+app.get('/article/:articleID', index.category);
 
 app.listen(port, function () {
 	console.log('App listening on port 8080');
