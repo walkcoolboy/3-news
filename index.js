@@ -1,38 +1,45 @@
+//load required packages
 var express = require('express');
 var app = express();
 var router = express.Router();
 var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
+var fs = require('fs');
+var https = require('https');
+
+var https_options = {
+  key: fs.readFileSync('domain.key'),
+  cert: fs.readFileSync('domain.crt')
+};
+var mongoose = require('mongoose');
+
+//connect to MongoDB
+mongoose.connect('mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.mlab.com:43131/heroku_khwjm57z');
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-var fs = require('fs');
+
+
+
 var path = require('path');
 //var pg = require('pg').native;
 var port = process.env.PORT || 8080;
 
-//MongoDB Connection
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var userController = require('./api/user');
+var articleController = require('./api/article');
+var clientController = require('./api/client');
 
-// Connection URL
-var url = 'mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.mlab.com:43131/heroku_khwjm57z';
+var authController = require('./api/auth');
 
-// Use connect method to connect to the server
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-
-  db.close();
-});
 
 //-----------------------------------------
-//Middleware code starts here
+//Config starts here
 app.use(function (req, res, next) {
 	// Website you wish to allow to connect
-	res.setHeader('Access-Control-Allow-Origin', '*')
+	res.setHeader('Access-Control-Allow-Origin', '*');
 	// Request methods you wish to allow
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 	// Request headers you wish to allow ,
@@ -41,8 +48,10 @@ app.use(function (req, res, next) {
 	next();
 });
 
-//Hosts all files within the directory for access
-app.use('/', express.static(__dirname + '/'));
+//HTTP
+// app.listen(port, function () {
+// 	console.log('App listening on port 8080');
+// });
 
 app.listen(port, function () {
 	console.log('App listening on port 8080');
@@ -65,8 +74,8 @@ app.get('/', function(req, res){
 
 		//add json to req.params.jsonData
 	//dummy json creation
-	req.params.category = "Top Content"
-	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
+	req.params.category = "Top Content";
+	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."};
 	index.category(req,res); //send to routes for view creation
 });
 
@@ -340,3 +349,33 @@ app.delete('/clear_history', function(req, res) {
 
 //End of API code
 //-----------------------------------------
+
+//HTTPS
+var server = https.createServer(https_options, app).listen(8443, 'localhost');
+
+//-----------------------------------------
+//Routes start here
+
+app.get('/', function (req, res) {
+    var filepath = path.join(__dirname, 'index.html');
+    fs.readFile(filepath, function (err, data) {
+      res.end(data);
+    });
+});
+
+//Hosts all files within the directory for access
+//Temporary measure for ease of use
+ app.use('/', express.static(__dirname + '/'));
+
+
+app.get('/article', articleController.getArticles)
+	.post('/article/', articleController.postArticle);
+	
+app.get('/article/:article_id', articleController.getArticle)
+	.put('/article/:article_id', articleController.putArticle)
+	.delete('/article/:article_id', articleController.deleteArticle);
+//
+// app.post('/users/:username', userController.postUser)
+// 	.get('/users/:username', userController.getUser)
+// 	.put('/users/:username', userController.putUser)
+// 	.delete('/users/:username', authController.requireAdmin, userController.deleteUser);
