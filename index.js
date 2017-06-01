@@ -53,14 +53,16 @@ app.use(function (req, res, next) {
 // 	console.log('App listening on port 8080');
 // });
 
-app.listen(port, function () {
-	console.log('App listening on port 8080');
-});
+//HTTPS
+var server = https.createServer(https_options, app).listen(8443, 'localhost');
+
+//Hosts all files within the directory for access
+//Temporary measure for ease of use
+ app.use('/', express.static(__dirname + '/'));
+
 //End of middleware code
 
 
-//-----------------------------------------
-//API code starts here
 
 //-------------
 //INDEX
@@ -109,7 +111,7 @@ app.get('/:category', function(req, res){
 //-------------
 var article = require('./routes/article');
 /**
- * A request to get a specific article by ID
+ * Returns the page for an article
  * Input:
  *  -	article id as part of url
  *
@@ -137,245 +139,26 @@ app.get('/search', function(req, res) {
 		
 });
 
-/**
- * A request to find the recommended articles for the current client
- * Input values: none
- * 
- * Returns:
- *  - results (array<string>) : Array of articles (Max 20(?))
- * 
- */
-app.get('/get_recommended', function(req, res) {
-		
-});
-
-/**
- * A request to create a new article
- * Input values:
- *  - title (string) : Title of the article
- *  - content (string) : Content of the article
- * 	- tags (string)	: Tags related to the article
- * 
- * Returns:
- *  - success (bool) : Whether creation of the article was successful
- *  - message (string) : Message informing the client of the result e.g. "CREATE SUCCESSFUL"
- *  - result (string?) : The link to the new article
- */
-app.post('/create_article', function(req, res) {
-	
-	var title = req.body.title;
-	var content = req.body.content;
-	var tags = req.body.tags;
-
-	console.log('/create_article:' + title);
-
-	if(!title || !content || !tags){ //Check for invalid requests
-		res.json({
-			success:false,
-			message: 'ERROR: Request missing a field'
-		});
-		return;
-	}
-
-	var articles = [];
-
-	//DATABASE CODE HERE
-
-	//example
-	query.on('end', function() {
-		res.json({
-			success: true,
-			message: 'SUCCESS',
-			results: articles
-		});
-	});
-
-});
-
-/**
- * A request to edit an article.
- * If the article does not exist, create it only if 'content' is provided
- * Input values:
- *  - title (string) : Title of the article
- *  - content (string?) : Content of the article
- * 	- tags (string?)	: Tags related to the article
- * 
- * Returns:
- *  - success (bool) : Whether editing or creation of the article was successful
- *  - message (string) : Message informing the client of the result e.g. "EDIT FAILED: User is not an admin"
- */
-app.post('/create_article', function(req, res) {
-		
-});
-
-/**
- * A request to delete a specific article
- * Input values:
- *  - title (string) : Title of the article
- *  - (Maybe another identifier?)
- * 
- * Returns:
- *  - success (bool) : Whether deletion of the article was successful
- *  - message (string) : Message informing the client of the result e.g. "DELETE FAILED: User is not an admin"
- */
-app.delete('/delete_article', function(req, res) {
-		
-});
-
 //-------------
 //USERS
 //-------------
 
-/**
- * A request to create a new user account. Does not use OAuth.
- * Input values:
- *  - username (string) : Username to create
- *  - password (string) : Plaintext of the user's password
- * 
- * Returns:
- *  - success (bool) : Whether creation of the account was successful
- *  - message (string) : Message informing the client of the result e.g. "REGISTER FAILED: Username already exists"
- */
-app.post('/register', function(req, res) {
-		
-});
 
-/**
- * A request to log into a user account. Does not use OAuth.
- * Input values:
- *  - username (string) : Username of the user
- *  - password (string) : Plaintext of the user's password
- * 
- * Returns:
- *  - success (bool) : Whether login was successful
- *  - message (string) 	: Message informing the client of the result e.g. "LOGIN FAILED: Wrong password"
- */
-app.post('/login', function(req, res) {
-		
-});
 
-/**
- * A request to log a user out. Does not use OAuth.
- * Input values:
- * 
- * Returns:
- *  - success (bool) : Whether logout was successful
- *  - message (string) : Message informing the client of the result e.g. "LOGOUT FAILED: User was not logged in"
- */
-app.post('/logout', function(req, res) {
-		
-});
 
-/**
- * A request to update a user's details. Does not use OAuth.
- * Input values:
- *  - username (string?) : Username of the user
- *  - password (string) : Plaintext of the user's current password, for verification
- *  - newPassword (string?) : Plaintext of the user's new password
- * 
- * Returns:
- *  - success (bool) : Whether logout was successful
- *  - message (string) : Message informing the client of the result e.g. "UPDATE FAILED: Wrong password"
- */
-app.put('/update_user', function(req, res) {
-		
-});
-
-/**
- * A request to delete a user account. Does not use OAuth.
- * Input values:
- *  - username (string?) : Username of the user to be deleted. 
- * 						   If this isn't the current user, current user must be an admin
- *  - password (string) : Plaintext of the user's current password, for verification
- * 
- * Returns:
- *  - success (bool) : Whether deletion was successful
- *  - message (string) : Message informing the client of the result e.g. "DELETE FAILED: Not an admin"
- */
-app.delete('/delete_user', function(req, res) {
-		
-});
 
 //-------------
-//ACTIVITY
-
-//Definition of a history element:
-//A JSON tuple of {article:string, numVisits:int, lastVisited:date}
+//API Routes
 //-------------
-
-/**
- * A request to view a user's history. Admins only.
- * Input values:
- *  - username (string) : User whose history the client wants to view
- * 
- * Returns:
- *  - results (array<history>) : Array of history elements
- */
-
-app.get('/view_history', function(req, res) {
+app.get('/api/article', articleController.getArticles)
+	.post('/api/article/', articleController.postArticle);
 	
-});
+app.get('/api/article/:article_id', articleController.getArticle)
+	.put('/api/article/:article_id', articleController.putArticle)
+	.delete('/api/article/:article_id', articleController.deleteArticle);
 
-/**
- * A request to edit an element of a user's history. Admins only.
- * Input values:
- *  - username (string) : User whose history should be edited
- *  - element (history) : History element to be inserted
- * 
- * Returns:
- *  - success (bool) : Whether editing was successful
- *  - message (string) : Message informing the client of the result e.g. "EDIT HISTORY FAILED: User not found"
- */
-
-app.put('/edit_history', function(req, res) {
-	
-});
-
-
-/**
- * A request to clear a user's history. Admins only.
- * Input values:
- *  - username (string) : User whose history should be edited
- *  - archive (bool?)	: Whether the server should archive that user's history
- * 
- * Returns:
- *  - success (bool) : Whether editing was successful
- *  - message (string) : Message informing the client of the result e.g. "CLEAR HISTORY FAILED: User not found"
- */
-
-app.delete('/clear_history', function(req, res) {
-	
-});
-
-//End of API code
-//-----------------------------------------
-
-//HTTPS
-var server = https.createServer(https_options, app).listen(8443, 'localhost');
-
-//-----------------------------------------
-//Routes start here
-
-app.get('/', function (req, res) {
-    var filepath = path.join(__dirname, 'index.html');
-    fs.readFile(filepath, function (err, data) {
-      res.end(data);
-    });
-});
-
-//Hosts all files within the directory for access
-//Temporary measure for ease of use
- app.use('/', express.static(__dirname + '/'));
-
-
-app.get('/article', articleController.getArticles)
-	.post('/article/', articleController.postArticle);
-	
-app.get('/article/:article_id', articleController.getArticle)
-	.put('/article/:article_id', articleController.putArticle)
-	.delete('/article/:article_id', articleController.deleteArticle);
-//
-// app.post('/users/:username', userController.postUser)
-// 	.get('/users/:username', userController.getUser)
-// 	.put('/users/:username', userController.putUser)
-// 	.delete('/users/:username', authController.requireAdmin, userController.deleteUser);
+//Not yet implemented
+// app.post('/api/users/:username', userController.postUser)
+// 	.get('/api/users/:username', userController.getUser)
+// 	.put('/api/users/:username', userController.putUser)
+// 	.delete('/api/users/:username', authController.requireAdmin, userController.deleteUser);
