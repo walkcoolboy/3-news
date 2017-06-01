@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/bootstrap-theme.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="stylesheets/customcss.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">     
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Top</a>
+          <a class="navbar-brand" href="#">World</a>
+          <a class="navbar-brand" href="#">National</a>
+          <a class="navbar-brand" href="#">Sport</a>
+          <a class="navbar-brand" href="#">Tech</a>
+          <a class="navbar-brand" href="#">Entertainment</a>
+          <a class="navbar-brand" href="#">Blog</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse credentials">
+          <form class="navbar-form navbar-right">
+            <button type="submit" class="btn btn-success">Create Article</button>
+          </form>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-container">
+            <!-- Example row of columns -->
+
+    <div class="article-container well" align="center">
+      
+    <form class="form-horizontal" role="form" id="create-article" accept-charset="UTF-8">
+      <!-- Title -->
+      <div class="form-group">
+        <div class="col-sm-2 control-label">
+          <label for="article_title">Title</label> 
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control" placeholder="Title" autofocus="autofocus" type="text" id="article_title"/> 
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="form-group">
+          <div class="col-sm-2 control-label">
+            <label for="article_description">Content</label> 
+          </div>
+          <div class="col-sm-8">
+            <textarea rows="25" class="form-control" placeholder="Body of article" id="article_body"></textarea> 
+          </div>
+      </div>
+      <!-- Tags -->
+      <div class="form-group">
+        <div class="col-sm-2 control-label">
+          <label for="article_title">Tags</label> 
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control" placeholder="tags - seperate by space" autofocus="autofocus" type="text" id="article_tags" /> 
+        </div>
+      </div>
+      <!-- Categories -->
+      <div class="btn-group" id="category-selected" data-toggle="buttons">
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="World" autocomplete="off" value="World"> World
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="National" autocomplete="off" value="National"> National
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="Sport" autocomplete="off" value="Sport"> Sport
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="Tech" autocomplete="off" value="Tech"> Tech
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="Entertainment" autocomplete="off" value="Entertainment"> Entertainment
+        </label>
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="Blog" autocomplete="off" value="Blog" checked="checked"> Blog
+        </label>
+      </div>
+
+      <div class="form-group">
+        <div class=" create-submit">
+          <input type="button" name="commit" value="Create Article" class="btn btn-success btn-lg" />
+        </div>
+      </div>
+    </form>  
+    <!-- End of creating article form --> 
+
+    <div>
+       <a href="#">Cancel</a>  
+    </div>
+
+
+     </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="client.js"></script>
+  </body>
+
+</html>
