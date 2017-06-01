@@ -6,7 +6,3 @@ exports.category = function(req, res){
 	} //end JSON payload
 	);
 };
-
-exports.article = function(req, res){
-	res.render('app.ejs', { title: '3 News' });
-};

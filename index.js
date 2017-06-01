@@ -44,39 +44,74 @@ app.use(function (req, res, next) {
 //Hosts all files within the directory for access
 app.use('/', express.static(__dirname + '/'));
 
-//setup navigation routes
-var index = require('./routes/index');
-app.get('/', function(req, res){
-	//do database trans
-	//dummy json creation()
-	req.params.category = "Top Content"
-	req.params.jsonData = {title: "Dummy article title" + req.params.category, description: "Short description of article in index."}
-	index.category(req,res); //send to routes for view creation
-});
-
-
-app.get('/:category', function(req, res){
-	//do database trans to get json
-
-	//dummy json creation
-	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
-	index.category(req,res); //send to routes for view creation
-});
-app.get('/article/:articleID', index.category);
-
 app.listen(port, function () {
 	console.log('App listening on port 8080');
 });
 //End of middleware code
-//-----------------------------------------
 
 
 //-----------------------------------------
 //API code starts here
 
 //-------------
+//INDEX
+//-------------
+//setup navigation routes
+var index = require('./routes/index');
+
+
+app.get('/', function(req, res){
+	//do database trans for top content
+
+		//add json to req.params.jsonData
+	//dummy json creation
+	req.params.category = "Top Content"
+	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
+	index.category(req,res); //send to routes for view creation
+});
+
+/**
+ * A request to get all articles of a specified category
+ * Input:
+ *  -	category name as part of url
+ *
+ * Results in database lookup of all articles in given category, then template
+ * generation by ejs view engine via routes.
+ * (redirect to homepage on incorrect category name)
+ */
+app.get('/:category', function(req, res){
+	//do database trans to get json for category
+	if(req.params.category == 'Top'){
+		//modify title
+		req.params.category = 'Top Content';
+		//query for top articles
+	}
+	else{
+		//query for req.params.category articles
+	}
+	//add json to req.params.jsonData
+	//dummy json creation
+	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
+	index.category(req,res); //send to routes for view creation
+});
+
+//-------------
 //ARTICLES
 //-------------
+var article = require('./routes/article');
+/**
+ * A request to get a specific article by ID
+ * Input:
+ *  -	article id as part of url
+ *
+ * Results in database lookup of article JSON and template generation by ejs view engine via routes.
+ * (no article available page generated on db lookup fail)
+ */
+app.get('/article/:articleID', function(req, res){
+	//do database trans here and add to request params
+
+	article.article(req, res);
+});
 
 /**
  * A request to seach the database for articles matching the search term/s
