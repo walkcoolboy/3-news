@@ -7,46 +7,16 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
+<!--     <title><%=title%></title> -->
     <!-- Bootstrap core CSS -->
-    <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link href="stylesheets/bootstrap-theme.css" rel="stylesheet">
+    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="../stylesheets/bootstrap-theme.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="stylesheets/customcss.css" rel="stylesheet">
+    <link href="../stylesheets/customcss.css" rel="stylesheet">
   </head>
 
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">     
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Top</a>
-          <a class="navbar-brand" href="#">World</a>
-          <a class="navbar-brand" href="#">National</a>
-          <a class="navbar-brand" href="#">Sport</a>
-          <a class="navbar-brand" href="#">Tech</a>
-          <a class="navbar-brand" href="#">Entertainment</a>
-          <a class="navbar-brand" href="#">Blog</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse credentials">
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
+  <% include navbar %>
 
     <!-- Main content, inclues sidebar -->
     <div class="main-container" align="center">
@@ -59,7 +29,7 @@
               <input type="text" placeholder="Search" class="form-control">
             </div>
             <div class="form-group search-inline">
-              <h4>Results for: search value</h4>
+              <h4>Results for: <%=term%></h4>
             </div>
       <div class="well search-result">
         <div class="content-text">

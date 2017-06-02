@@ -22,7 +22,7 @@
     <div class="main-container">
               <div class="jumbotron">
       <div class="container">
-        <h1>Wellington's smart motorway being let down by dumb motorists</h1>
+        <h1><%= heading %></h1>
       </div>
     </div>
             <!-- Example row of columns -->
@@ -38,19 +38,24 @@
     </div><!--/.sidebar-offcanvas-->
 
       <div class="article-container well col-xs-8 col-xs-offset-2 col-md-5 pad-bot-show">
-            <a href="http://www.stuff.co.nz/motoring/92767265/nzta-wellingtons-smart-motorway-being-let-down-by-dumb-motorists" >
-              <img src="https://resources.stuff.co.nz/content/dam/images/1/f/b/0/w/f/image.related.StuffLandscapeSixteenByNine.620x349.1j8boh.png/1495177350620.jpg">
+            <a href=<%=url%> >
+              <img src=<%=image%>>
             </a>
         <hr>
         <div class="content-text">
-          <p>Wellington's smart motorway is being let down by dumb motorists, whose speeding and poor merging habits are stifling the effectiveness of the $55 million project. 
-          </p>
-          <p>New Zealand Transport Agency data shows peak commute times on the motorway - a section of State Highway 1 between Johnsonville and the Terrace Tunnel - have improved only slightly since it was opened in July last year, while the northbound evening journey has become longer. </p>
-          <p>The motorway is the first of its kind in New Zealand, and features a computerised system which sets optimal speed limits based on predicted changes in traffic flows. </p>
+        <%- body %>
         </div>
         <hr>
         <div class="tag-list-footer">
-          <p><span><a href="/search">Wellington</a></span><span><a href="/search">Local</a></span><span><a href="/search">transport</a></span></p>
+        <p>
+        <% for(var i=0; i<tags.length; i++){%>
+         <span>
+          <a href= "/search/<%-tags[i] %>"> <%=tags[i] %></a>
+         </span> 
+        <% } %>
+        </p> 
+
+<!--           <p><span><a href="/search">Wellington</a></span><span><a href="/search">Local</a></span><span><a href="/search">transport</a></span></p> -->
         </div>
       </div>
 

@@ -99,6 +99,8 @@ app.get('/:category', function(req, res){
 	}
 	else{
 		//query for req.params.category articles
+
+		//TODO: redirect if non-valid category name
 	}
 	//add json to req.params.jsonData
 	//dummy json creation
@@ -110,6 +112,7 @@ app.get('/:category', function(req, res){
 //ARTICLES
 //-------------
 var article = require('./routes/article');
+var search  = require('./routes/search');
 /**
  * Returns the page for an article
  * Input:
@@ -135,8 +138,8 @@ app.get('/article/:articleID', function(req, res){
  *  - results (array<string>) : Array of articles that matched the search (Max 20(?))
  * (results is empty if no matches were found)
  */
-app.get('/search', function(req, res) {
-		
+app.get('/search/:term', function(req, res) {
+		search.search(req, res);
 });
 
 //-------------
