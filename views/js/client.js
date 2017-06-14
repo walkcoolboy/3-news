@@ -2,17 +2,60 @@ $(document).ready(function(e) {
 	/*
 	 * User logins
 	 */
-	 $('.sign-in').on('click', function(event){
-		 //GET
-		 $.get(, '', function(data){
+	 $('#sign-in').click( function(){
+		 event.preventDefault();
+		 console.log("testing");
+		 hideLoginOpts();
+		 var username = $('#user').val();
+		 var password = $('#password').val();
+		 //GET login token
+		 $.ajax({
+		    url: "/users/login",
+		    data: {
+		        "username": username,
+						"password": password
+		    },
+		    cache: false,
+		    type: "POST",
+		    success: function(response) {
+					//remove login buttons, add create article button.
+					//save token to ??
+							console.log(response);
+		    },
+		    error: function(xhr) {
+					//create error message
+		    }
+		});
 
-		 });
-
+		hideLoginOpts();
  	 });
 
-	$('.resgister').on('click', function(event){
+	function hideLoginOpts(){
+		console.log("testing");
+	}
+	$('.register').click(function(){
+		var username = $('#user').val();
+		var password = $('#password').val();
+		//GET login token
+		$.ajax({
+			 url: "users/createUser",
+			 data: {
+					 "username": username,
+					 "password": password
+			 },
+			 cache: false,
+			 type: "POST",
+			 success: function(response) {
+				 //remove login buttons, add create article button.
+				 //save token to cookie?
+				 	//response.body.token
+			 },
+			 error: function(xhr) {
+				 //create error message
+			 }
+	 });
 
-  });
+	});
 
 
 	/*
