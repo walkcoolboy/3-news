@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="../stylesheets/bootstrap-theme.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../stylesheets/customcss.css" rel="stylesheet">
+  </head>
+
+  <body>
+  <% include navbar %>
+
+    <!-- Main content, inclues sidebar -->
+    <div class="main-container">
+              <div class="jumbotron">
+      <div class="container">
+        <h1><%= heading %></h1>
+      </div>
+    </div>
+            <!-- Example row of columns -->
+      <div class="col-xs-6 col-sm-1 sidebar-offcanvas" id="sidebar">
+      <div class="list-group">
+                <a href="#" class="list-group-item active">Common tags</a>
+        <input type="text" placeholder="Search" class="form-control search-box">
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+        <a href="#" class="list-group-item">Tag</a>
+      </div>
+    </div><!--/.sidebar-offcanvas-->
+
+      <div class="article-container well col-xs-8 col-xs-offset-2 col-md-5 pad-bot-show">
+            <a href=<%=url%> >
+              <img src=<%=image%>>
+            </a>
+        <hr>
+        <div class="content-text">
+        <%- body %>
+        </div>
+        <hr>
+        <div class="tag-list-footer">
+        <p>
+        <% for(var i=0; i<tags.length; i++){%>
+         <span>
+          <a href= "/search/<%-tags[i] %>"> <%=tags[i] %></a>
+         </span> 
+        <% } %>
+        </p> 
+
+<!--           <p><span><a href="/search">Wellington</a></span><span><a href="/search">Local</a></span><span><a href="/search">transport</a></span></p> -->
+        </div>
+      </div>
+
+
+     </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  </body>
+
+</html>

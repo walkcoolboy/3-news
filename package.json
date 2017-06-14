@@ -14,7 +14,13 @@
   "author": "Jonathan Miller, Li Li, Clinton Norman",
   "license": "ISC",
   "dependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "bcrypt-nodejs": "0.0.3",
+    "ejs": "^2.5.6",
     "express": "^4.15.3",
-    "mongodb": "^2.2.26"
+    "mongodb": "^2.2.26",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0"
   }
 }
