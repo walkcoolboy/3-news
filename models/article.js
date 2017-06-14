@@ -3,7 +3,11 @@ var mongoose = require('mongoose');
 // Define article schema
 var articleSchema = new mongoose.Schema({
   articleID:Number,
-  tags: [String]
+  tags: [String],
+  title:String,
+  photos: {caption:String, url:String},
+  body:String,
+  URL:String
 });
 
 //Export the Mongoose model
