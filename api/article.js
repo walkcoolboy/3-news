@@ -16,13 +16,18 @@ exports.getArticles = function () {
 };
 
 //Inserts an article into the database
-exports.postArticle = function (articleID, tags) {
+exports.postArticle = function (data) {
   return new Promise(function (resolve, reject) {
 
     //Create a new instance of the Article model
     var article = new Article();
-    article.articleID = articleID;
-    article.tags = tags;
+    article.articleID = data.articleID;
+    article.tags = data.tags;
+    article.title=data.title;
+    article.photos.caption = data.photos.caption;
+    article.photos.url= data.photos.url;
+    article.body=data.body;
+    article.URL=data.URL;
 
     //save the article and check for errors
     article.save(function (err) {
