@@ -35,8 +35,12 @@ exports.category = function(req, res){
 	//add json to req.params.jsonData
 	//dummy json creation
 	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
-	index.category(req,res); //send to routes for view creation
-});
+	res.render('app.ejs', {
+		title: req.params.category,
+		term: req.params.jsonData
+	} //end JSON payload
+	);
+};
 
 /**
  * Searches the database for the given terms

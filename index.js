@@ -80,7 +80,7 @@ app.get('/', index.index);
 var article = require('./routes/article');
 var search  = require('./routes/search');
 
-app.get('/article/:article_id', article.article;
+app.get('/article/:article_id', article.article);
 
 
 app.get('/search/:term', article.search);
