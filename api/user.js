@@ -1,12 +1,4 @@
 var User = require('../models/user');
-var Token = require('../models/token');
-
-
-exports.authenticate = function (username, password) {
-  return new Promise(function (resolve, reject) {
-    reject("Not implemented");
-  });
-};
 
 //CRUD functions for users
 exports.createUser = function (username, password) {
@@ -23,7 +15,7 @@ exports.getUser = function (username) {
 
 };
 
-exports.updateUser = function (username) {
+exports.updateUser = function (user) {
   return new Promise(function (resolve, reject) {
     reject("Not implemented");
   });
@@ -37,24 +29,13 @@ exports.deleteUser = function (username) {
 
 };
 
-//CRUD functions for tokens
-exports.storeToken = function(username, token){
+/**
+* Part of handling an OAuth sign-on
+* profile.id and profile.displayName are relevant fields
+* Should save the token in the user, creating the Token will be handled
+*/
+exports.getOrCreateUserGoogle = function (profile, accessToken) {
   return new Promise(function (resolve, reject) {
     reject("Not implemented");
   });
-
-};
-
-exports.getToken = function(token){
-  return new Promise(function (resolve, reject) {
-    reject("Not implemented");
-  });
-
-};
-
-exports.deleteToken = function(token){
-  return new Promise(function (resolve, reject) {
-    reject("Not implemented");
-  });
-
 };

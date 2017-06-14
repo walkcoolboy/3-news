@@ -71,15 +71,7 @@ var server = https.createServer(https_options, app).listen(8443, 'localhost');
 var index = require('./routes/index');
 
 
-app.get('/', function(req, res){
-	//do database trans for top content
-
-		//add json to req.params.jsonData
-	//dummy json creation
-	req.params.category = "Top Content";
-	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."};
-	index.category(req,res); //send to routes for view creation
-});
+app.get('/', index.index);
 
 
 //-------------
@@ -87,47 +79,32 @@ app.get('/', function(req, res){
 //-------------
 var article = require('./routes/article');
 var search  = require('./routes/search');
-/**
- * Returns the page for an article
- * Input:
- *  -	article id as part of url
- *
- * Results in database lookup of article JSON and template generation by ejs view engine via routes.
- * (no article available page generated on db lookup fail)
- */
-app.get('/article/:article_id', function(req, res){
-	//do database trans here and add to request params
-	req.params.jsonData = articleController.getArticle(req.params.article_id);
-	article.article(req, res);
-});
 
-/**
- * A request to seach the database for articles matching the search term/s
- * Input values:
- * 	- text (string?) : Text to find in title or content of articles
- * 	- tag (string?)	: Tag/s to match
- * (A request can have 0, 1, or both of these inputs)
- *
- * Returns:
- *  - results (array<string>) : Array of articles that matched the search (Max 20(?))
- * (results is empty if no matches were found)
- */
-app.get('/search/:term', function(req, res) {
-		search.search(req, res);
-});
+app.get('/article/:article_id', article.article;
+
+
+app.get('/search/:term', article.search);
+
+//-------------
+//AUTH Routes
+//-------------
+
+var auth = require('./routes/auth');
+app.post('/auth/login', auth.login)
+  .post('/auth/logout', auth.validateToken, auth.logout)
+  .post('/auth/google', auth.google)
+  .post('/auth/google/callback', auth.googleCallback);
+
 
 //-------------
 //USER Routes
 //-------------
+var user = require('./routes/user')
 
-var user = require('./routes/user');
-
-app.post('/users/login', user.login)
-  .post('/users/createUser', user.createUser)
-  .post('/users/logout', user.validateToken, user.logout)
- 	.get('/users/:username', user.validateToken, user.getUser)
- 	.put('/users/:username', user.validateToken, user.putUser)
- 	.delete('/users/:username', user.validateToken, user.deleteUser);
+app.post('/users/createUser', user.createUser)
+ 	.get('/users/:username', auth.validateToken, user.getUser)
+ 	.put('/users/:username', auth.validateToken, user.putUser)
+ 	.delete('/users/:username', auth.validateToken, user.deleteUser);
 
 
 //-------------
@@ -136,40 +113,14 @@ app.post('/users/login', user.login)
 var api = require('./routes/api');
 
 app.get('/api/article', api.getArticles)
-	.post('/api/article/', api.postArticle);
+	.post('/api/article/', auth.validateToken, api.postArticle);
 
 app.get('/api/article/:article_id', api.getArticle)
-	.put('/api/article/:article_id', api.putArticle)
-	.delete('/api/article/:article_id', api.deleteArticle);
+	.put('/api/article/:article_id', auth.validateToken, api.putArticle)
+	.delete('/api/article/:article_id', auth.validateToken, api.deleteArticle);
 
 
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
-
-/**
- * A request to get all articles of a specified category
- * Input:
- *  -	category name as part of url
- *
- * Results in database lookup of all articles in given category, then template
- * generation by ejs view engine via routes.
- * (redirect to homepage on incorrect category name)
- */
-app.get('/:category', function(req, res){
-	//do database trans to get json for category
-	if(req.params.category == 'Top'){
-		//modify title
-		req.params.category = 'Top Content';
-		//query for top articles
-	}
-	else{
-		//query for req.params.category articles
-
-		//TODO: redirect if non-valid category name
-	}
-	//add json to req.params.jsonData
-	//dummy json creation
-	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
-	index.category(req,res); //send to routes for view creation
-});
+app.get('/:category', article.category);
