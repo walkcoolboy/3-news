@@ -19,35 +19,48 @@ exports.getArticles = function (req, res) {
 //create endpoint /article for POST
 exports.postArticle = function (req, res) {
 
-    var article = articleController.postArticle(req.params.article_id, req.body.tags);
-
-    //TODO: Error check
-
-    res.json({ message: 'article added', data: article });
+    articleController.postArticle(req.params.article_id, req.body.tags)
+        .then((message) => {
+          res.json(message);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
 };
 
 // Create endpoint /article/:article_id for GET
 exports.getArticle = function (req, res) {
 
-    var article = articleController.getArticle(req.params.article_id);
+    articleController.getArticle(req.params.article_id)
+      .then((article) => {
+        res.json(article);
+      })
+      .catch((err) => {
+          res.json(err);
+      });
 
-    //TODO: Error check
-
-    res.json(article);
 };
 
 // Create endpoint /article/:article_id for PUT
 exports.putArticle = function (req, res) {
 
-    message = articleController.putArticle(req.params.article_id, req.body.tags);
-
-    res.json(message);
+    articleController.putArticle(req.params.article_id, req.body.tags)
+      .then((message) => {
+          res.json(message);
+      })
+      .catch((err) => {
+          res.json(err);
+      });
 };
 
 // Create endpoint /article/:article_id for DELETE
 exports.deleteArticle = function (req, res) {
 
-    message = articleController.deleteArticle(req.params.article_id);
-
-    res.json(message);
+    articleController.deleteArticle(req.params.article_id)
+      .then((message) => {
+          res.json(message);
+      })
+      .catch((err) => {
+          res.json(err);
+      });
 };

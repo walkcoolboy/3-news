@@ -57,9 +57,10 @@ exports.putArticle = function (article_id, tags) {
       if (err) {
         return reject(err);
       }
+      if(!article)return reject("Article "+article_id+"not found");
 
       // Update the existing article tags
-      article.tags = tags;
+      //article.tags = tags;
 
       // Save the article and check for errors
       article.save(function (err) {
