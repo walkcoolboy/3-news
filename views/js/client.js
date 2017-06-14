@@ -1,9 +1,35 @@
 $(document).ready(function(e) {
+	/*
+	 * User logins
+	 */
+	 $('.sign-in').on('click', function(event){
+		 //GET
+		 $.get(, '', function(data){
+
+		 });
+
+ 	 });
+
+	$('.resgister').on('click', function(event){
+
+  });
+
+
+	/*
+	 * search-box - process request
+	 */
+   $('.search-box').keypress('keypress', function(event){
+     $('.search-box').submit();
+     var search_term;
+     if ( event.keyCode == 13 ) {  // enter key
+       search_term = $('.search-box').val();
+       window.location = "/search/"+search_term; //view engine sanitisation
+     }
+	});
 
 	/*
 	 *Create article functions
 	 */
-
 	//set option selected for categories
 	$("#category-selected input[name=options]").click(
 		function(){
