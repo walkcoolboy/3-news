@@ -24,7 +24,8 @@ exports.postArticle = function (data) {
     article.articleID = data.articleID;
     article.tags = data.tags;
     article.title=data.title;
-    article.photos = data.photos;
+    article.photos.caption = data.photos.caption;
+    article.photos.url= data.photos.url;
     article.body=data.body;
     article.URL=data.URL;
 

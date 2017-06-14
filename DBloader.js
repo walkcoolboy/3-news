@@ -13,9 +13,10 @@ mongoose.connect('mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.
 //-------------
 //API Routes
 //-------------
-var api = require('./routes/api');
+var article = require('./api/article');
 
-var articles = [93441299];
+var articles = [93441299, 93681661, 93669138, 93665676, 93675453, 93681661,
+                93622407, 93633007, 93683361, 93661060, 93671241, 93663558];
 
 for (i=0; i<articles.length; i++) {
     var url = 'http://www.stuff.co.nz/_json/'+articles[i]+'/';
@@ -31,7 +32,23 @@ for (i=0; i<articles.length; i++) {
         console.log('Status:', res.statusCode, ' resbody:', res.body);
       } else {
         // data is already parsed as JSON:
-        console.log(data);
+        //console.log(data);
+        var newdata={};
+        newdata.articleID=data.id;
+        newdata.title=data.title;
+        newdata.URL=data.url;
+        newdata.body=data.body;
+        newdata.tags=[data["section-top-level"], data["section-home"]];
+        newdata.photos={};
+        newdata.photos.caption=data.images[0].caption;
+        newdata.photos.url=data.images[0].variants[0].src;
+        article.postArticle(newdata)
+        .then((message) => {
+            console.log(message);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
       }
     });
   };
