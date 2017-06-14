@@ -121,9 +121,9 @@ var search  = require('./routes/search');
  * Results in database lookup of article JSON and template generation by ejs view engine via routes.
  * (no article available page generated on db lookup fail)
  */
-app.get('/article/:articleID', function(req, res){
+app.get('/article/:article_id', function(req, res){
 	//do database trans here and add to request params
-
+	req.params.jsonData = articleController.getArticle(req.params.article_id);
 	article.article(req, res);
 });
 
@@ -153,12 +153,14 @@ app.get('/search/:term', function(req, res) {
 //-------------
 //API Routes
 //-------------
-app.get('/api/article', articleController.getArticles)
-	.post('/api/article/', articleController.postArticle);
+var api = require('./routes/api');
+
+app.get('/api/article', api.getArticles)
+	.post('/api/article/', api.postArticle);
 	
-app.get('/api/article/:article_id', articleController.getArticle)
-	.put('/api/article/:article_id', articleController.putArticle)
-	.delete('/api/article/:article_id', articleController.deleteArticle);
+app.get('/api/article/:article_id', api.getArticle)
+	.put('/api/article/:article_id', api.putArticle)
+	.delete('/api/article/:article_id', api.deleteArticle);
 
 //Not yet implemented
 // app.post('/api/users/:username', userController.postUser)

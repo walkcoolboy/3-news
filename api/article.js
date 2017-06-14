@@ -1,72 +1,87 @@
 //Load required packages
 var Article = require('../models/article');
+const DEFAULT_NUM_ARTICLES = 3
 
-//create endpoint /article for GET
-exports.getArticles = function (req, res) {
-  //find 3 articles
-  Article.find().limit(3).exec(function (err, articles) {
-    if (err)
-      res.send(err);
-
-    res.json(articles);
-  });
-
-};
-
-//create endpoint /article for POST
-exports.postArticle = function (req, res) {
-  //Create a new instance of the Article model
-  var article = new Article();
-  article.articleID = req.body.articleID;
-  article.tags = req.body.tags;
-
-  //save the article and check for errors
-  article.save(function(err) {
-    if (err)
-      res.send(err);
-
-    res.json({message:'article added', data:article});
-  });
-};
-
-// Create endpoint /article/:article_id for GET
-exports.getArticle = function(req, res) {
-  // Use the Article model to find a specific article
-  Article.find({articleID:req.params.article_id}, function(err, article) {
-    if (err)
-      res.send(err);
-
-    res.json(article);
-  });
-};
-
-// Create endpoint /article/:article_id for PUT
-exports.putArticle = function(req, res) {
-  // Use the Article model to find a specific article
-  Article.findOne({articleID:req.params.article_id}, function(err, article) {
-    if (err)
-      res.send(err);
-
-    // Update the existing article tags
-    article.tags = req.body.tags;
-
-    // Save the article and check for errors
-    article.save(function(err) {
-      if (err)
-        res.send(err);
-
-      res.json(article);
+//Returns a number of Articles
+exports.getArticles = function () {
+  //find DEFAULT_NUM_ARTICLES articles
+  return new Promise(function (resolve, reject) {
+    Article.find().limit(DEFAULT_NUM_ARTICLES).exec(function (err, articles) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(articles);
     });
   });
 };
 
-// Create endpoint /article/:article_id for DELETE
-exports.deleteArticle = function(req, res) {
-  // Use the Article model to find a specific article and remove it
-  Article.remove({articleID:req.params.article_id}, function(err) {
-    if (err)
-      res.send(err);
+//Inserts an article into the database
+exports.postArticle = function (articleID, tags) {
+  return new Promise(function (resolve, reject) {
 
-    res.json({ message: 'Article '+ req.params.article_id+' removed' });
+    //Create a new instance of the Article model
+    var article = new Article();
+    article.articleID = articleID;
+    article.tags = tags;
+
+    //save the article and check for errors
+    article.save(function (err) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve({ message: 'article added', data: article });
+    });
+  });
+};
+
+//Gets a specific article from the database
+exports.getArticle = function (article_id) {
+  return new Promise(function (resolve, reject) {
+    // Use the Article model to find a specific article
+    Article.find({ articleID: article_id }, function (err, article) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(article);
+    });
+  });
+};
+
+//Updates an article in the database
+exports.putArticle = function (article_id, tags) {
+  return new Promise(function (resolve, reject) {
+    // Use the Article model to find a specific article
+    Article.findOne({ articleID: article_id }, function (err, article) {
+      if (err) {
+        return reject(err);
+      }
+
+      // Update the existing article tags
+      article.tags = tags;
+
+      // Save the article and check for errors
+      article.save(function (err) {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve(article);
+      });
+    });
+  });
+};
+
+//Deletes an article from the database
+exports.deleteArticle = function (article_id) {
+  return new Promise(function (resolve, reject) {
+    // Use the Article model to find a specific article and remove it
+    Article.remove({ articleID: article_id }, function (err) {
+      if (err)
+        return err;
+
+      resolve({ message: 'Article ' + article_id + ' removed' });
+    });
   });
 };
