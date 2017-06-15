@@ -22,9 +22,9 @@ exports.article = function(req, res){
 
 exports.category = function(req, res){
 	//do database trans to get json for category
-	if(req.params.category == 'Top'){
+	if(req.params.tag == 'Top'){
 		//modify title
-		req.params.category = 'Top Content';
+		req.params.tag = 'Top Content';
 		//query for top articles
 	}
 	else{
@@ -34,12 +34,11 @@ exports.category = function(req, res){
 	}
 	//add json to req.params.jsonData
 	//dummy json creation
-	req.params.jsonData = {title: "Dummy article "+req.params.category, description: "Short description of article in index."}
-	res.render('app.ejs', {
-		title: req.params.category,
-		term: req.params.jsonData
-	} //end JSON payload
-	);
+		res.render('app.ejs', {
+		title: '3 News - ' + req.params.tag,
+		header: req.params.tag,
+		data: {title: "Dummy article " + req.params.tag, description: "Short description of article in index."}//req.params.jsonData
+	});
 };
 
 /**

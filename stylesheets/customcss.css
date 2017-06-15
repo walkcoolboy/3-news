@@ -53,3 +53,8 @@ img.center {
 .create-submit{
 	padding-top: 10px;
 }
+
+.google:hover {
+	background-color: white;
+	background-image: linear-gradient(to bottom, #ffffff 0%, #dadada 100%);
+}

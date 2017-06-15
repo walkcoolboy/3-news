@@ -69,11 +69,11 @@ var server = https.createServer(https_options, app).listen(port, 'localhost');
 //-------------
 //setup navigation routes
 var index = require('./routes/index');
-
-
 app.get('/', index.index);
+
 //This is added last to ensure it doesn't overwite any other routes
 //app.get('/:tag', index.category);
+
 
 
 //-------------
@@ -83,8 +83,6 @@ var article = require('./routes/article');
 var search  = require('./routes/search');
 
 app.get('/article/:article_id', article.article);
-
-
 app.get('/search/:term', article.search);
 
 //-------------
@@ -125,4 +123,5 @@ app.get('/api/article/:article_id', api.getArticle)
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
+
 app.get('/:tag', index.category);
