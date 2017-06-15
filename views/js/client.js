@@ -32,7 +32,10 @@ $(document).ready(function(e) {
 
 	function hideLoginOpts(){
 		console.log("testing");
+		$("#nav-no-login").hide();
 	}
+
+
 	$('.register').click(function(){
 		var username = $('#user').val();
 		var password = $('#password').val();
