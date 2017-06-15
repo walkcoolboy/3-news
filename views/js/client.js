@@ -9,7 +9,7 @@ $(document).ready(function(e) {
 		 var password = $('#password').val();
 		 //GET login token
 		 $.ajax({
-		    url: "/users/login",
+		    url: "/auth/login",
 		    data: {
 		        "username": username,
 						"password": password
@@ -33,7 +33,7 @@ $(document).ready(function(e) {
 	function hideLoginOpts(){
 		$('#nav-no-login').hide();
 		//display create/user account options
-		
+
 	}
 
 	$('.register').click(function(){
