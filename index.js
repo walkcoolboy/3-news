@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var path = require('path');
 //var pg = require('pg').native;
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8443;
 
 var userController = require('./api/user');
 var articleController = require('./api/article');
@@ -54,7 +54,7 @@ app.use(function (req, res, next) {
 // });
 
 //HTTPS
-var server = https.createServer(https_options, app).listen(8443, 'localhost');
+var server = https.createServer(https_options, app).listen(port, 'localhost');
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
@@ -70,7 +70,10 @@ var server = https.createServer(https_options, app).listen(8443, 'localhost');
 //setup navigation routes
 var index = require('./routes/index');
 app.get('/', index.index);
-  //see bottom of this file for routing article categories
+
+//This is added last to ensure it doesn't overwite any other routes
+//app.get('/:tag', index.category);
+
 
 
 //-------------
@@ -120,4 +123,5 @@ app.get('/api/article/:article_id', api.getArticle)
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
+
 app.get('/:tag', article.category);

@@ -38,7 +38,7 @@ exports.login = function (req, res) {
 
             //Create and save access token
             var userToken = authController.generateToken();
-            authController.storeToken(req.body.username, userToken);
+            authController.storeToken(req.body.username, "test"+userToken);
 
             res.json({token: userToken});
         })
@@ -54,7 +54,9 @@ exports.login = function (req, res) {
     User is logged in (Has a valid access token)
 */
 exports.logout = function (req, res) {
-  authController.deleteToken(req.headers['x-access-token'])
+  var token = req.headers['x-access-token'] || null;
+  if(!token)return res.json("Access token was not provided");
+  authController.deleteToken(token)
       .then(() => {
           res.json("Logout successful");
       })
@@ -70,6 +72,9 @@ exports.logout = function (req, res) {
 exports.validateToken = function (req, res) {
     var token = req.headers['x-access-token'] || null;
     if(!token)return res.json("Access token was not provided");
+    //Dummy code for testing
+    if(token.startsWith("test"))next();
+    res.json("Incorrect token");
     authController.getToken(token)
         .then((userToken) => {
             if(!userToken)res.json("Valid access token was not provided");
