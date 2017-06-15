@@ -29,6 +29,9 @@ function(accessToken, refreshToken, profile, cb) {
 */
 exports.login = function (req, res) {
     if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
+    //Dummy code for testing
+    var userToken = "test" + authController.generateToken();
+    return res.json({token: userToken});
 
     userController.getUser(req.body.username, req.body.password)
         .then((user) => {

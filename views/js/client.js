@@ -34,6 +34,7 @@ $(document).ready(function(e) {
 		$('#nav-no-login').hide();
 		//display create/user account options
 	}
+	
 	$('.register').click(function(){
 		var username = $('#user').val();
 		var password = $('#password').val();
