@@ -5,7 +5,6 @@ $(document).ready(function(e) {
 	 $('#sign-in').click( function(event){
 		 event.preventDefault();
 		 console.log("testing");
-		 hideLoginOpts();
 		 var username = $('#user').val();
 		 var password = $('#password').val();
 		 //GET login token
@@ -20,19 +19,23 @@ $(document).ready(function(e) {
 		    success: function(response) {
 					//remove login buttons, add create article button.
 					//save token to ??
-							console.log(response);
+					//check token received
+					console.log("Need to implement token check");
+					hideLoginOpts();
+					console.log(response);
 		    },
 		    error: function(xhr) {
 					//create error message
 		    }
 		});
-
-		hideLoginOpts();
  	 });
 
 	function hideLoginOpts(){
-		console.log("testing");
+		$('#nav-no-login').hide();
+		//display create/user account options
+		
 	}
+
 	$('.register').click(function(){
 		var username = $('#user').val();
 		var password = $('#password').val();

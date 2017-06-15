@@ -124,4 +124,4 @@ app.get('/api/article/:article_id', api.getArticle)
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
 
-app.get('/:tag', index.category);
+app.get('/:tag', article.category);
