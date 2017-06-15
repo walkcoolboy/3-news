@@ -72,7 +72,8 @@ var index = require('./routes/index');
 
 
 app.get('/', index.index);
-app.get('/:tag', index.category);
+//This is added last to ensure it doesn't overwite any other routes
+//app.get('/:tag', index.category);
 
 
 //-------------
@@ -124,4 +125,4 @@ app.get('/api/article/:article_id', api.getArticle)
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
-app.get('/:category', article.category);
+app.get('/:tag', index.category);
