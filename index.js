@@ -72,6 +72,7 @@ var index = require('./routes/index');
 
 
 app.get('/', index.index);
+app.get('/:tag', index.category);
 
 
 //-------------
