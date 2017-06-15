@@ -7,7 +7,7 @@ exports.article = function(req, res){
 	//do database trans here
 	articleController.getArticle(id)
 		.then((articles) =>{
-			if(!articles || !articles[0])return res.json("Article"+ id + "not found");
+			if(!articles || !articles[0])return res.json("Article"+ id + " not found");
 			var article = articles[0];
 			//var url = "http://www.stuff.co.nz/_json/marlborough-express/news/70467549/No-selfies-on-super-yacht-for-Blenheim-man".replace("/_json", "");
 			res.render('article.ejs', {
