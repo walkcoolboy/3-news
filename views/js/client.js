@@ -2,7 +2,7 @@ $(document).ready(function(e) {
 	/*
 	 * User logins
 	 */
-	 $('#sign-in').click( function(){
+	 $('#sign-in').click( function(event){
 		 event.preventDefault();
 		 console.log("testing");
 		 hideLoginOpts();
@@ -16,7 +16,7 @@ $(document).ready(function(e) {
 						"password": password
 		    },
 		    cache: false,
-		    type: "POST",
+		    type: "GET",
 		    success: function(response) {
 					//remove login buttons, add create article button.
 					//save token to ??
