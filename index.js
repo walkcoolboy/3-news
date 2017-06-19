@@ -82,7 +82,7 @@ var article = require('./routes/article');
 var search  = require('./routes/search');
 
 app.get('/article/:article_id', article.article);
-app.get('/search/:term', article.search);
+app.get('/search/:tag', article.search);
 
 //-------------
 //AUTH Routes
@@ -112,6 +112,7 @@ app.post('/users/createUser', user.createUser)
 var api = require('./routes/api');
 
 app.get('/api/article', api.getArticles)
+   .get('/api/article/tag/:article_tag', api.getArticlesByTag)
 	.post('/api/article/', auth.validateToken, api.postArticle);
 
 app.get('/api/article/:article_id', api.getArticle)
@@ -123,4 +124,4 @@ app.get('/api/article/:article_id', api.getArticle)
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
 
-app.get('/:tag', article.category);
+app.get('/article/tag/:tag', article.category);

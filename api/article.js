@@ -15,6 +15,20 @@ exports.getArticles = function () {
   });
 };
 
+//Gets articles by tag from the database
+exports.getArticlesByTag = function (article_tag) {
+  return new Promise(function (resolve, reject) {
+    // Use the Article model to find a specific article
+    Article.find({ "tags": article_tag }, function (err, articles) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(articles);
+    });
+  });
+};
+
 //Inserts an article into the database
 exports.postArticle = function (data) {
   return new Promise(function (resolve, reject) {
@@ -53,6 +67,7 @@ exports.getArticle = function (article_id) {
     });
   });
 };
+
 
 //Updates an article in the database
 exports.putArticle = function (article_id, tags) {

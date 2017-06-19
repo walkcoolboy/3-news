@@ -16,6 +16,20 @@ exports.getArticles = function (req, res) {
 
 };
 
+//create endpoint /article/tag for GET
+exports.getArticlesByTag = function (req, res) {
+
+    articleController.getArticlesByTag(req.params.article_tag)
+        .then((articles) => {
+            console.log(articles);
+            res.json(articles);
+        })
+        .catch((err) => {
+            res.json(err);
+        });
+
+};
+
 //create endpoint /article for POST
 exports.postArticle = function (req, res) {
 
