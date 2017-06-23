@@ -15,7 +15,7 @@ $(document).ready(function(e) {
 						"password": password
 		    },
 		    cache: false,
-		    type: "GET",
+		    type: "POST",
 		    success: function(response) {
 					//remove login buttons, add create article button.
 					//save token to ??

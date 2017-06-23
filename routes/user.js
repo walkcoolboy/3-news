@@ -2,7 +2,7 @@
 var User = require('../models/user');
 var userController = require('../api/user');
 var authController = require('../api/auth');
-const TOKEN_LENGTH = 16;
+
 
 
 /*
