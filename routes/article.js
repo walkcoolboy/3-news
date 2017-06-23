@@ -25,18 +25,18 @@ exports.article = function(req, res){
 };
 
 exports.category = function(req, res){
-	if(!req.params.article_tag) return res.json("article_tag not supplied");
+	if(!req.params.tag) return res.json("article_tag not supplied");
 	//do database trans to get json for category
-	// if(req.params.article_tag == 'Top'){
-	// 	//modify title
-	// 	req.params.article_tag = 'Top Content';
-	// 	//query for top articles
-	// }
-	// else{
-	// 	//query for req.params.category articles
-	//
-	// 	//TODO: redirect if non-valid category name
-	// }
+	if(req.params.tag == 'Top'){
+		//modify title
+		req.params.tag = 'Top Content';
+		//query for top articles
+	}
+	else{
+		//query for req.params.category articles
+	
+		//TODO: redirect if non-valid category name
+	}
 	//add json to req.params.jsonData
 	//dummy json creation
 		res.render('app.ejs', {
