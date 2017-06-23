@@ -4,9 +4,12 @@ $(document).ready(function(e) {
 	 */
 	 $('#sign-in').click( function(event){
 		 event.preventDefault();
-		 console.log("testing");
 		 var username = $('#user').val();
 		 var password = $('#password').val();
+		 if(username.length == 0 || password.length == 0){
+			 alert("Username and password required");
+			 return;
+		 }
 		 //GET login token
 		 $.ajax({
 		    url: "/auth/login",
@@ -17,12 +20,13 @@ $(document).ready(function(e) {
 		    cache: false,
 		    type: "POST",
 		    success: function(response) {
-					//remove login buttons, add create article button.
-					//save token to ??
-					//check token received
-					console.log("Need to implement token check");
+
+					if(!response.success){
+						console.log(response);
+						return;
+					}
 					hideLoginOpts();
-					console.log(response);
+
 		    },
 		    error: function(xhr) {
 					//create error message
@@ -49,9 +53,14 @@ $(document).ready(function(e) {
 			 cache: false,
 			 type: "POST",
 			 success: function(response) {
-				 //remove login buttons, add create article button.
-				 //save token to cookie?
-				 	//response.body.token
+				 //check token received
+				 if(!response.token){
+					 console.log(response);
+					 return;
+				 }
+				 //Save token in cookie, it expires in 1 day
+				 $.cookie("token", token, {expires: 1});
+				 hideLoginOpts();
 			 },
 			 error: function(xhr) {
 				 //create error message
@@ -104,3 +113,8 @@ $(document).ready(function(e) {
 		}
 	);
 });
+
+function handleLoginToken(response){
+
+
+}

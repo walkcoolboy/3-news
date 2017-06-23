@@ -14,14 +14,16 @@ exports.createUser = function (req, res) {
     if(!req.body.username || !req.body.password)res.json("Invalid request, username or password not specified");
     //Dummy code for testing
     var userToken = "test" + authController.generateToken();
-    return res.json({token: userToken});
+    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+    return res.json({success: true});
+
 
     userController.createUser(req.body.username, req.body.password)
         .then(() => {
             var userToken = authController.generateToken();
             authController.storeToken(req.body.username, userToken);
-
-            res.json({token: userToken});
+            res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+            res.json({success: true});
         })
         .catch((err) => {
             res.json(err);

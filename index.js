@@ -24,14 +24,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 var path = require('path');
-//var pg = require('pg').native;
 var port = process.env.PORT || 8443;
 
-var userController = require('./api/user');
-var articleController = require('./api/article');
-var clientController = require('./api/client');
-
-var authController = require('./api/auth');
+/* Use of these has been encapsulated into routes.js */
+// var userController = require('./api/user');
+// var articleController = require('./api/article');
+// var clientController = require('./api/client');
+// var authController = require('./api/auth');
 
 
 //-----------------------------------------
@@ -89,6 +88,7 @@ app.get('/search/:tag', article.search);
 //-------------
 
 var auth = require('./routes/auth');
+
 app.post('/auth/login', auth.login)
   .post('/auth/logout', auth.validateToken, auth.logout)
   .post('/auth/google', auth.google)

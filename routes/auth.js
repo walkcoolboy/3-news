@@ -31,7 +31,9 @@ exports.login = function (req, res) {
     if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
     //Dummy code for testing
     var userToken = "test" + authController.generateToken();
-    return res.json({token: userToken});
+    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+    return res.json({success: true});
+
 
     userController.getUser(req.body.username, req.body.password)
         .then((user) => {
@@ -41,9 +43,9 @@ exports.login = function (req, res) {
 
             //Create and save access token
             var userToken = authController.generateToken();
-            authController.storeToken(req.body.username, "test"+userToken);
-
-            res.json({token: userToken});
+            authController.storeToken(req.body.username, userToken);
+            res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+            res.json({success: true});
         })
         .catch((err) => {
             res.json(err);
@@ -57,8 +59,11 @@ exports.login = function (req, res) {
     User is logged in (Has a valid access token)
 */
 exports.logout = function (req, res) {
-  var token = req.headers['x-access-token'] || null;
-  if(!token)return res.json("Access token was not provided");
+  //Sets a header indicating that the login cookie should be deleted
+  res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/; MaxAge=-1"])
+  return res.json({success: true});
+
+
   authController.deleteToken(token)
       .then(() => {
           res.json("Logout successful");
@@ -72,12 +77,16 @@ exports.logout = function (req, res) {
 /*
   Validates the access token for a request
 */
-exports.validateToken = function (req, res) {
-    var token = req.headers['x-access-token'] || null;
-    if(!token)return res.json("Access token was not provided");
+exports.validateToken = function (req, res, next) {
+
+    //Extract login token for cookie header
+    var cookie = req.headers['cookie'] || null;
+    if(!cookie)return res.json("Access token was not provided");
+    var token = cookie.substring(cookie.indexOf("=")+1);
+
     //Dummy code for testing
     if(token.startsWith("test"))next();
-    res.json("Incorrect token");
+
     authController.getToken(token)
         .then((userToken) => {
             if(!userToken)res.json("Valid access token was not provided");

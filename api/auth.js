@@ -1,5 +1,5 @@
 var Token = require('../models/token');
-const TOKEN_LENGTH = 16;
+const TOKEN_LENGTH = 32;
 //CRUD functions for tokens
 exports.storeToken = function(username, token){
   return new Promise(function (resolve, reject) {
