@@ -56,6 +56,7 @@ var server = https.createServer(https_options, app).listen(port, 'localhost');
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
+//TODO: Restrict to relevant files, and set caching policy
  app.use('/', express.static(__dirname + '/'));
 
 //End of middleware code
@@ -67,7 +68,8 @@ var server = https.createServer(https_options, app).listen(port, 'localhost');
 //-------------
 //setup navigation routes
 var index = require('./routes/index');
-app.get('/', index.index);
+var caching = require('./routes/cache');
+app.get('/', caching.setShort, index.index);
 
 //This is added last to ensure it doesn't overwite any other routes
 //app.get('/:tag', index.category);
@@ -80,8 +82,8 @@ app.get('/', index.index);
 var article = require('./routes/article');
 var search  = require('./routes/search');
 
-app.get('/article/:article_id', article.article);
-app.get('/search/:tag', article.search);
+app.get('/article/:article_id', caching.setShort, article.article);
+app.get('/search/:tag', caching.setShort, article.search);
 
 //-------------
 //AUTH Routes
@@ -89,10 +91,10 @@ app.get('/search/:tag', article.search);
 
 var auth = require('./routes/auth');
 
-app.post('/auth/login', auth.login)
-  .post('/auth/logout', auth.validateToken, auth.logout)
-  .post('/auth/google', auth.google)
-  .post('/auth/google/callback', auth.googleCallback);
+app.post('/auth/login', caching.setNone, auth.login)
+  .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
+  .post('/auth/google', caching.setNone, auth.google)
+  .post('/auth/google/callback', caching.setNone, auth.googleCallback);
 
 
 //-------------
@@ -100,10 +102,10 @@ app.post('/auth/login', auth.login)
 //-------------
 var user = require('./routes/user')
 
-app.post('/users/createUser', user.createUser)
- 	.get('/users/:username', auth.validateToken, user.getUser)
- 	.put('/users/:username', auth.validateToken, user.putUser)
- 	.delete('/users/:username', auth.validateToken, user.deleteUser);
+app.post('/users/createUser', caching.setNone, user.createUser)
+ 	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
+ 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
+ 	.delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
 
 
 //-------------
@@ -124,4 +126,4 @@ app.get('/api/article/:article_id', api.getArticle)
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
 
-app.get('/:tag', article.category);
+app.get('/:tag', caching.setShort, article.category);
