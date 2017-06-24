@@ -58,7 +58,7 @@ exports.category = function(req, res){
  exports.search = function(req, res){
 	 	res.render('search.ejs', {
  			title: '3 News - Search results ',
- 			term: req.params.term
+ 			term: req.params.tag
  		} //end JSON payload
  		);
  }
