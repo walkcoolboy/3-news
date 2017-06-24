@@ -7,10 +7,18 @@ $(document).ready(function(e) {
 		console.log(document.cookie);
 		hideLoginOpts();
 	}
-	function hideLoginOpts(){
+
+	function getLoginToken(){
+		return document.cookie;
+	}
+
+	function hideLoginOpts(username){
 		$('#nav-no-login').hide();
 		//display create/user account options
 		$('#nav-logged-in').show();
+		//username stored in local storage
+		var user = window.localStorage.getItem('username');
+		$('#username').text(user).css("color", "white");
 	}
 	function showLoginOpts(){
 		$('#nav-no-login').show();
@@ -41,8 +49,8 @@ $(document).ready(function(e) {
 					console.log(response);
 					return;
 				}
-				hideLoginOpts();;
-				console.log("Cookie:" + document.cookie);
+				window.localStorage.setItem('username', username);
+				hideLoginOpts();
 
 	    },
 	    error: function(xhr) {
@@ -70,8 +78,13 @@ $(document).ready(function(e) {
 	 });
 	
 	$('.register').click(function(){
+		event.preventDefault();
 		var username = $('#user').val();
 		var password = $('#password').val();
+		if(username.length == 0 || password.length == 0){
+		 alert("Username and password required");
+		 return;
+	 	}
 		//GET login token
 		$.ajax({
 			 url: "users/createUser",
@@ -83,12 +96,12 @@ $(document).ready(function(e) {
 			 type: "POST",
 			 success: function(response) {
 				 //check token received
-				 if(!response.token){
+				 if(!response.success){
 					 console.log(response);
 					 return;
 				 }
 				 //Save token in cookie, it expires in 1 day
-				 $.cookie("token", token, {expires: 1});
+				 window.localStorage.setItem('username', username);
 				 hideLoginOpts();
 			 },
 			 error: function(xhr) {
@@ -143,7 +156,4 @@ $(document).ready(function(e) {
 	);
 });
 
-function handleLoginToken(response){
 
-
-}
