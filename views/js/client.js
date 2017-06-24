@@ -2,42 +2,72 @@ $(document).ready(function(e) {
 	/*
 	 * User logins
 	 */
-	 $('#sign-in').click( function(event){
-		 event.preventDefault();
-		 var username = $('#user').val();
-		 var password = $('#password').val();
-		 if(username.length == 0 || password.length == 0){
-			 alert("Username and password required");
-			 return;
-		 }
-		 //GET login token
-		 $.ajax({
-		    url: "/auth/login",
-		    data: {
-		        "username": username,
-						"password": password
-		    },
-		    cache: false,
-		    type: "POST",
-		    success: function(response) {
 
-					if(!response.success){
-						console.log(response);
-						return;
-					}
-					hideLoginOpts();
-
-		    },
-		    error: function(xhr) {
-					//create error message
-		    }
-		});
- 	 });
-
+	if(document.cookie){
+		console.log(document.cookie);
+		hideLoginOpts();
+	}
 	function hideLoginOpts(){
 		$('#nav-no-login').hide();
 		//display create/user account options
+		$('#nav-logged-in').show();
 	}
+	function showLoginOpts(){
+		$('#nav-no-login').show();
+		//display create/user account options
+		$('#nav-logged-in').hide();
+	}
+
+ $('#sign-in').click( function(event){
+	 event.preventDefault();
+	 var username = $('#user').val();
+	 var password = $('#password').val();
+	 if(username.length == 0 || password.length == 0){
+		 alert("Username and password required");
+		 return;
+	 }
+	 //GET login token
+	 $.ajax({
+	    url: "/auth/login",
+	    data: {
+	        "username": username,
+					"password": password
+	    },
+	    cache: false,
+	    type: "POST",
+	    success: function(response) {
+
+				if(!response.success){
+					console.log(response);
+					return;
+				}
+				hideLoginOpts();;
+				console.log("Cookie:" + document.cookie);
+
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	 });
+
+  $('#sign-out').click( function(event){
+	 event.preventDefault();
+
+	 //GET login token
+	 $.ajax({
+	    url: "/auth/logout",
+	    type: "POST",
+	    xhrFields: { withCredentials: true },
+	    success: function(data, textStatus, xhr) {
+				if(!data.success)return;
+				showLoginOpts();
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	 });
 	
 	$('.register').click(function(){
 		var username = $('#user').val();
