@@ -31,8 +31,8 @@ exports.login = function (req, res) {
     if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
     //Dummy code for testing
     var userToken = "test" + authController.generateToken();
-    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
-    return res.json({success: true});
+    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"]);
+    return res.json({success: true, username: req.body.username});
 
 
     userController.getUser(req.body.username, req.body.password)
@@ -60,9 +60,10 @@ exports.login = function (req, res) {
 */
 exports.logout = function (req, res) {
   //Sets a header indicating that the login cookie should be deleted
-  res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/; MaxAge=-1"])
+  var userToken = req.userToken;
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Set-Cookie", "token="+userToken+ "; expires=Thu 01 Jan 1970 00:00:00 GMT; path=/;");
   return res.json({success: true});
-
 
   authController.deleteToken(token)
       .then(() => {
@@ -71,6 +72,7 @@ exports.logout = function (req, res) {
       .catch((err) => {
           res.json(err);
       });
+  
 
 };
 
@@ -78,14 +80,17 @@ exports.logout = function (req, res) {
   Validates the access token for a request
 */
 exports.validateToken = function (req, res, next) {
-
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
     if(!cookie)return res.json("Access token was not provided");
     var token = cookie.substring(cookie.indexOf("=")+1);
 
     //Dummy code for testing
-    if(token.startsWith("test"))next();
+    if(token.startsWith("test")){
+      req.userToken = token;
+      next();
+      return; //skip below code
+    }
 
     authController.getToken(token)
         .then((userToken) => {

@@ -2,46 +2,89 @@ $(document).ready(function(e) {
 	/*
 	 * User logins
 	 */
-	 $('#sign-in').click( function(event){
-		 event.preventDefault();
-		 var username = $('#user').val();
-		 var password = $('#password').val();
-		 if(username.length == 0 || password.length == 0){
-			 alert("Username and password required");
-			 return;
-		 }
-		 //GET login token
-		 $.ajax({
-		    url: "/auth/login",
-		    data: {
-		        "username": username,
-						"password": password
-		    },
-		    cache: false,
-		    type: "POST",
-		    success: function(response) {
 
-					if(!response.success){
-						console.log(response);
-						return;
-					}
-					hideLoginOpts();
+	if(document.cookie){
+		console.log(document.cookie);
+		hideLoginOpts();
+	}
 
-		    },
-		    error: function(xhr) {
-					//create error message
-		    }
-		});
- 	 });
+	function getLoginToken(){
+		return document.cookie;
+	}
 
-	function hideLoginOpts(){
+	function hideLoginOpts(username){
 		$('#nav-no-login').hide();
 		//display create/user account options
+		$('#nav-logged-in').show();
+		//username stored in local storage
+		var user = window.localStorage.getItem('username');
+		$('#username').text(user).css("color", "white");
 	}
+	function showLoginOpts(){
+		$('#nav-no-login').show();
+		//display create/user account options
+		$('#nav-logged-in').hide();
+	}
+
+ $('#sign-in').click( function(event){
+	 event.preventDefault();
+	 var username = $('#user').val();
+	 var password = $('#password').val();
+	 if(username.length == 0 || password.length == 0){
+		 alert("Username and password required");
+		 return;
+	 }
+	 //GET login token
+	 $.ajax({
+	    url: "/auth/login",
+	    data: {
+	        "username": username,
+					"password": password
+	    },
+	    cache: false,
+	    type: "POST",
+	    success: function(response) {
+
+				if(!response.success){
+					console.log(response);
+					return;
+				}
+				window.localStorage.setItem('username', username);
+				hideLoginOpts();
+
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	 });
+
+  $('#sign-out').click( function(event){
+	 event.preventDefault();
+
+	 //GET login token
+	 $.ajax({
+	    url: "/auth/logout",
+	    type: "POST",
+	    xhrFields: { withCredentials: true },
+	    success: function(data, textStatus, xhr) {
+				if(!data.success)return;
+				showLoginOpts();
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	 });
 	
 	$('.register').click(function(){
+		event.preventDefault();
 		var username = $('#user').val();
 		var password = $('#password').val();
+		if(username.length == 0 || password.length == 0){
+		 alert("Username and password required");
+		 return;
+	 	}
 		//GET login token
 		$.ajax({
 			 url: "users/createUser",
@@ -53,12 +96,12 @@ $(document).ready(function(e) {
 			 type: "POST",
 			 success: function(response) {
 				 //check token received
-				 if(!response.token){
+				 if(!response.success){
 					 console.log(response);
 					 return;
 				 }
 				 //Save token in cookie, it expires in 1 day
-				 $.cookie("token", token, {expires: 1});
+				 window.localStorage.setItem('username', username);
 				 hideLoginOpts();
 			 },
 			 error: function(xhr) {
@@ -113,7 +156,4 @@ $(document).ready(function(e) {
 	);
 });
 
-function handleLoginToken(response){
 
-
-}
