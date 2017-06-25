@@ -22,7 +22,6 @@ exports.setFull = function(req, res, next){
   This ensures public caches are as up-to-date as is practical
   */
 exports.setShort = function(req, res, next){
-
   res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=600, proxy-revalidate");
   next();
 };

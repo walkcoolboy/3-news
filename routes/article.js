@@ -1,5 +1,4 @@
 var articleController = require('../api/article');
-
 // /article/:article_id
 exports.article = function(req, res){
 	if(!req.params.article_id)return res.json("article_id not supplied");
@@ -25,18 +24,14 @@ exports.article = function(req, res){
 };
 
 exports.category = function(req, res){
-	if(!req.params.tag) return res.json("article_tag not supplied");
-	//do database trans to get json for category
-	if(req.params.tag == 'Top'){
-		//modify title
-		req.params.tag = 'Top Content';
-		//query for top articles
+	var currentCategories = ["Top Content", "World", "National", "Entertainment", "Sport", "Tech", "Blog"];
+	if(currentCategories.indexOf(req.params.tag)== -1) {
+		res.redirect("/");
+		return;
 	}
-	else{
-		//query for req.params.category articles
-	
-		//TODO: redirect if non-valid category name
-	}
+	//do database trans to get json for req.params.tag
+	var dbResults = articleController.getArticles();
+	console.log(req.params.tag);
 	//add json to req.params.jsonData
 	//dummy json creation
 		res.render('app.ejs', {
@@ -58,7 +53,11 @@ exports.category = function(req, res){
  exports.search = function(req, res){
 	 	res.render('search.ejs', {
  			title: '3 News - Search results ',
- 			term: req.params.term
+ 			term: req.params.tag
  		} //end JSON payload
  		);
+ }
+
+ exports.addTag = function(req, res){
+ 	res.json({success: true });
  }

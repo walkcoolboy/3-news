@@ -15,7 +15,7 @@
     <link href="../stylesheets/customcss.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body class="article-content">
   <% include navbar %>
 
     <!-- Main content, inclues sidebar -->
@@ -23,6 +23,7 @@
               <div class="jumbotron">
       <div class="container">
         <h1><%= heading %></h1>
+        <hr class="header-divider">
       </div>
     </div>
             <!-- Example row of columns -->
@@ -54,7 +55,10 @@
          </span>
         <% } %>
         </p>
-
+        <!-- requires login -->
+        <span class="add-tag badge badge-primary">Add Tag</span>
+        <textarea rows="3" class="tag-input form-control" placeholder="Add: tag1 tag2 tag3 ..."></textarea> 
+        <span class="submit-tag badge badge-success">Submit</span>
         </div>
       </div>
 
