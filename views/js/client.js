@@ -6,16 +6,26 @@ $(document).ready(function(e) {
 	if(document.cookie){
 		console.log(document.cookie);
 		hideLoginOpts();
+		if($('body').is('.article-content')){
+			//show article options for logged in user
+			$('.add-tag').show();
+		}
+	}
+	else{
+		showLoginOpts();
 	}
 
 	function getLoginToken(){
 		return document.cookie;
 	}
 
-	function hideLoginOpts(username){
+	function hideLoginOpts(){
 		$('#nav-no-login').hide();
 		//display create/user account options
-		$('#nav-logged-in').show();
+		$('.nav-logged-in').each(function(index){
+			$(this).show();
+		});
+		//$('#nav-logged-in').show();
 		//username stored in local storage
 		var user = window.localStorage.getItem('username');
 		$('#username').text(user).css("color", "white");
@@ -23,7 +33,7 @@ $(document).ready(function(e) {
 	function showLoginOpts(){
 		$('#nav-no-login').show();
 		//display create/user account options
-		$('#nav-logged-in').hide();
+		$('.nav-logged-in').hide();
 	}
 
  $('#sign-in').click( function(event){
@@ -115,6 +125,7 @@ $(document).ready(function(e) {
 	/*
 	 * search-box - process request
 	 */
+
    $('.search-box').keypress('keypress', function(event){
      $('.search-box').submit();
      var search_term;
@@ -124,9 +135,51 @@ $(document).ready(function(e) {
      }
 	});
 
+  /*
+  *Article interactions
+	*/
+
+
+	$('.add-tag').click(function(){
+		console.log("adding article");
+		$(".tag-input").fadeIn(1000);
+		$(".submit-tag").fadeIn(1000);
+	});
+
+	$(".submit-tag").click(function(){
+		var input = $(".tag-input").val();
+		addTagProcess(input);
+	});
+
+	function addTagProcess(input){
+		console.log(input);
+		var tagsJson = input.split(" ");
+		console.log(tagsJson);
+		var restURL = window.location.pathname; //article/:id
+		requestAddTags(tagsJson, restURL);
+	}
+
+	function requestAddTags(tagsArray, restURL){
+			$.ajax({
+	    url: restURL, //article/:id
+	    data: {
+	        tags: tagsArray
+	    },
+	    cache: false,
+	    type: "PUT",
+	    success: function(response){
+
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	}
+
 	/*
 	 *Create article functions
 	 */
+
 	//set option selected for categories
 	$("#category-selected input[name=options]").click(
 		function(){

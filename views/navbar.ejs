@@ -14,10 +14,14 @@
       <a class="navbar-brand" href="/Tech">Tech</a>
       <a class="navbar-brand" href="/Entertainment">Entertainment</a>
       <a class="navbar-brand" href="/Blog">Blog</a>
+      <ul class="nav navbar-nav">
+        <li class="divider-vertical"></li>
+      </ul>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse credentials">
 
-      <form id="nav-no-login" class="navbar-form navbar-right">
+      <form id="nav-no-login" style="display:none;" class="navbar-form navbar-right">
         <div class="form-group">
           <input id="user" type="text"  placeholder="Username" class="form-control">
         </div>
@@ -33,9 +37,18 @@
         <button id="register" type="submit" class="btn btn-primary register">Register</button>
       </form>
 
-      <form id="nav-logged-in" style="display:none;" class="navbar-form navbar-right">
+      <div>        
+        <a id="saved" style="display:none;" class="navbar-brand nav-logged-in" href="#">Saved</a>
+      </div>
+
+      <form style="display:none;" class="nav-logged-in navbar-form navbar-right">
         <p id="username" style="display: inline"></p>
         <button id="sign-out" type="submit" class="btn btn-primary sign-out">Sign Out</button>
+      </form>
+
+      <!-- requires login -->
+      <form class="navbar-form navbar-right">
+        <button style="display:none;" class="nav-logged-in btn btn-success sign-in">Create</button>
       </form>
 
     </div><!--/.navbar-collapse -->

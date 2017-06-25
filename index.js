@@ -72,16 +72,14 @@ app.get('/', index.index);
 //This is added last to ensure it doesn't overwite any other routes
 //app.get('/:tag', index.category);
 
-
-
 //-------------
 //ARTICLES
 //-------------
 var article = require('./routes/article');
-var search  = require('./routes/search');
 
 app.get('/article/:article_id', article.article);
 app.get('/search/:tag', article.search);
+app.put('/article/:article_id', article.addTag);
 
 //-------------
 //AUTH Routes
