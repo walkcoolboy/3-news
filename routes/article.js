@@ -30,8 +30,7 @@ exports.category = function(req, res){
 		return;
 	}
 	//do database trans to get json for req.params.tag
-	var dbResults = articleController.getArticles();
-	console.log(req.params.tag);
+	var dbResults = articleController.getArticles(); //TODO
 	//add json to req.params.jsonData
 	//dummy json creation
 		res.render('app.ejs', {
@@ -58,6 +57,22 @@ exports.category = function(req, res){
  		);
  }
 
+/**
+* Searches for article by article_id and adds tags from req.body.tags
+* Input values:
+* 	- article_id : unique id of article - from url parameter
+*	Returns:
+* 	- success json - used by client to dynamically update
+*
+*/
  exports.addTag = function(req, res){
- 	res.json({success: true });
+ 	var arrayTagsToAdd = JSON.parse(req.body.tags);
+ 			articleController.putArticle(req.params.article_id, arrayTagsToAdd)
+ 				.then((articles) =>{
+ 				 	res.json({success: true, tags: arrayTagsToAdd });
+				})
+		.catch((err) => {
+				res.json(err);
+		});
+
  }

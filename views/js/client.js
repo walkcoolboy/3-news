@@ -138,41 +138,54 @@ $(document).ready(function(e) {
   *Article interactions
 	*/
 
-
 	$('.add-tag').click(function(){
-		console.log("adding article");
 		$(".tag-input").fadeIn(1000);
 		$(".submit-tag").fadeIn(1000);
+		$('.tag-list-footer').find('.tag-link').each(function(index, element){
+			console.log($(this).text().trim());
+			$(".tag-input").append($(this).text().trim()+ " ");
+		});
 	});
 
 	$(".submit-tag").click(function(){
 		var input = $(".tag-input").val();
+		$(".tag-input").hide();
+		$(".submit-tag").hide();
+		if(input=="")return;
 		addTagProcess(input);
 	});
 
 	function addTagProcess(input){
 		console.log(input);
-		var tagsJson = input.split(" ");
-		console.log(tagsJson);
+		var tagsArr = JSON.stringify(input.split(" "));
 		var restURL = window.location.pathname; //article/:id
-		requestAddTags(tagsJson, restURL);
+		requestAddTags(tagsArr, restURL);
 	}
 
 	function requestAddTags(tagsArray, restURL){
 			$.ajax({
-	    url: restURL, //article/:id
+	    url: restURL, //article/:article_id
 	    data: {
-	        tags: tagsArray
+	        "tags": tagsArray
 	    },
 	    cache: false,
 	    type: "PUT",
 	    success: function(response){
+	    	if(response.success){
+	    		var tagsArray = response.tags;
+	    		$('.tag-list-footer').children('p').replaceWith("<p></p>"); //removes existing tags
+	    		for(var i= 0; i< tagsArray.length; i++){
+	    			$('.tag-list-footer').children('p').append(
+	    				"<span><a href= class=\"tag-link\" \"/search/"+tagsArray[i]+"\">"+tagsArray[i] +"</a></span>"
+	    				);
+	    		}
+	    	}
 
 	    },
 	    error: function(xhr) {
 				//create error message
 	    }
-	});
+		});
 	}
 
 	/*
