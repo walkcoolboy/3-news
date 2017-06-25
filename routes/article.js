@@ -8,13 +8,14 @@ exports.article = function(req, res){
 		.then((articles) =>{
 			if(!articles || !articles[0])return res.json("Article"+ id + " not found");
 			var article = articles[0];
+			var articleURL = article.URL.replace("/_json", "");
 			//var url = "http://www.stuff.co.nz/_json/marlborough-express/news/70467549/No-selfies-on-super-yacht-for-Blenheim-man".replace("/_json", "");
 			res.render('article.ejs', {
 					title: '3 News',
 					heading: article.title,
 					body: article.body,
 					image: article.photos.url,
-					url: article.URL,
+					url: articleURL,
 					tags: article.tags
 			});
 		})
@@ -26,19 +27,35 @@ exports.article = function(req, res){
 exports.category = function(req, res){
 	var currentCategories = ["Top Content", "World", "National", "Entertainment", "Sport", "Tech", "Blog"];
 	if(currentCategories.indexOf(req.params.tag)== -1) {
+		if(req.params.tag == "favicon.ico"){ //this gets requested everytime by browser (favourites icon)
+			res.end();
+			return;
+		}
 		res.redirect("/");
 		return;
 	}
 	//do database trans to get json for req.params.tag
-	var dbResults = articleController.getArticles(); //TODO
-	//add json to req.params.jsonData
-	//dummy json creation
-		res.render('app.ejs', {
-		title: '3 News - ' + req.params.tag,
-		header: req.params.tag,
-		data: {title: "Dummy article " + req.params.tag, description: "Short description of article in index."}//req.params.jsonData
-	});
+	var dbResults = articleController.getArticles()
+			.then((articles) =>{
+			if(!articles || !articles[0])return res.json("Article"+ id + " not found");
+				res.render('app.ejs', {
+					title: '3 News',
+					header: req.params.tag,
+					data: articles,
+				});
+			})
+			.catch((err) => {
+					res.json(err);
+			});
 };
+												// var articleSchema = new mongoose.Schema({
+												//   articleID:Number,
+												//   tags: [String],
+												//   title:String,
+												//   photos: {caption:String, url:String},
+												//   body:String,
+												//   URL:String
+												// });
 
 /**
  * Searches the database for the given terms

@@ -1,6 +1,6 @@
 //Load required packages
 var Article = require('../models/article');
-const DEFAULT_NUM_ARTICLES = 3
+const DEFAULT_NUM_ARTICLES = 4;
 
 //Returns a number of Articles
 exports.getArticles = function () {

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 // Define article schema
+//PLEASE ADD: 'intro' + try get the larger image from stuff api
 var articleSchema = new mongoose.Schema({
   articleID:Number,
   tags: [String],
