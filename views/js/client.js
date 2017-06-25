@@ -176,7 +176,7 @@ $(document).ready(function(e) {
 	    		$('.tag-list-footer').children('p').replaceWith("<p></p>"); //removes existing tags
 	    		for(var i= 0; i< tagsArray.length; i++){
 	    			$('.tag-list-footer').children('p').append(
-	    				"<span><a href= class=\"tag-link\" \"/search/"+tagsArray[i]+"\">"+tagsArray[i] +"</a></span>"
+	    				"<span><a class=\"tag-link\" href=\"/search/"+tagsArray[i]+"\">"+tagsArray[i] +"</a></span>"
 	    				);
 	    		}
 	    	}
