@@ -29,10 +29,6 @@ exports.article = function(req, res){
 exports.category = function(req, res){
 	var currentCategories = ["Top Content", "World", "National", "Entertainment", "Sport", "Tech", "Blog"];
 	if(currentCategories.indexOf(req.params.tag)== -1) {
-		if(req.params.tag == "favicon.ico"){ //this gets requested everytime by browser (favourites icon)
-			res.end();
-			return;
-		}
 		res.redirect("/");
 		return;
 	}
