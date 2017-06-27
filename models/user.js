@@ -11,6 +11,7 @@ var historySchema = new mongoose.Schema ({
 var userSchema = new mongoose.Schema({
   name:String,
   password:String,
+  type:String,
   archive:{type:Boolean, default:false},
   history: [historySchema]
 });
