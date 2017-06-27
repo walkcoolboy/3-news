@@ -59,7 +59,7 @@ exports.postArticle = function (data) {
 exports.getArticle = function (article_id) {
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article
-    Article.find({ articleID: article_id }, function (err, article) {
+    Article.findOne({ articleID: article_id }, function (err, article) {
       if (err) {
         return reject(err);
       }

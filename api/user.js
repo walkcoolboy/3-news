@@ -3,21 +3,48 @@ var User = require('../models/user');
 //CRUD functions for users
 exports.createUser = function (username, password) {
   return new Promise(function (resolve, reject) {
-    reject("Not implemented");
+
+    //Create a new instance of the User model
+    var theuser = new User();
+    theuser.name = username;
+    theuser.password = password;
+
+    //save the user info and check for errors
+    theuser.save(function (err) {
+      if (err) {
+        return reject(err);
+      }
+      resolve({ message: 'article added', data: article });
+    });
   });
 
 };
 
 exports.getUser = function (username) {
   return new Promise(function (resolve, reject) {
-    reject("Not implemented");
+
+    // Use the User model to find a specific user
+    User.findOne({ name: username }, function (err, user) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(user);
+    });
   });
 
 };
 
-exports.updateUser = function (user) {
+exports.updateUser = function (username, userJson) {
   return new Promise(function (resolve, reject) {
-    reject("Not implemented");
+
+    // Use the User model to find a specific user
+    User.findOneAndUpdate({ name: username }, userJson, {new: true}, function (err, user) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(user);
+    });
+
   });
 
 };
