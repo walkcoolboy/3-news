@@ -13,11 +13,11 @@ var authController = require('../api/auth');
 exports.createUser = function (req, res) {
     if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
     //Dummy code for testing
-    var userToken = "test" + authController.generateToken();
-    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
-    return res.json({success: true, username: req.body.username});
+    // var userToken = "test" + authController.generateToken();
+    // res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+    //return res.json({success: true, username: req.body.username});
 
-    
+
     userController.createUser(req.body.username, req.body.password)
         .then(() => {
             var userToken = authController.generateToken();

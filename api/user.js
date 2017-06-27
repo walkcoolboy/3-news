@@ -4,17 +4,29 @@ var User = require('../models/user');
 exports.createUser = function (username, password) {
   return new Promise(function (resolve, reject) {
 
-    //Create a new instance of the User model
-    var theuser = new User();
-    theuser.name = username;
-    theuser.password = password;
+    //check if the username exist or not
+    User.findOne({ name: username }, function (err, user) {
 
-    //save the user info and check for errors
-    theuser.save(function (err) {
       if (err) {
         return reject(err);
-      }
-      resolve({ message: 'article added', data: article });
+      };
+
+      if (user) {
+         return reject({message:"user already exist"});
+      };
+
+      //Create a new instance of the User model
+      var theuser = new User();
+      theuser.name = username;
+      theuser.password = password;
+
+      //save the user info and check for errors
+      theuser.save(function (err) {
+        if (err) {
+          return reject(err);
+        }
+        resolve({ message: 'user added', data: theuser });
+      });
     });
   });
 
