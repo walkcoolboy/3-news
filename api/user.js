@@ -73,3 +73,11 @@ exports.getOrCreateUserGoogle = function (profile, accessToken) {
     reject("Not implemented");
   });
 };
+
+/**
+ * Log a new instance of a user activity
+ */
+exports.addHistory = function(username, articleID){
+
+
+};
