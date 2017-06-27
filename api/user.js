@@ -51,7 +51,14 @@ exports.updateUser = function (username, userJson) {
 
 exports.deleteUser = function (username) {
   return new Promise(function (resolve, reject) {
-    reject("Not implemented");
+
+    // Use the User model to find a specific user
+    User.findOneAndUpdate({ name: username }, { $set: { archive: true }}, { new: true },function (err, user) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(user);
+    });
   });
 
 };
