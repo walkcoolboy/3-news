@@ -37,6 +37,7 @@ exports.postArticle = function (data) {
     var article = new Article();
     article.articleID = data.articleID;
     article.tags = data.tags;
+    article.intro= data.intro;
     article.title=data.title;
     article.photos.caption = data.photos.caption;
     article.photos.url= data.photos.url;

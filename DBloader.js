@@ -36,12 +36,13 @@ for (i=0; i<articles.length; i++) {
         var newdata={};
         newdata.articleID=data.id;
         newdata.title=data.title;
+        newdata.intro=data.intro;
         newdata.URL=data.url;
         newdata.body=data.body;
         newdata.tags=[data["section-top-level"], data["section-home"]];
         newdata.photos={};
-        newdata.photos.caption=data.images[0].caption;
-        newdata.photos.url=data.images[0].variants[0].src;
+        newdata.photos.caption=data.images[1].caption;
+        newdata.photos.url=data.images[1].variants[0].src;
         article.postArticle(newdata)
         .then((message) => {
             console.log(message);

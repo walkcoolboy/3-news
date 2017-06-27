@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var articleSchema = new mongoose.Schema({
   articleID:Number,
   tags: [String],
+  intro:String,
   title:String,
   photos: {caption:String, url:String},
   body:String,
