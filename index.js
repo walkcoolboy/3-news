@@ -78,9 +78,10 @@ app.get('/', caching.setShort, index.index);
 //ARTICLES
 //-------------
 var article = require('./routes/article');
-
-app.get('/article/:article_id', caching.setShort, article.article)
+var tracking = require('./routes/tracking');
+app.get('/article/:article_id', tracking.log, caching.setShort, article.article)
 	.get('/search/:tag', caching.setShort, article.search)
+	.get('/search/:tag/:page', caching.setShort, article.search)
 	.get('/article/tag/:tag', caching.setShort, article.search)
 	.put('/article/:article_id', article.addTag);
 

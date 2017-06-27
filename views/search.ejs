@@ -7,12 +7,12 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-<!--     <title><%=title%></title> -->
+     <title><%=title%></title>
     <!-- Bootstrap core CSS -->
-    <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
-    <link href="../stylesheets/bootstrap-theme.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <link href="/stylesheets/bootstrap-theme.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="../stylesheets/customcss.css" rel="stylesheet">
+    <link href="/stylesheets/customcss.css" rel="stylesheet">
   </head>
 
   <body>
@@ -21,9 +21,17 @@
     <!-- Main content, inclues sidebar -->
     <div class="main-container" align="center">
 
-
       <div align="center">
-        <div class="pagination"><ul class="pagination"><li class="prev previous_page "><a rel="prev start" href="#">&#8592; Previous</a></li> <li><a rel="prev start" href="#">1</a></li> <li class="active"><a href="#">2</a></li> <li class="next next_page disabled"><a href="#">Next &#8594;</a></li></ul></div>
+        <div class="pagination"><ul class="pagination">
+          <li class="prev previous_page <%if(page <= 1){%>disabled<% } %>">
+            <a rel="prev start" href="./<%page-1%>">&#8592; Previous</a></li> 
+            <!-- Makes a link to each page, setting the current page to active -->
+            <% for(var i = 1; i <= numPages; i++){%>
+              <li <%if(page == i){%>class="active"<% } %>><a href="./<%i%>"><%=i%></a></li> 
+            <% } %>
+
+            <li class="next next_page <%if(page >= numPages){%>disabled<% } %>"><a href="<%page+1%>">Next &#8594;</a></li>
+            </ul></div>
       </div>
             <div class="form-group search-inline">
               <input type="text" placeholder="Search" class="form-control">
@@ -48,10 +56,6 @@
       </div>
         <% }) %>
 
-      <div align="center">
-        <div class="pagination"><ul class="pagination"><li class="prev previous_page "><a rel="prev start" href="/articles?page=1">&#8592; Previous</a></li> <li><a rel="prev start" href="/articles?page=1">1</a></li> <li class="active"><a href="/articles?page=2">2</a></li> <li class="next next_page disabled"><a href="#">Next &#8594;</a></li></ul></div>
-      </div>
-
      </div>
 
 
@@ -60,7 +64,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../views/js/client.js"></script>
+    <script src="/views/js/client.js"></script>
   </body>
 
 </html>
