@@ -19,7 +19,7 @@ exports.getArticles = function () {
 exports.getArticlesByTag = function (article_tag) {
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article
-    Article.find({ "tags": article_tag }, function (err, articles) {
+    Article.find({ "tags": new RegExp('^'+article_tag, 'i') }, function (err, articles) {
       if (err) {
         return reject(err);
       }
@@ -59,7 +59,7 @@ exports.postArticle = function (data) {
 exports.getArticle = function (article_id) {
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article
-    Article.find({ articleID: article_id }, function (err, article) {
+    Article.findOne({ articleID: article_id }, function (err, article) {
       if (err) {
         return reject(err);
       }
