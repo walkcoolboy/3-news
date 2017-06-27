@@ -1,6 +1,6 @@
 var articleController = require('../api/article');
 
-const MAX_SEARCH_RESULTS = 10;
+const ARTICLES_PER_PAGE = 10;
 
 // /article/:article_id
 exports.article = function(req, res){
@@ -66,13 +66,14 @@ exports.category = function(req, res){
 	 var dbFunction = articleController.getArticlesByTag;
 	dbFunction(req.params.tag)
 		.then((articles) => {
-			console.log(articles.length);
-			//Cut to max number of results
-			if(articles.length > MAX_SEARCH_RESULTS)articles.length = MAX_SEARCH_RESULTS;
+			var currentPage = req.params.page || 1;
 			res.render('search.ejs', {
 				title: '3 News - Search results',
 				term: req.params.tag,
-				results: articles
+				page: currentPage,
+				numPages: Math.ceil(articles.length / ARTICLES_PER_PAGE),
+				results: articles.slice((currentPage-1) * ARTICLES_PER_PAGE, currentPage * ARTICLES_PER_PAGE),
+
 			} //end JSON payload
 			);
 
