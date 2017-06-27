@@ -36,7 +36,12 @@ for (i=0; i<articles.length; i++) {
         var newdata={};
         newdata.articleID=data.id;
         newdata.title=data.title;
-        newdata.intro=data.intro;
+        if (/^\s+/.test(data.intro)) {
+          newdata.intro=data.alt_intro;
+        }
+        else {
+          newdata.intro=data.intro;
+        };
         newdata.URL=data.url;
         newdata.body=data.body;
         newdata.tags=[data["section-top-level"], data["section-home"]];
