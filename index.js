@@ -79,9 +79,10 @@ app.get('/', caching.setShort, index.index);
 //-------------
 var article = require('./routes/article');
 
-app.get('/article/:article_id', caching.setShort, article.article);
-app.get('/article/tag/:tag', caching.setShort, article.search);
-app.put('/article/:article_id', article.addTag);
+app.get('/article/:article_id', caching.setShort, article.article)
+	.get('/search/:tag', caching.setShort, article.search)
+	.get('/article/tag/:tag', caching.setShort, article.search)
+	.put('/article/:article_id', article.addTag);
 
 //-------------
 //AUTH Routes

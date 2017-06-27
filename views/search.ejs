@@ -31,27 +31,22 @@
             <div class="form-group search-inline">
               <h4>Results for: <%=term%></h4>
             </div>
+            <% results.forEach(function(article){%>
       <div class="well search-result">
         <div class="content-text">
-          <h3 class="search-title">Result 1 title</h3>
-          <p>Wellington's smart motorway is being let down by dumb motoris... 
+          <h3><a class="search-title" href='/article/<%=article.articleID%>'><%=article.title%></a></h3>
+          <p><%=article.intro%>
           </p>
         </div>
         <div class="tag-list-footer">
-          <p><span><a href="search">Wellington</a></span><span><a href="search">Local</a></span><span><a href="search">transport</a></span></p>
-        </div>
-      </div>
-
-      <div class="well search-result">
-        <div class="content-text">
-          <h3 class="search-title">Result 2 title</h3>
-          <p>Article content limited to a specific length, could be decription...
+          <p>
+          <% article.tags.forEach(function(tag){%>
+            <span><a href='/search/<%=tag%>'><%=tag%></a></span>
+          <% }) %>
           </p>
         </div>
-        <div class="tag-list-footer">
-          <p><span><a href="search">Wellington</a></span><span><a href="search">Local</a></span><span><a href="search">transport</a></span></p>
-        </div>
       </div>
+        <% }) %>
 
       <div align="center">
         <div class="pagination"><ul class="pagination"><li class="prev previous_page "><a rel="prev start" href="/articles?page=1">&#8592; Previous</a></li> <li><a rel="prev start" href="/articles?page=1">1</a></li> <li class="active"><a href="/articles?page=2">2</a></li> <li class="next next_page disabled"><a href="#">Next &#8594;</a></li></ul></div>
