@@ -1,4 +1,7 @@
 var articleController = require('../api/article');
+
+const MAX_SEARCH_RESULTS = 10;
+
 // /article/:article_id
 exports.article = function(req, res){
 	if(!req.params.article_id)return res.json("article_id not supplied");
@@ -57,21 +60,25 @@ exports.category = function(req, res){
 												//   URL:String
 												// });
 
-/**
- * Searches the database for the given terms
- * Input values:
- * 	- text (string?) : Text to find in title or content of articles
- *
- * Returns:
- *  - results (array<string>) : Array of articles that matched the search (Max 20(?))
- * (results is empty if no matches were found)
- */
+
+ //
  exports.search = function(req, res){
-	 	res.render('search.ejs', {
- 			title: '3 News - Search results ',
- 			term: req.params.tag
- 		} //end JSON payload
- 		);
+	 var dbFunction = articleController.getArticlesByTag;
+	dbFunction(req.params.tag)
+		.then((articles) => {
+			console.log(articles.length);
+			//Cut to max number of results
+			if(articles.length > MAX_SEARCH_RESULTS)articles.length = MAX_SEARCH_RESULTS;
+			res.render('search.ejs', {
+				title: '3 News - Search results',
+				term: req.params.tag,
+				results: articles
+			} //end JSON payload
+			);
+
+		})
+
+
  }
 
 /**
