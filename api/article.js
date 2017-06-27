@@ -19,7 +19,7 @@ exports.getArticles = function () {
 exports.getArticlesByTag = function (article_tag) {
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article
-    Article.find({ "tags": new RegExp(article_tag, 'i') }, function (err, articles) {
+    Article.find({ "tags": new RegExp('^'+article_tag, 'i') }, function (err, articles) {
       if (err) {
         return reject(err);
       }
