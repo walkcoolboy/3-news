@@ -44,7 +44,7 @@ exports.login = function (req, res) {
             //Create and save access token
             var userToken = authController.generateToken();
             authController.storeToken(req.body.username, userToken);
-            res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+            res.setHeader("Set-Cookie", ["token="+userToken+ "; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
             res.json({success: true});
         })
         .catch((err) => {
@@ -63,7 +63,7 @@ exports.logout = function (req, res) {
   //Sets a header indicating that the login cookie should be deleted
   var userToken = req.userToken;
   res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Set-Cookie", "token="+userToken+ "; expires=Thu 01 Jan 1970 00:00:00 GMT; path=/;");
+  res.setHeader("Set-Cookie", "token="+userToken+ "; max-age=0; path=/;");
   // return res.json({success: true});
 
   authController.deleteToken(userToken)
@@ -102,6 +102,8 @@ exports.validateToken = function (req, res, next) {
             next();
         })
         .catch((err) => {
+            //Token is not valid, indicate that it should be deleted
+            res.setHeader("Set-Cookie", "token="+token+ "; max-age=0; path=/;");
             res.json(err);
         });
 };

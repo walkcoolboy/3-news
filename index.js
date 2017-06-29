@@ -44,7 +44,7 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	app.listen(port, function () {
  	console.log('App listening on port 8080');
  	});
-}else https.createServer(https_options, app).listen(port, 'localhost');
+}else https.createServer(https_options, app).listen(8443, 'localhost');
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use

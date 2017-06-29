@@ -1,5 +1,8 @@
 var Token = require('../models/token');
 const TOKEN_LENGTH = 32;
+//Currently one week
+const TOKEN_DURATION = 604800000;
+exports.TOKEN_DURATION = TOKEN_DURATION;
 //CRUD functions for tokens
 exports.storeToken = function(username, token){
   return new Promise(function (resolve, reject) {
@@ -10,7 +13,8 @@ exports.storeToken = function(username, token){
     var newtoken = new Token();
     newtoken.username=username;
     newtoken.token=token;
-
+    //Set token
+    newtoken.expires = Date.now() + TOKEN_DURATION;
     //save the token and check for errors
     newtoken.save(function (err) {
       if (err) {
@@ -33,6 +37,10 @@ exports.getToken = function(thetoken){
         return reject(err);
       }
       console.log('tokenJson: '+ tokenJson);
+      if(tokenJson.expires < Date.now()){
+        //TODO: Remove token from database
+        return reject("Token expired");
+      }
       resolve(tokenJson);
     });
   });
