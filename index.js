@@ -24,14 +24,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 var path = require('path');
-var port = process.env.PORT || 8443;
-
-/* Use of these has been encapsulated into routes.js */
-// var userController = require('./api/user');
-// var articleController = require('./api/article');
-// var clientController = require('./api/client');
-// var authController = require('./api/auth');
-
 
 //-----------------------------------------
 //Config starts here
@@ -46,13 +38,13 @@ app.use(function (req, res, next) {
 	next();
 });
 
-//HTTP
-// app.listen(port, function () {
-// 	console.log('App listening on port 8080');
-// });
 
-//HTTPS
-var server = https.createServer(https_options, app).listen(port, 'localhost');
+if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
+	var port = process.env.PORT || 8080;
+	app.listen(port, function () {
+ 	console.log('App listening on port 8080');
+ 	});
+}else https.createServer(https_options, app).listen(port, 'localhost');
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
