@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var tokenSchema = new mongoose.Schema({
   token:String,
   username:String,
-  expires:Date
+  created:{type: Date, default:Date.now}
 });
 
 //Export the Mongoose model

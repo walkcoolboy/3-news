@@ -100,8 +100,9 @@ exports.deleteArticle = function (article_id) {
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article and remove it
     Article.remove({ articleID: article_id }, function (err) {
-      if (err)
-        return err;
+      if (err) {
+        return reject(err);
+      }
 
       resolve({ message: 'Article ' + article_id + ' removed' });
     });

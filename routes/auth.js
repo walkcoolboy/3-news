@@ -30,9 +30,9 @@ function(accessToken, refreshToken, profile, cb) {
 exports.login = function (req, res) {
     if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
     //Dummy code for testing
-    var userToken = "test" + authController.generateToken();
-    res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"]);
-    return res.json({success: true, username: req.body.username});
+    // var userToken = "test" + authController.generateToken();
+    // res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"]);
+    // return res.json({success: true, username: req.body.username});
 
 
     userController.getUser(req.body.username, req.body.password)
@@ -63,16 +63,16 @@ exports.logout = function (req, res) {
   var userToken = req.userToken;
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Set-Cookie", "token="+userToken+ "; expires=Thu 01 Jan 1970 00:00:00 GMT; path=/;");
-  return res.json({success: true});
+  // return res.json({success: true});
 
-  authController.deleteToken(token)
+  authController.deleteToken(userToken)
       .then(() => {
           res.json("Logout successful");
       })
       .catch((err) => {
           res.json(err);
       });
-  
+
 
 };
 
