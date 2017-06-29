@@ -77,7 +77,8 @@ $(document).ready(function(e) {
 	    type: "POST",
 	    xhrFields: { withCredentials: true },
 	    success: function(data, textStatus, xhr) {
-				if(!data.success)return;
+				console.log('sign-out data:'+data);
+				if (!data.success) return;
 				showLoginOpts();
 	    },
 	    error: function(xhr) {
@@ -85,7 +86,7 @@ $(document).ready(function(e) {
 	    }
 	});
 	 });
-	
+
 	$('.register').click(function(){
 		event.preventDefault();
 		var username = $('#user').val();
@@ -220,5 +221,3 @@ $(document).ready(function(e) {
 		}
 	);
 });
-
-
