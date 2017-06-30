@@ -50,7 +50,7 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 else {
 
 	//Run our own HTTPS server
-	var port = process.env.PORT || 443;
+	var port = process.env.PORT || 8443;
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
