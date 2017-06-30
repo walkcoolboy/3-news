@@ -2,8 +2,11 @@
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-  /*background-color: #e6ffff;*/
   background-image: linear-gradient(to bottom,  #ebebe0 0%, #ccccff 100%);
+}
+
+html{
+	  min-height: 100%;
 }
 
 
@@ -59,6 +62,17 @@ img.center {
 .google:hover {
 	background-color: white;
 	background-image: linear-gradient(to bottom, #ffffff 0%, #dadada 100%);
+}
+
+.nav-container{
+	display: inline;
+
+}
+.navbar-header{
+	padding-left: 5%;
+}
+.login-items{
+	padding-right: 5%;
 }
 
 #saved{

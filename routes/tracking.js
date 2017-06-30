@@ -1,4 +1,5 @@
 var userController = require('../api/user');
+var authController = require('../api/auth');
 
 exports.log = function(req, res, next){
     var cookie = req.headers['cookie'] || null;

@@ -80,6 +80,7 @@ $(document).ready(function(e) {
 				console.log('sign-out data:'+data);
 				if (!data.success) return;
 				showLoginOpts();
+				location.reload();
 	    },
 	    error: function(xhr) {
 				//create error message
@@ -142,10 +143,11 @@ $(document).ready(function(e) {
 	$('.add-tag').click(function(){
 		$(".tag-input").fadeIn(1000);
 		$(".submit-tag").fadeIn(1000);
+		$(".tag-input").text('');
 		$('.tag-list-footer').find('.tag-link').each(function(index, element){
-			console.log($(this).text().trim());
 			$(".tag-input").append($(this).text().trim()+ " ");
 		});
+		window.scrollBy(0,200);
 	});
 
 	$(".submit-tag").click(function(){
@@ -220,4 +222,7 @@ $(document).ready(function(e) {
 			console.log(jsonData); //TODO: send to post request + add user field
 		}
 	);
+
+	$('.disabled').click(false);
+	//End doc.ready
 });

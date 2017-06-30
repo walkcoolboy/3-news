@@ -1,6 +1,6 @@
 var articleController = require('../api/article');
 
-const ARTICLES_PER_PAGE = 10;
+const ARTICLES_PER_PAGE = 2;
 
 // /article/:article_id
 exports.article = function(req, res){
@@ -17,6 +17,7 @@ exports.article = function(req, res){
 					heading: article.title,
 					body: article.body,
 					image: article.photos.url,
+					caption: article.photos.caption,
 					url: articleURL,
 					tags: article.tags
 			});
@@ -33,9 +34,13 @@ exports.category = function(req, res){
 		return;
 	}
 	//do database trans to get json for req.params.tag
-	var dbResults = articleController.getArticles()
+	var dbResults = articleController.getArticlesByTag(req.params.tag)
 			.then((articles) =>{
-			if(!articles || !articles[0])return res.json("Article"+ id + " not found");
+			if(!articles || !articles[0]){
+				res.redirect("/");
+				return;
+			}
+			console.log(articles.length);
 				res.render('app.ejs', {
 					title: '3 News',
 					header: req.params.tag,
@@ -58,10 +63,11 @@ exports.category = function(req, res){
 
  //
  exports.search = function(req, res){
-	 var dbFunction = articleController.getArticlesByTag;
+	var dbFunction = articleController.getArticlesByTag;
 	dbFunction(req.params.tag)
 		.then((articles) => {
-			var currentPage = req.params.page || 1;
+			var pageRequest = parseInt(req.query.page);
+			var currentPage = (isNaN(pageRequest)) ? 1 : req.query.page;
 			res.render('search.ejs', {
 				title: '3 News - Search results',
 				term: req.params.tag,

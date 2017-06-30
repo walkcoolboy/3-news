@@ -24,38 +24,41 @@
   <div class="container">
 
     <div class="row">
-
       <div class="col-md-5">
+      <% if(data[0]){ %>
         <h2><%= data[0].title %></h2>
-        <% var startContent = data[0].body.substring(0,200) %>
-        <p><%= startContent%></p>
+        <p><%= data[0].intro %></p>
         <p><a class="btn btn-default" href="/article/<%- data[0].articleID %>" role="button">View more &raquo;</a></p>
+      <% } %>
       </div>
       <div class="col-md-5">
+      <% if(data[1]){ %>
         <h2><%= data[1].title %></h2>
-        <% var startContent = data[1].body.substring(0,200) %>
-        <p><%= startContent%></p>
+        <p><%= data[1].intro %></p>
         <p><a class="btn btn-default" href="/article/<%- data[1].articleID %>" role="button">View more &raquo;</a></p>
+      <% } %>
       </div>
     </div>
     <hr>
 
+    <% if(data[2]){ %>
     <div class="row">
       <div class="col-md-5">
         <h2><%= data[2].title %></h2>
-        <% var startContent = data[2].body.substring(0,200) %>
-        <p><%= startContent%></p>
+        <p><%= data[2].intro %></p>
         <p><a class="btn btn-default" href="/article/<%- data[2].articleID %>" role="button">View more &raquo;</a></p>
+
       </div>
       <div class="col-md-5">
+      <% if(data[3]){ %>
         <h2><%= data[3].title %></h2>
-        <% var startContent = data[3].body.substring(0,200) %>
-        <p><%= startContent%></p>
+        <p><%= data[3].intro %></p>
         <p><a class="btn btn-default" href="/article/<%- data[3].articleID %>" role="button">View more &raquo;</a></p>
-     </div>
+      <% } %>
+      </div>
     </div>
     <hr>
-
+    <% } %> <!-- end if(data[2]) -->
     <!--page navigation -->
     <div align="center">
       <div class="pagination">
@@ -64,7 +67,7 @@
             <a rel="prev start" href="/articles?page=1">&#8592; Previous</a>
           </li> 
           <li>
-            <a rel="prev start" href="/articles?page=1">1</a>
+            <a href="/articles?page=1">1</a>
           </li>
           <li class="active">
             <a href="/articles?page=2">2</a>
