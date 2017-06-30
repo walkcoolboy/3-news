@@ -34,9 +34,10 @@ exports.category = function(req, res){
 		return;
 	}
 	//do database trans to get json for req.params.tag
-	var dbResults = articleController.getArticles()
+	var dbResults = articleController.getArticlesByTag(req.params.tag)
 			.then((articles) =>{
 			if(!articles || !articles[0])return res.json("Article"+ id + " not found");
+			console.log(articles.length);
 				res.render('app.ejs', {
 					title: '3 News',
 					header: req.params.tag,
