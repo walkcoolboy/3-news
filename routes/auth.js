@@ -62,6 +62,8 @@ exports.login = function (req, res) {
 */
 exports.logout = function (req, res) {
   console.log('logout req userToken: '+req.userToken);
+  if (!req.userToken) return res.json("Token is not provided");
+
   //Sets a header indicating that the login cookie should be deleted
   var userToken = req.userToken;
   res.setHeader("Access-Control-Allow-Credentials", true);
@@ -85,13 +87,20 @@ exports.logout = function (req, res) {
 exports.validateToken = function (req, res, next) {
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
-    if (!cookie) return res.json("Access token was not provided");
+    if (!cookie) next();
     var token = cookie.substring(cookie.indexOf("=") + 1);
+    if (!token) next();
 
     authController.getToken(token)
         .then((userToken) => {
             if(!userToken)res.json("Valid access token was not provided");
+<<<<<<< HEAD
             req.username=userToken.username;
+=======
+            req.username = userToken.username;
+            req.userToken=userToken.token;
+            console.log('validateToken req token: '+req.userToken);
+>>>>>>> 3ab0fad0455c3451aeb0f30b5592c05fcf2ef891
             next();
         })
         .catch((err) => {
