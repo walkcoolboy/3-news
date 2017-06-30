@@ -95,13 +95,10 @@ exports.validateToken = function (req, res, next) {
     authController.getToken(token)
         .then((userToken) => {
             if(!userToken)res.json("Valid access token was not provided");
-<<<<<<< HEAD
-            req.username=userToken.username;
-=======
+
             req.username = userToken.username;
             req.userToken=userToken.token;
             console.log('validateToken req token: '+req.userToken);
->>>>>>> 3ab0fad0455c3451aeb0f30b5592c05fcf2ef891
             next();
         })
         .catch((err) => {

@@ -52,8 +52,8 @@ exports.getUser = function (req, res) {
 
 /**
  * Renders the page of the user to the given response object
- * @param {*} username 
- * @param {*} res 
+ * @param {*} username
+ * @param {*} res
  */
 function renderUserPage(username, res){
 
