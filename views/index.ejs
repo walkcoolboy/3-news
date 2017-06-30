@@ -27,15 +27,25 @@
       <div class="col-md-5">
       <% if(results[0]){ %>
         <h2><%= results[0].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[0].photos.smallurl %>>
+        </div>
         <p><%= results[0].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- results[0].articleID %>" role="button">View more &raquo;</a></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[0].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
       <div class="col-md-5">
       <% if(results[1]){ %>
         <h2><%= results[1].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[1].photos.smallurl %>>
+        </div>
         <p><%= results[1].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- results[1].articleID %>" role="button">View more &raquo;</a></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[1].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
     </div>
@@ -45,15 +55,24 @@
     <div class="row">
       <div class="col-md-5">
         <h2><%= results[2].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[2].photos.smallurl %>>
+        </div>
         <p><%= results[2].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- results[2].articleID %>" role="button">View more &raquo;</a></p>
-
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[2].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       </div>
       <div class="col-md-5">
       <% if(results[3]){ %>
         <h2><%= results[3].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[3].photos.smallurl %>>
+        </div>
         <p><%= results[3].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- results[3].articleID %>" role="button">View more &raquo;</a></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[3].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
     </div>

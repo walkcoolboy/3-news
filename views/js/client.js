@@ -53,7 +53,6 @@ $(document).ready(function(e) {
 	    cache: false,
 	    type: "POST",
 	    success: function(response) {
-
 				if(!response.success){
 					console.log(response);
 					return;

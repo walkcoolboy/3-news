@@ -6,12 +6,13 @@ var ejs = require('ejs');
 app.set('view engine', 'ejs');
 
 var fs = require('fs');
-var https = require('https');
 
+var https = require('https');
 var https_options = {
   key: fs.readFileSync('domain.key'),
   cert: fs.readFileSync('domain.crt')
 };
+
 var mongoose = require('mongoose');
 
 //connect to MongoDB
@@ -38,14 +39,22 @@ app.use(function (req, res, next) {
 	next();
 });
 
-
+//Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
+	//Do basic HTTP server setup, Heroku will handle HTTPS
 	var port = process.env.PORT || 8080;
 	app.listen(port, function () {
- 	console.log('App listening on port 8080');
- 	});
-}else {
-	//Set up an http server on port 80
+ 	console.log('App listening on port '+port);
+
+});}
+else {
+
+	//Run our own HTTPS server
+	var port = process.env.PORT || 443;
+	https.createServer(https_options, app).listen(port, 'localhost');
+	console.log('App listening on port '+port);
+
+	//Set up an http server on port 80 to redirect HTTP requests
 	var http = require('http');
 	http.createServer(app).listen(8080);
 
@@ -56,8 +65,6 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
     	else
       		next();
   	});
-
-	https.createServer(https_options, app).listen(8443, 'localhost');
 };
 
 //Hosts all files within the directory for access
@@ -87,9 +94,9 @@ app.get('/', caching.setShort, index.index);
 var auth = require('./routes/auth');
 
 app.post('/auth/login', caching.setNone, auth.login)
-  .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
-  .get('/auth/google', caching.setNone, auth.google)
-  .get('/auth/google/callback', caching.setNone, auth.googleCallback);
+   .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
+    .get('/auth/google', caching.setNone, auth.google)
+    .get('/auth/google/callback', caching.setNone, auth.googleCallbackAuthenticate, auth.googleCallback);
 
 
 //-------------
@@ -100,7 +107,7 @@ var user = require('./routes/user')
 app.post('/users/createUser', caching.setNone, user.createUser)
  	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
  	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
- 	.delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
+ .delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
 
 //-------------
 //ARTICLES
@@ -109,11 +116,11 @@ var article = require('./routes/article');
 var tracking = require('./routes/tracking');
 
 app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
-  	.get('/search/:tag', caching.setShort, article.search)
-  	.get('/search/:tag/:page', caching.setShort, article.search)
   	.get('/article/tag/:tag', caching.setShort, article.search)
   	.put('/article/:article_id', article.addTag);
 
+app. get('/search/:tag', caching.setShort, article.search)
+  	.get('/search/:tag/:page', caching.setShort, article.search);
 
 
 //-------------
@@ -123,11 +130,11 @@ var api = require('./routes/api');
 
 app.get('/api/article', api.getArticles)
    .get('/api/article/tag/:article_tag', api.getArticlesByTag)
-	.post('/api/article/', auth.validateToken, api.postArticle);
+  .post('/api/article/', auth.validateToken, api.postArticle);
 
 app.get('/api/article/:article_id', api.getArticle)
-	.put('/api/article/:article_id', auth.validateToken, api.putArticle)
-	.delete('/api/article/:article_id', auth.validateToken, api.deleteArticle);
+   .put('/api/article/:article_id', auth.validateToken, api.putArticle)
+.delete('/api/article/:article_id', auth.validateToken, api.deleteArticle);
 
 
 //--------------------------------

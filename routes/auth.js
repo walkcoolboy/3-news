@@ -15,10 +15,12 @@ function(accessToken, refreshToken, profile, cb) {
         console.log(profile);
         userController.getOrCreateUserGoogle(profile, accessToken)
           .then(authController.storeToken(profile.displayName, accessToken))
-          .then(() => { cb(err); })
+          .then(() => { cb(null, profile.displayName); })
           .catch((err) => {
             return cb(err);
           });
+
+
 }));
 
 
@@ -60,6 +62,8 @@ exports.login = function (req, res) {
 */
 exports.logout = function (req, res) {
   console.log('logout req userToken: '+req.userToken);
+  if (!req.userToken) return res.json("Token is not provided");
+
   //Sets a header indicating that the login cookie should be deleted
   var userToken = req.userToken;
   res.setHeader("Access-Control-Allow-Credentials", true);
@@ -83,15 +87,9 @@ exports.logout = function (req, res) {
 exports.validateToken = function (req, res, next) {
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
-    if (!cookie) return res.json("Access token was not provided");
-    var token = cookie.substring(cookie.indexOf("=")+1);
-
-    //Dummy code for testing
-    if(token.startsWith("test")){
-      req.userToken = token;
-      next();
-      return; //skip below code
-    }
+    if (!cookie) next();
+    var token = cookie.substring(cookie.indexOf("=") + 1);
+    if (!token) next();
 
     authController.getToken(token)
         .then((userToken) => {
@@ -108,14 +106,17 @@ exports.validateToken = function (req, res, next) {
         });
 };
 
-exports.google = passport.authenticate('google', { scope : ['profile', 'email'] });
+exports.google = passport.authenticate('google', { scope : ['profile', 'email'], session: false });
 
 // the callback after google has authenticated the user
-exports.googleCallback = passport.authenticate('google', { failureRedirect: '/' },
-  function(req, res) {
-    // Successful authentication, redirect home.
+exports.googleCallbackAuthenticate = passport.authenticate('google',  { session: false, failureRedirect: '/' }  );
 
+exports.googleCallback =  function(req, res) {
+    if (!req.user) { return res.redirect('/'); }
 
-
+    // Successful authentication, create a token for the user.
+    var token = authController.generateToken();
+    authController.storeToken(req.user, token);
+    res.setHeader("Set-Cookie", ["token="+token+ "; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
     res.redirect('/');
-  });
+};

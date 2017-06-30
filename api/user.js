@@ -82,6 +82,7 @@ exports.deleteUser = function (username) {
 */
 exports.getOrCreateUserGoogle = function (profile, accessToken) {
   return new Promise(function (resolve, reject) {
+    resolve("dummy code");
     reject("Not implemented");
   });
 };
