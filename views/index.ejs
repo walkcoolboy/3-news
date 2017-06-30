@@ -25,37 +25,29 @@
 
     <div class="row">
       <div class="col-md-5">
-      <% if(data[0].title){ %>
+      <% if(data[0]){ %>
         <h2><%= data[0].title %></h2>
-      <% } %>
-      <% if(data[0].intro){ %>
         <p><%= data[0].intro %></p>
-      <% } %>
-      <% if(data[0].articleID){ %>
         <p><a class="btn btn-default" href="/article/<%- data[0].articleID %>" role="button">View more &raquo;</a></p>
-        <% } %>
+      <% } %>
       </div>
       <div class="col-md-5">
-      <% if(data[1].title){ %>
+      <% if(data[1]){ %>
         <h2><%= data[1].title %></h2>
-      <% } %>
-      <% if(data[0].intro){ %>
         <p><%= data[1].intro %></p>
-      <% } %>
-      <% if(data[1].articleID){ %>
         <p><a class="btn btn-default" href="/article/<%- data[1].articleID %>" role="button">View more &raquo;</a></p>
       <% } %>
       </div>
     </div>
     <hr>
 
+    <% if(data[2]){ %>
     <div class="row">
       <div class="col-md-5">
-      <% if(data[2]){ %>
         <h2><%= data[2].title %></h2>
         <p><%= data[2].intro %></p>
         <p><a class="btn btn-default" href="/article/<%- data[2].articleID %>" role="button">View more &raquo;</a></p>
-      <% } %>
+
       </div>
       <div class="col-md-5">
       <% if(data[3]){ %>
@@ -66,7 +58,7 @@
       </div>
     </div>
     <hr>
-
+    <% } %> <!-- end if(data[2]) -->
     <!--page navigation -->
     <div align="center">
       <div class="pagination">
