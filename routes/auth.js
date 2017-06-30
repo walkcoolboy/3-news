@@ -86,14 +86,7 @@ exports.validateToken = function (req, res, next) {
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
     if (!cookie) return res.json("Access token was not provided");
-    var token = cookie.substring(cookie.indexOf("=")+1);
-
-    //Dummy code for testing
-    if(token.startsWith("test")){
-      req.userToken = token;
-      next();
-      return; //skip below code
-    }
+    var token = cookie.substring(cookie.indexOf("=") + 1);
 
     authController.getToken(token)
         .then((userToken) => {

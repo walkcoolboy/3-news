@@ -1,12 +1,12 @@
 //Load required packages
 var Article = require('../models/article');
-const DEFAULT_NUM_ARTICLES = 4;
+const DEFAULT_NUM_ARTICLES = 4; //unused now
 
 //Returns a number of Articles
 exports.getArticles = function () {
   //find DEFAULT_NUM_ARTICLES articles
   return new Promise(function (resolve, reject) {
-    Article.find().limit(DEFAULT_NUM_ARTICLES).exec(function (err, articles) {
+    Article.find().exec(function (err, articles) {
       if (err) {
         return reject(err);
       }
@@ -39,6 +39,8 @@ exports.postArticle = function (data) {
     article.tags = data.tags;
     article.intro= data.intro;
     article.title=data.title;
+    article.photos.smallcaption = data.photos.smallcaption;
+    article.photos.smallurl= data.photos.smallurl;
     article.photos.caption = data.photos.caption;
     article.photos.url= data.photos.url;
     article.body=data.body;

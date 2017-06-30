@@ -25,59 +25,72 @@
 
     <div class="row">
       <div class="col-md-5">
-      <% if(data[0]){ %>
-        <h2><%= data[0].title %></h2>
-        <p><%= data[0].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- data[0].articleID %>" role="button">View more &raquo;</a></p>
+      <% if(results[0]){ %>
+        <h2><%= results[0].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[0].photos.smallurl %>>
+        </div>
+        <p><%= results[0].intro %></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[0].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
       <div class="col-md-5">
-      <% if(data[1]){ %>
-        <h2><%= data[1].title %></h2>
-        <p><%= data[1].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- data[1].articleID %>" role="button">View more &raquo;</a></p>
+      <% if(results[1]){ %>
+        <h2><%= results[1].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[1].photos.smallurl %>>
+        </div>
+        <p><%= results[1].intro %></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[1].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
     </div>
     <hr>
 
-    <% if(data[2]){ %>
+    <% if(results[2]){ %>
     <div class="row">
       <div class="col-md-5">
-        <h2><%= data[2].title %></h2>
-        <p><%= data[2].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- data[2].articleID %>" role="button">View more &raquo;</a></p>
-
+        <h2><%= results[2].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[2].photos.smallurl %>>
+        </div>
+        <p><%= results[2].intro %></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[2].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       </div>
       <div class="col-md-5">
-      <% if(data[3]){ %>
-        <h2><%= data[3].title %></h2>
-        <p><%= data[3].intro %></p>
-        <p><a class="btn btn-default" href="/article/<%- data[3].articleID %>" role="button">View more &raquo;</a></p>
+      <% if(results[3]){ %>
+        <h2><%= results[3].title %></h2>
+        <div class="thumb-box">
+          <img class=".thumbnail" src=<%=results[3].photos.smallurl %>>
+        </div>
+        <p><%= results[3].intro %></p>
+        <div class="more-btn">
+          <p><a class="btn btn-default" href="/article/<%- results[3].articleID %>" role="button">View more &raquo;</a></p>
+        </div>
       <% } %>
       </div>
     </div>
     <hr>
-    <% } %> <!-- end if(data[2]) -->
+    <% } %> <!-- end if(results[2]) -->
     <!--page navigation -->
-    <div align="center">
-      <div class="pagination">
-        <ul class="pagination">
-          <li class="prev previous_page ">
-            <a rel="prev start" href="/articles?page=1">&#8592; Previous</a>
-          </li> 
-          <li>
-            <a href="/articles?page=1">1</a>
-          </li>
-          <li class="active">
-            <a href="/articles?page=2">2</a>
-          </li>
-          <li class="next next_page disabled">
-            <a href="#">Next &#8594;</a>
-          </li>
-        </ul>
+      <div align="center">
+        <div class="pagination"><ul class="pagination">
+          <li class="prev previous_page <%if(page <= 1){%>disabled<% } %>">
+            <a rel="prev start" href="<%=category%>?page=<%=page-1%>">&#8592; Previous</a></li> 
+            <!-- Makes a link to each page, setting the current page to active -->
+            <% for(var i = 1; i <= numPages; i++){%>
+              <li <%if(page == i){%>class="active"<% } %>><a href="<%=category%>?page=<%=i%>"><%=i%></a></li> 
+            <% } %>
+            <% var nextPage = parseInt(page)+1 %>
+            <li class="next next_page <%if(page >= numPages){%>disabled<% } %>"><a href="<%=category%>?page=<%= nextPage %>">Next &#8594;</a></li>
+            </ul></div>
       </div>
-    </div>
     <footer>
       <p>&copy; 2017 ECS, VUW.</p>
     </footer>
