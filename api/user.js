@@ -75,16 +75,13 @@ exports.updateUser = function (username, userJson) {
 
 };
 
+/**
+ * Deletes the user with the given username
+ * Must also revoke all access tokens for that user
+ */
 exports.deleteUser = function (username) {
   return new Promise(function (resolve, reject) {
-
-    // Use the User model to find a specific user
-    User.findOneAndUpdate({ name: username }, { $set: { archive: true }}, { new: true },function (err, user) {
-      if (err) {
-        return reject(err);
-      }
-      resolve(user);
-    });
+    reject("Not implemented");
   });
 
 };
@@ -97,7 +94,6 @@ exports.deleteUser = function (username) {
 exports.getOrCreateUserGoogle = function (profile, accessToken) {
   return new Promise(function (resolve, reject) {
     resolve("dummy code");
-    reject("Not implemented");
   });
 };
 

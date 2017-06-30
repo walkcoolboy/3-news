@@ -41,8 +41,6 @@ exports.category = function(req, res){
 				return;
 			}
 			var currentPage = getPageRequest(req);
-			console.log(articles.length);
-			console.log(articles[0].smallUrl);
 				res.render('app.ejs', {
 					title: '3 News',
 					header: req.params.tag,
