@@ -65,11 +65,6 @@ else {
     	else
       		next();
   	});
-<<<<<<< HEAD
-=======
-
-	https.createServer(https_options, app).listen(8443, 'localhost');
->>>>>>> 00b2f4e7f2dc859f6f83c0922aad2768cd9b771a
 };
 
 //Hosts all files within the directory for access
