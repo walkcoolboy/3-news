@@ -52,12 +52,12 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
     	if (!req.secure)
-      		res.redirect(`https://${req.header('host')}:8443${req.url}`);
+      		res.redirect(`https://${req.header('host')}${req.url}`);
     	else
       		next();
   	});
 
-	https.createServer(https_options, app).listen(8443, 'localhost');
+	https.createServer(https_options, app).listen(443, 'localhost');
 };
 
 //Hosts all files within the directory for access
