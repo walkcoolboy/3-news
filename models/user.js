@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 // Define user visit history schema
 var historySchema = new mongoose.Schema ({
-  vID:Number,
+  articleID:Number,
   title:String,
   time: { type : Date, default: Date.now }
 });

@@ -81,17 +81,6 @@ app.get('/', caching.setShort, index.index);
 //app.get('/:tag', index.category);
 
 //-------------
-//ARTICLES
-//-------------
-var article = require('./routes/article');
-var tracking = require('./routes/tracking');
-app.get('/article/:article_id', tracking.log, caching.setShort, article.article)
-	.get('/search/:tag', caching.setShort, article.search)
-	.get('/search/:tag/:page', caching.setShort, article.search)
-	.get('/article/tag/:tag', caching.setShort, article.search)
-	.put('/article/:article_id', article.addTag);
-
-//-------------
 //AUTH Routes
 //-------------
 
@@ -112,6 +101,19 @@ app.post('/users/createUser', caching.setNone, user.createUser)
  	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
  	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
  	.delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
+
+//-------------
+//ARTICLES
+//-------------
+var article = require('./routes/article');
+var tracking = require('./routes/tracking');
+
+app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
+  	.get('/search/:tag', caching.setShort, article.search)
+  	.get('/search/:tag/:page', caching.setShort, article.search)
+  	.get('/article/tag/:tag', caching.setShort, article.search)
+  	.put('/article/:article_id', article.addTag);
+
 
 
 //-------------
