@@ -47,8 +47,8 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 }else {
 	//Set up an http server on port 80
 	var http = require('http');
-	http.createServer(app).listen(80);
-	
+	http.createServer(app).listen(8080,'localhost');
+
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
     	if (!req.secure)
