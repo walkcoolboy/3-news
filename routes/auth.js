@@ -15,10 +15,12 @@ function(accessToken, refreshToken, profile, cb) {
         console.log(profile);
         userController.getOrCreateUserGoogle(profile, accessToken)
           .then(authController.storeToken(profile.displayName, accessToken))
-          .then(() => { cb(err); })
+          .then(() => { cb(null, profile.displayName); })
           .catch((err) => {
             return cb(err);
           });
+
+
 }));
 
 
@@ -108,14 +110,17 @@ exports.validateToken = function (req, res, next) {
         });
 };
 
-exports.google = passport.authenticate('google', { scope : ['profile', 'email'] });
+exports.google = passport.authenticate('google', { scope : ['profile', 'email'], session: false });
 
 // the callback after google has authenticated the user
-exports.googleCallback = passport.authenticate('google', { failureRedirect: '/' },
-  function(req, res) {
-    // Successful authentication, redirect home.
+exports.googleCallbackAuthenticate = passport.authenticate('google',  { session: false, failureRedirect: '/' }  );
 
+exports.googleCallback =  function(req, res) {
+    if (!req.user) { return res.redirect('/'); }
 
-
+    // Successful authentication, create a token for the user.
+    var token = authController.generateToken();
+    authController.storeToken(req.user, token);
+    res.setHeader("Set-Cookie", ["token="+token+ "; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
     res.redirect('/');
-  });
+};
