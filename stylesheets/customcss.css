@@ -61,6 +61,17 @@ img.center {
 	background-image: linear-gradient(to bottom, #ffffff 0%, #dadada 100%);
 }
 
+.nav-container{
+	display: inline;
+
+}
+.navbar-header{
+	padding-left: 5%;
+}
+.login-items{
+	padding-right: 5%;
+}
+
 #saved{
 	float: center;
 }
