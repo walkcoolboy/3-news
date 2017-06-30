@@ -1,6 +1,6 @@
 var articleController = require('../api/article');
 
-const ARTICLES_PER_PAGE = 10;
+const ARTICLES_PER_PAGE = 2;
 
 // /article/:article_id
 exports.article = function(req, res){
@@ -60,10 +60,11 @@ exports.category = function(req, res){
 
  //
  exports.search = function(req, res){
-	 var dbFunction = articleController.getArticlesByTag;
+	var dbFunction = articleController.getArticlesByTag;
 	dbFunction(req.params.tag)
 		.then((articles) => {
-			var currentPage = req.params.page || 1;
+			var pageRequest = parseInt(req.query.page);
+			var currentPage = (isNaN(pageRequest)) ? 1 : req.query.page;
 			res.render('search.ejs', {
 				title: '3 News - Search results',
 				term: req.params.tag,

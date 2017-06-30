@@ -18,23 +18,21 @@
   <body>
   <% include navbar %>
 
-    <!-- Main content, inclues sidebar -->
-    <div class="main-container" align="center">
-
       <div align="center">
         <div class="pagination"><ul class="pagination">
-          <li class="prev previous_page <%if(page <= 1){%>disabled<% } %>">
-            <a rel="prev start" href="./<%page-1%>">&#8592; Previous</a></li> 
+          <li class="prev previous_page <% if(page <= 1){%>disabled<% } %>">
+            <a rel="prev start" href="<%=term%>?page=<%=page-1%>">&#8592; Previous</a></li> 
             <!-- Makes a link to each page, setting the current page to active -->
             <% for(var i = 1; i <= numPages; i++){%>
-              <li <%if(page == i){%>class="active"<% } %>><a href="./<%i%>"><%=i%></a></li> 
+              <li <%if(page == i){%>class="active"<% } %>><a href="<%=term%>?page=<%=i%>"><%=i%></a></li> 
             <% } %>
-
-            <li class="next next_page <%if(page >= numPages){%>disabled<% } %>"><a href="<%page+1%>">Next &#8594;</a></li>
+            <% var nextPage = parseInt(page)+1 %>
+            <li class="next next_page <%if(page >= numPages){%>disabled<% } %>"><a href="<%=term%>?page=<%= nextPage %>">Next &#8594;</a></li>
             </ul></div>
       </div>
-            <div class="form-group search-inline">
-              <input type="text" placeholder="Search" class="form-control">
+
+      <div class="form-group search-inline">
+              <input type="text" placeholder="Search" class="form-control search-box">
             </div>
             <div class="form-group search-inline">
               <h4>Results for: <%=term%></h4>
@@ -56,7 +54,18 @@
       </div>
         <% }) %>
 
-     </div>
+      <div align="center">
+        <div class="pagination"><ul class="pagination">
+          <li class="prev previous_page <%if(page <= 1){%>disabled<% } %>">
+            <a rel="prev start" href="<%=term%>?page=<%=page-1%>">&#8592; Previous</a></li> 
+            <!-- Makes a link to each page, setting the current page to active -->
+            <% for(var i = 1; i <= numPages; i++){%>
+              <li <%if(page == i){%>class="active"<% } %>><a href="<%=term%>?page=<%=i%>"><%=i%></a></li> 
+            <% } %>
+            <% var nextPage = parseInt(page)+1 %>
+            <li class="next next_page <%if(page >= numPages){%>disabled<% } %>"><a href="<%=term%>?page=<%= nextPage %>">Next &#8594;</a></li>
+            </ul></div>
+      </div>
 
 
     <!-- Bootstrap core JavaScript

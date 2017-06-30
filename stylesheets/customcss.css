@@ -2,8 +2,11 @@
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-  /*background-color: #e6ffff;*/
   background-image: linear-gradient(to bottom,  #ebebe0 0%, #ccccff 100%);
+}
+
+html{
+	  min-height: 100%;
 }
 
 

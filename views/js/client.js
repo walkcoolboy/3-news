@@ -222,4 +222,7 @@ $(document).ready(function(e) {
 			console.log(jsonData); //TODO: send to post request + add user field
 		}
 	);
+
+	$('.disabled').click(false);
+	//End doc.ready
 });
