@@ -87,9 +87,10 @@ exports.logout = function (req, res) {
 exports.validateToken = function (req, res, next) {
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
-    if (!cookie) next();
+    if (!cookie) {
+      next();
+    } else {
     var token = cookie.substring(cookie.indexOf("=") + 1);
-    if (!token) next();
 
     authController.getToken(token)
         .then((userToken) => {
@@ -104,6 +105,7 @@ exports.validateToken = function (req, res, next) {
             res.setHeader("Set-Cookie", "token="+token+ "; max-age=0; path=/;");
             res.json(err);
         });
+    }
 };
 
 exports.google = passport.authenticate('google', { scope : ['profile', 'email'], session: false });

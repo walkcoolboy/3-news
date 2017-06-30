@@ -46,6 +46,20 @@ exports.getUser = function (username) {
 
 };
 
+exports.getUserActivity = function (username) {
+  return new Promise(function (resolve, reject) {
+
+    // Use the User model to find a specific user
+    User.findOne({ name: username }, function (err, user) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(user.history);
+    });
+  });
+
+};
+
 exports.updateUser = function (username, userJson) {
   return new Promise(function (resolve, reject) {
 
@@ -88,9 +102,9 @@ exports.getOrCreateUserGoogle = function (profile, accessToken) {
 };
 
 /**
- * Log a new instance of a user activity
+ * archive all history of one user
  */
-exports.addHistory = function(username, articleID){
+exports.archiveHistory = function (username){
 
 
 };

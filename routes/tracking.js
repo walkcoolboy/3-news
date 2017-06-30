@@ -3,7 +3,7 @@ var User = require('../models/user');
 var UserHistory = require('../models/userhistory');
 
 exports.log = function(req, res, next){
-    
+
     username = req.username;
     articleID = req.params.article_id;
 
