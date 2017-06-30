@@ -1,6 +1,7 @@
 var articleController = require('../api/article');
 
 const ARTICLES_PER_PAGE = 2;
+const INDEX_ITEMS_PER_PAGE = 4;
 
 // /article/:article_id
 exports.article = function(req, res){
@@ -40,34 +41,28 @@ exports.category = function(req, res){
 				res.redirect("/");
 				return;
 			}
+			var currentPage = getPageRequest(req);
 			console.log(articles.length);
 				res.render('app.ejs', {
 					title: '3 News',
 					header: req.params.tag,
+					category: "",
+					page: currentPage,
 					data: articles,
+					numPages: Math.ceil(articles.length / INDEX_ITEMS_PER_PAGE),
+					results: articles.slice((currentPage-1) * INDEX_ITEMS_PER_PAGE, currentPage * INDEX_ITEMS_PER_PAGE),
 				});
 			})
 			.catch((err) => {
 					res.json(err);
 			});
 };
-												// var articleSchema = new mongoose.Schema({
-												//   articleID:Number,
-												//   tags: [String],
-												//   title:String,
-												//   photos: {caption:String, url:String},
-												//   body:String,
-												//   URL:String
-												// });
 
-
- //
- exports.search = function(req, res){
+exports.search = function(req, res){
 	var dbFunction = articleController.getArticlesByTag;
 	dbFunction(req.params.tag)
 		.then((articles) => {
-			var pageRequest = parseInt(req.query.page);
-			var currentPage = (isNaN(pageRequest)) ? 1 : req.query.page;
+			var currentPage = getPageRequest(req);
 			res.render('search.ejs', {
 				title: '3 News - Search results',
 				term: req.params.tag,
@@ -79,9 +74,14 @@ exports.category = function(req, res){
 			);
 
 		})
+}
 
-
- }
+//check for and extract page number
+function getPageRequest(req){
+	var pageRequest = parseInt(req.query.page);
+	var currentPage = (isNaN(pageRequest)) ? 1 : req.query.page;
+	return currentPage;
+}
 
 /**
 * Searches for article by article_id and adds tags from req.body.tags
