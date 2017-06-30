@@ -12,7 +12,6 @@ exports.article = function(req, res){
 		.then((article) =>{
 			if(!article)return res.json("Article"+ id + " not found");
 			var articleURL = article.URL.replace("/_json", "");
-			//var url = "http://www.stuff.co.nz/_json/marlborough-express/news/70467549/No-selfies-on-super-yacht-for-Blenheim-man".replace("/_json", "");
 			res.render('article.ejs', {
 					title: '3 News',
 					heading: article.title,
@@ -43,6 +42,7 @@ exports.category = function(req, res){
 			}
 			var currentPage = getPageRequest(req);
 			console.log(articles.length);
+			console.log(articles[0].smallUrl);
 				res.render('app.ejs', {
 					title: '3 News',
 					header: req.params.tag,
