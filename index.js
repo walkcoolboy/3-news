@@ -136,6 +136,12 @@ app.get('/api/article/:article_id', api.getArticle)
    .put('/api/article/:article_id', auth.validateToken, api.putArticle)
 .delete('/api/article/:article_id', auth.validateToken, api.deleteArticle);
 
+app.post('/api/users/createUser', caching.setNone, api.postUser)
+   .post('/api/users/:username', caching.setNone, api.postUser)
+ 	.get('/api/users/:username', caching.setPrivate, api.getUser)
+ 	.put('/api/users/:username', caching.setNone, api.putUser)
+ .delete('/api/users/:username', caching.setNone, api.deleteUser);
+
 
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
