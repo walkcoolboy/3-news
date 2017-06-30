@@ -17,6 +17,7 @@ exports.article = function(req, res){
 					heading: article.title,
 					body: article.body,
 					image: article.photos.url,
+					caption: article.photos.caption,
 					url: articleURL,
 					tags: article.tags
 			});
