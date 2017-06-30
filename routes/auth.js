@@ -1,18 +1,18 @@
 //Load required packages
 var userController = require('../api/user');
 var authController = require('../api/auth');
-var passport = require('passport');
-var GoogleTokenStrategy = require('passport-google-token').Strategy;
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var config = require('../config/config').auth;
+var passport = require('passport');
 
-passport.use(new GoogleTokenStrategy({
+passport.use(new GoogleStrategy({
 
         clientID        : config.googleAuth.clientID,
-        clientSecret    : config.googleAuth.clientSecret
-        //callbackURL     : config.googleAuth.callbackURL
+        clientSecret    : config.googleAuth.clientSecret,
+        callbackURL     : config.googleAuth.callbackURL
 },
 function(accessToken, refreshToken, profile, cb) {
-
+        console.log(profile);
         userController.getOrCreateUserGoogle(profile, accessToken)
           .then(authController.storeToken(profile.displayName, accessToken))
           .then(() => { cb(err); })
@@ -108,10 +108,14 @@ exports.validateToken = function (req, res, next) {
         });
 };
 
-exports.google = passport.authenticate('google-token', { scope : ['profile', 'email'] });
+exports.google = passport.authenticate('google', { scope : ['profile', 'email'] });
 
 // the callback after google has authenticated the user
-exports.googleCallback = passport.authenticate('google-token', {
-                            successRedirect : '/',
-                            failureRedirect : '/'
-                          });
+exports.googleCallback = passport.authenticate('google', { failureRedirect: '/' },
+  function(req, res) {
+    // Successful authentication, redirect home.
+
+
+
+    res.redirect('/');
+  });

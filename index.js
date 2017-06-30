@@ -44,7 +44,21 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	app.listen(port, function () {
  	console.log('App listening on port 8080');
  	});
-}else https.createServer(https_options, app).listen(8443, 'localhost');
+}else {
+	//Set up an http server on port 80
+	var http = require('http');
+	http.createServer(app).listen(80);
+	
+	//Redirects HTTP traffic to https
+	app.use((req, res, next) => {
+    	if (!req.secure)
+      		res.redirect(`https://${req.header('host')}:8443${req.url}`);
+    	else
+      		next();
+  	});
+
+	https.createServer(https_options, app).listen(8443, 'localhost');
+};
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
@@ -85,8 +99,8 @@ var auth = require('./routes/auth');
 
 app.post('/auth/login', caching.setNone, auth.login)
   .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
-  .post('/auth/google', caching.setNone, auth.google)
-  .post('/auth/google/callback', caching.setNone, auth.googleCallback);
+  .get('/auth/google', caching.setNone, auth.google)
+  .get('/auth/google/callback', caching.setNone, auth.googleCallback);
 
 
 //-------------
