@@ -11,13 +11,9 @@ var authController = require('../api/auth');
     username and password fields
 */
 exports.createUser = function (req, res) {
-    if(!req.body.username || !req.body.password)return res.json("Invalid request, username or password not specified");
-    //Dummy code for testing
-    // var userToken = "test" + authController.generateToken();
-    // res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
-    //return res.json({success: true, username: req.body.username});
-
-
+    if(!req.body.username || !req.body.password){
+      return res.json("Invalid request, username or password not specified");
+    };
     userController.createUser(req.body.username, req.body.password)
         .then(() => {
             var userToken = authController.generateToken();
@@ -32,19 +28,73 @@ exports.createUser = function (req, res) {
 };
 
 /*
-  Retrieves data on a user
+  Retrieves a user's page
   Requires that the request is sent by the user in question, or an admin
 */
 exports.getUser = function (req, res) {
+  if(!req.username)res.json("No user supplied");
 
+  //Check if the target is the current user
+  if(req.username == req.params.username)return renderUserPage(req.username, res);
+
+  //Else, retrieve the user making the request
+  userController.getUser(req.username)
+    .then((user)=> {
+        //Check if they're qualified
+        if(user.type != admin)res.redirect("/");
+
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 
 };
+
+/**
+ * Renders the page of the user to the given response object
+ * @param {*} username 
+ * @param {*} res 
+ */
+function renderUserPage(username, res){
+
+  userController.getUser(username)
+    .then((user)=> {
+        if(!user)res.json("User does not exist");
+
+        res.render('user.ejs', {
+          title: "" + user.username + "'s user page",
+          user: user
+        });
+
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+
+}
 
 /*
   Updates data on a user
   Requires that the request is sent by the user in question, or an admin
 */
 exports.putUser = function (req, res) {
+  if(!req.username)res.json("No user supplied");
+  //Retrieve the user making the request
+  userController.getUser(req.username)
+    .then((user)=> {
+        //Check if they're qualified
+        if(user.type != admin || user.username != req.username)res.json("You don't have permission to do that");
+        userController.updateUser(req.data.user.username, req.data.user)
+          .then(() => {
+            res.json({success: true});
+          })
+          .catch((err) => {
+            res.json(err);
+          });
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 
 };
 
@@ -53,5 +103,21 @@ exports.putUser = function (req, res) {
   Requires that the request is sent by an admin
 */
 exports.deleteUser = function (req, res) {
-
+  if(!req.username)res.json("No user supplied");
+  //Retrieve the user making the request
+  userController.getUser(req.username)
+    .then((user)=> {
+        //Check if they're qualified
+        if(user.type != admin)res.json("You don't have permission to do that");
+        userController.deleteUser(req.data.user.username)
+          .then(() => {
+              res.json({success: true});
+          })
+          .catch((err) => {
+             res.json(err);
+          });
+    })
+    .catch((err) => {
+            res.json(err);
+    });
 };

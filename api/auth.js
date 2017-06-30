@@ -3,6 +3,7 @@ const TOKEN_LENGTH = 32;
 //Currently one week
 const TOKEN_DURATION = 604800000;
 exports.TOKEN_DURATION = TOKEN_DURATION;
+
 //CRUD functions for tokens
 exports.storeToken = function(username, token){
   return new Promise(function (resolve, reject) {
@@ -61,6 +62,7 @@ exports.deleteToken = function(thetoken){
   });
 
 };
+
 
 /*
   Generates a login token of TOKEN_LENGTH size from a set of characters

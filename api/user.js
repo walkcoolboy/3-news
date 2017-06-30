@@ -61,6 +61,10 @@ exports.updateUser = function (username, userJson) {
 
 };
 
+/**
+ * Deletes the user with the given username
+ * Must also revoke all access tokens for that user
+ */
 exports.deleteUser = function (username) {
   return new Promise(function (resolve, reject) {
 
