@@ -22,7 +22,7 @@ exports.createUser = function (req, res) {
         .then(() => {
             var userToken = authController.generateToken();
             authController.storeToken(req.body.username, userToken);
-            res.setHeader("Set-Cookie", ["token="+userToken+ "; path=/"])
+            res.setHeader("Set-Cookie", ["token="+userToken+ ";  max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
             res.json({success: true});
         })
         .catch((err) => {

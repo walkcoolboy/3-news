@@ -21,8 +21,7 @@
     "express": "^4.15.3",
     "mongodb": "^2.2.26",
     "passport": "^0.3.2",
-    "passport-google": "^0.3.0",
-    "passport-google-token": "^0.1.2",
+    "passport-google-oauth20": "^1.0.0",
     "passport-http": "^0.3.0"
   }
 }
