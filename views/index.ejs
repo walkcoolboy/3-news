@@ -27,13 +27,13 @@
 
       <div class="col-md-5">
         <h2><%= data[0].title %></h2>
-        <% var startContent = data[0].body.substring(0,200) %>
+        <% var startContent = data[0].intro %>
         <p><%= startContent%></p>
         <p><a class="btn btn-default" href="/article/<%- data[0].articleID %>" role="button">View more &raquo;</a></p>
       </div>
       <div class="col-md-5">
         <h2><%= data[1].title %></h2>
-        <% var startContent = data[1].body.substring(0,200) %>
+        <% var startContent = data[1].intro %>
         <p><%= startContent%></p>
         <p><a class="btn btn-default" href="/article/<%- data[1].articleID %>" role="button">View more &raquo;</a></p>
       </div>
@@ -43,13 +43,13 @@
     <div class="row">
       <div class="col-md-5">
         <h2><%= data[2].title %></h2>
-        <% var startContent = data[2].body.substring(0,200) %>
+        <% var startContent = data[2].intro %>
         <p><%= startContent%></p>
         <p><a class="btn btn-default" href="/article/<%- data[2].articleID %>" role="button">View more &raquo;</a></p>
       </div>
       <div class="col-md-5">
         <h2><%= data[3].title %></h2>
-        <% var startContent = data[3].body.substring(0,200) %>
+        <% var startContent = data[3].intro %>
         <p><%= startContent%></p>
         <p><a class="btn btn-default" href="/article/<%- data[3].articleID %>" role="button">View more &raquo;</a></p>
      </div>
