@@ -15,7 +15,7 @@ mongoose.connect('mongodb://heroku_khwjm57z:5e7v1vdpgpluug4e3vd4cgm242@ds143131.
 //-------------
 var article = require('./api/article');
 
-var articles = [93441299, 93681661, 93669138, 93665676, 93675453, 93681661,
+var articles = [93441299, 93681661, 93669138, 93665676, 93675453,
                 93622407, 93633007, 93683361, 93661060, 93671241, 93663558];
 
 for (i=0; i<articles.length; i++) {
@@ -46,6 +46,8 @@ for (i=0; i<articles.length; i++) {
         newdata.body=data.body;
         newdata.tags=[data["section-top-level"], data["section-home"]];
         newdata.photos={};
+        newdata.photos.smallcaption=data.images[0].caption;
+        newdata.photos.smallurl=data.images[0].variants[0].src;
         newdata.photos.caption=data.images[1].caption;
         newdata.photos.url=data.images[1].variants[0].src;
         article.postArticle(newdata)

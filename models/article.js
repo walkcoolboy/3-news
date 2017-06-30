@@ -7,7 +7,8 @@ var articleSchema = new mongoose.Schema({
   tags: [String],
   intro:String,
   title:String,
-  photos: {caption:String, url:String},
+  photos: {caption:String, url:String,
+           smallcaption:String, smallurl:String},
   body:String,
   URL:String
 });
