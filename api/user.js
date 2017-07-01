@@ -37,7 +37,7 @@ exports.getUser = function (username) {
   return new Promise(function (resolve, reject) {
 
     // Use the User model to find a specific user
-    User.findOne({ name: "username" }, function (err, user) {
+    User.findOne({ name: username }, function (err, user) {
       if (err) {
         return reject(err);
       }
