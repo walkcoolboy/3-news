@@ -97,7 +97,7 @@ exports.validateToken = function (req, res, next) {
             if(!userToken)res.json("Valid access token was not provided");
 
             req.username = userToken.username;
-            req.userToken=userToken.token;
+            req.userToken = userToken.token;
             console.log('validateToken req token: '+req.userToken);
             next();
         })

@@ -112,7 +112,7 @@ exports.deleteUser = function (req, res) {
   userController.getUser(req.username)
     .then((user)=> {
         //Check if they're qualified
-        if(user.type != admin)res.json("You don't have permission to do that");
+        if(user.type != 'admin')res.json("You don't have permission to do that");
         userController.deleteUser(req.data.user.username)
           .then(() => {
               res.json({success: true});
