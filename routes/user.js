@@ -32,7 +32,7 @@ exports.createUser = function (req, res) {
   Requires that the request is sent by the user in question, or an admin
 */
 exports.getUser = function (req, res) {
-  if(!req.username)res.json("No user supplied");
+  if(!req.username)return res.redirect("/");
   //Check if the target is the current user
   if(req.username == req.params.username)return renderUserPage(req.username, res);
 

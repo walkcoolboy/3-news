@@ -44,7 +44,7 @@ $(document).ready(function(e) {
 	 var username = $('#user').val();
 	 var password = $('#password').val();
 	 if(username.length == 0 || password.length == 0){
-		 alert("Username and password required");
+		 alertFail("<strong>Username and password required</strong>");;
 		 return;
 	 }
 	 //GET login token
@@ -58,11 +58,13 @@ $(document).ready(function(e) {
 	    type: "POST",
 	    success: function(response) {
 				if(!response.success){
-					console.log(response);
-					return;
+					alertFail("<strong>Login failed!</strong> " + response);
 				}
-				window.localStorage.setItem('username', username);
-				hideLoginOpts();
+				else{
+					alertSuccess("<strong>Login Success!</strong>");
+					window.localStorage.setItem('username', username);
+					hideLoginOpts();
+				}
 
 	    },
 	    error: function(xhr) {
@@ -96,7 +98,7 @@ $(document).ready(function(e) {
 		var username = $('#user').val();
 		var password = $('#password').val();
 		if(username.length == 0 || password.length == 0){
-		 alert("Username and password required");
+		 alertFail("<strong>Username and password required</strong>");
 		 return;
 	 	}
 		//GET login token
@@ -112,6 +114,7 @@ $(document).ready(function(e) {
 				 //check token received
 				 if(!response.success){
 					 console.log(response);
+					 alertFail("<strong>Registration failed!</strong> " + response);
 					 return;
 				 }
 				 //Save token in cookie, it expires in 1 day
@@ -209,8 +212,10 @@ $(document).ready(function(e) {
 		event.preventDefault();
 		var username = $('#update-username').val();
 		var password = $('#new-pass').val();
-		if(username.length < 3 || password.length < 3) 
+		if(username.length < 3 || password.length < 3){
+			alertFail("<strong>Update failed! </strong> login or password too short.");
 			return;
+		}
 		$.ajax({
 	    url: window.location.pathname, //users/username
 	    data: {
@@ -222,11 +227,11 @@ $(document).ready(function(e) {
 	    success: function(response){
 	    	if(response.success){
 	    		console.log("updated successfully");
+	    		alertSuccess("<strong>Account updated successfully!</strong>");
 	    		window.localStorage.setItem('username', username);
-
 	    	}
 	    	else{
-	    		console.log(response.toString());
+	    		alertFail("<strong>Update failed! </strong>" + response);
 	    	}
 
 	    },
@@ -239,4 +244,15 @@ $(document).ready(function(e) {
 	//stop links working
 	$('.disabled').click(false);
 	
+	function alertFail(message){
+					$('.alert-danger').empty();
+					$('.alert-danger').append(message);
+					$('.alert-danger').show().delay(3000).fadeOut(100);
+	}	
+
+	function alertSuccess(message){
+					$('.alert-success').empty();
+					$('.alert-success').append(message);
+					$('.alert-success').show().delay(2000).fadeOut(100);
+	}
 });//End doc.ready

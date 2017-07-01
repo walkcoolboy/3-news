@@ -40,7 +40,7 @@ exports.login = function (req, res) {
     userController.getUser(req.body.username, req.body.password)
         .then((user) => {
             //Check username and password
-            if(!user)return res.json("Username" + req.body.username + "does not exist");
+            if(!user)return res.json("Username - '" + req.body.username + "' does not exist");
             if(user.password != req.body.password)return res.json("Incorrect password");
 
             //Create and save access token
