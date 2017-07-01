@@ -209,7 +209,6 @@ $(document).ready(function(e) {
 		event.preventDefault();
 		var username = $('#update-username').val();
 		var password = $('#new-pass').val();
-		console.log(username+ " " + password);
 		if(username.length < 3 || password.length < 3) 
 			return;
 		$.ajax({
@@ -223,6 +222,8 @@ $(document).ready(function(e) {
 	    success: function(response){
 	    	if(response.success){
 	    		console.log("updated successfully");
+	    		window.localStorage.setItem('username', username);
+
 	    	}
 	    	else{
 	    		console.log(response.toString());

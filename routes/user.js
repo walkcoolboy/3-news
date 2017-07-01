@@ -78,30 +78,25 @@ function renderUserPage(username, res){
 */
 exports.putUser = function (req, res) {
   if(!req.username)res.json("No user supplied");
-  console.log(req.username);
   //Retrieve the user making the request
   userController.getUser(req.username)
-    .then((user)=> {
+    .then((user)=> {;
         //Check if they're qualified
-        if(user.type != admin || user.username != req.username){
-          console.log("failed user check");
+        if(user.type != 'admin' && user.name != req.username){
           res.json("You don't have permission to do that");
         }
-        console.log("Updating user object");
         user.name = req.body.username;
         user.password = req.body.password;
+        res.json({success: true});
         userController.updateUser(req.username, user)
           .then(() => {
-            console.log("user updated successfully");
             res.json({success: true});
           })
           .catch((err) => {
-            console.log("failed update user");
             res.json(err);
           });
     })
     .catch((err) => {
-      console.log("failed get username");
       res.json(err);
     });
 

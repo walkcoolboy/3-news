@@ -19,6 +19,7 @@ exports.createUser = function (username, password) {
       var theuser = new User();
       theuser.name = username;
       theuser.password = password;
+      theuser.type = "normal";
 
       //save the user info and check for errors
       theuser.save(function (err) {
@@ -33,7 +34,6 @@ exports.createUser = function (username, password) {
 };
 
 exports.getUser = function (username) {
-  console.log("controller getting user:" + username);
   return new Promise(function (resolve, reject) {
 
     // Use the User model to find a specific user
@@ -63,7 +63,6 @@ exports.getUserActivity = function (username) {
 
 exports.updateUser = function (username, userJson) {
   return new Promise(function (resolve, reject) {
-    console.log("Controller: " +username);
     // Use the User model to find a specific user
     User.findOneAndUpdate({ name: username }, userJson, {new: true}, function (err, user) {
       if (err) {
