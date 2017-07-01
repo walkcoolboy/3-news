@@ -1,8 +1,10 @@
 $(document).ready(function(e) {
+
 	/*
 	 * User logins
 	 */
 
+	//apply login specific features
 	if(document.cookie){
 		console.log(document.cookie);
 		hideLoginOpts();
@@ -28,6 +30,8 @@ $(document).ready(function(e) {
 		//username stored in local storage
 		var user = window.localStorage.getItem('username');
 		$('#username').text(user).css("color", "white");
+		//set link to current users profile
+		$('.profile').attr('href','/users/'+user);
 	}
 	function showLoginOpts(){
 		$('#nav-no-login').show();
@@ -35,7 +39,7 @@ $(document).ready(function(e) {
 		$('.nav-logged-in').hide();
 	}
 
- $('#sign-in').click( function(event){
+  $('#sign-in').click( function(event){
 	 event.preventDefault();
 	 var username = $('#user').val();
 	 var password = $('#password').val();
@@ -64,8 +68,8 @@ $(document).ready(function(e) {
 	    error: function(xhr) {
 				//create error message
 	    }
+		});
 	});
-	 });
 
   $('#sign-out').click( function(event){
 	 event.preventDefault();
@@ -191,37 +195,47 @@ $(document).ready(function(e) {
 	}
 
 	/*
-	 *Create article functions
-	 */
+	*User
+	*/
 
-	//set option selected for categories
-	$("#category-selected input[name=options]").click(
-		function(){
-		$('#category-selected').children('label').removeClass('active');
-		$(this).attr('checked', 'checked');
-		$(this).parent().addClass("active");
-		}
-	);
+	//apply user specific href on click nav to profile
+	$('.profile').click(function(event){
+		event.preventDefault();
+		 window.location = $(this).attr('href');
+	});
 
-	//get form data and call post request
-	$("input[name='commit']").click(
-		function(){
-			var title = $('#article_title').val();
-			var body = $('textarea#article_body').val();
-			if(title.trim()=="" || body.trim()=="") return; //TODO: give warning
-			var tags = $('#article_tags').val().split(" ");
-			var category = $('input[name=options]:checked', '#category-selected').val();
+	//update username/password
+	$('.update-profile').click(function(event){
+		event.preventDefault();
+		var username = $('#update-username').val();
+		var password = $('#new-pass').val();
+		console.log(username+ " " + password);
+		if(username.length < 3 || password.length < 3) 
+			return;
+		$.ajax({
+	    url: window.location.pathname, //users/username
+	    data: {
+	        "username": username,
+	        "password": password
+	    },
+	    cache: false,
+	    type: "PUT",
+	    success: function(response){
+	    	if(response.success){
+	    		console.log("updated successfully");
+	    	}
+	    	else{
+	    		console.log(response.toString());
+	    	}
 
-			var jsonData = {
-				title: title,
-				body: body,
-				tags: tags,
-				category: category
-			}
-			console.log(jsonData); //TODO: send to post request + add user field
-		}
-	);
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+		});
+	});
 
+	//stop links working
 	$('.disabled').click(false);
-	//End doc.ready
-});
+	
+});//End doc.ready

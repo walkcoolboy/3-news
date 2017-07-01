@@ -33,7 +33,6 @@ exports.createUser = function (req, res) {
 */
 exports.getUser = function (req, res) {
   if(!req.username)res.json("No user supplied");
-
   //Check if the target is the current user
   if(req.username == req.params.username)return renderUserPage(req.username, res);
 
@@ -62,7 +61,7 @@ function renderUserPage(username, res){
         if(!user)res.json("User does not exist");
 
         res.render('user.ejs', {
-          title: "" + user.username + "'s user page",
+          title: "" + user.name + "'s user page",
           user: user
         });
 
@@ -79,20 +78,30 @@ function renderUserPage(username, res){
 */
 exports.putUser = function (req, res) {
   if(!req.username)res.json("No user supplied");
+  console.log(req.username);
   //Retrieve the user making the request
   userController.getUser(req.username)
     .then((user)=> {
         //Check if they're qualified
-        if(user.type != admin || user.username != req.username)res.json("You don't have permission to do that");
-        userController.updateUser(req.data.user.username, req.data.user)
+        if(user.type != admin || user.username != req.username){
+          console.log("failed user check");
+          res.json("You don't have permission to do that");
+        }
+        console.log("Updating user object");
+        user.name = req.body.username;
+        user.password = req.body.password;
+        userController.updateUser(req.username, user)
           .then(() => {
+            console.log("user updated successfully");
             res.json({success: true});
           })
           .catch((err) => {
+            console.log("failed update user");
             res.json(err);
           });
     })
     .catch((err) => {
+      console.log("failed get username");
       res.json(err);
     });
 
