@@ -33,7 +33,7 @@
       <div class="form-group search-inline">
         <h4>Recently viewed for <%=user.name%>:</h4>
       </div>
-   <% user.history.reverse() %> <!--earliest first -->
+   <% user.history.reverse() %> <!--latest first -->
    <% user.history.forEach(function(entry){%>
 		<div class="well search-result">
 		  <div class="content-text">
