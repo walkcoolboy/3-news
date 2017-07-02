@@ -26,6 +26,15 @@ exports.setShort = function(req, res, next){
   next();
 };
 
+/* For responses that will change in the future
+  This is set to 1 minute for private caches and 10 seconds for public caches
+  This ensures public caches are as up-to-date as is practical
+  */
+exports.setVeryShort = function(req, res, next){
+  res.setHeader("Cache-Control", "public, max-age=60, s-maxage=10, proxy-revalidate");
+  next();
+};
+
 /*
   For responses that are particular to a client, while not being sensitive
   An example for this would be a user's reccommendation page

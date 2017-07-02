@@ -50,13 +50,13 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 else {
 
 	//Run our own HTTPS server
-	var port = process.env.PORT || 8443;
+	var port = process.env.PORT || 443;
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
 	//Set up an http server on port 80 to redirect HTTP requests
 	var http = require('http');
-	http.createServer(app).listen(8080);
+	http.createServer(app).listen(80);
 
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
@@ -67,12 +67,23 @@ else {
   	});
 };
 
+//Closes the app if an error occurs
+//This will restart the app if it's hosted on Heroku
+process.on('uncaughtException', function(err) {
+	console.log(err);
+    process.exit(err);
+})
+
+//End of middleware code
+
+var caching = require('./routes/cache');
+
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
 //TODO: Restrict to relevant files, and set caching policy
- app.use('/', express.static(__dirname + '/'));
+ app.use('/', caching.setFull, express.static(__dirname + '/'));
 
-//End of middleware code
+
 
 
 
@@ -81,8 +92,8 @@ else {
 //-------------
 //setup navigation routes
 var index = require('./routes/index');
-var caching = require('./routes/cache');
-app.get('/', caching.setShort, index.index);
+
+app.get('/', caching.setVeryShort, index.index);
 
 //This is added last to ensure it doesn't overwite any other routes
 //app.get('/:tag', index.category);
@@ -116,11 +127,11 @@ var article = require('./routes/article');
 var tracking = require('./routes/tracking');
 
 app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
-  	.get('/article/tag/:tag', caching.setShort, article.search)
+  	.get('/article/tag/:tag', caching.setVeryShort, article.search)
   	.put('/article/:article_id', article.addTag);
 
-app. get('/search/:tag', caching.setShort, article.search)
-  	.get('/search/:tag/:page', caching.setShort, article.search);
+app. get('/search/:tag', caching.setVeryShort, article.search)
+  	.get('/search/:tag/:page', caching.setVeryShort, article.search);
 
 
 //-------------

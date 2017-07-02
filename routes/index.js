@@ -6,7 +6,7 @@ const INDEX_ITEMS_PER_PAGE = 4;
 
 exports.index = function(req, res){
 var dbResults = articleController.getArticles()
-		.then((articles) =>{ console.log(articles.length);
+		.then((articles) =>{
 		if(!articles || !articles[0])return res.json("Article"+ id + " not found");
 		var currentPage = getPageRequest(req);
 			res.render('app.ejs', {
