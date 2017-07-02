@@ -31,13 +31,11 @@ exports.storeToken = function(username, token){
 
 exports.getToken = function(thetoken){
   return new Promise(function (resolve, reject) {
-    console.log('Token '+ thetoken + ' requested to get');
     // Use the Token model to find the token
     Token.findOne({token: thetoken }, function (err, tokenJson) {
       if (err) {
         return reject(err);
       }
-      console.log('tokenJson: '+ tokenJson);
       if(tokenJson.expires < Date.now()){
         exports.deleteToken(thetoken);
         return reject("Token expired");
@@ -50,13 +48,11 @@ exports.getToken = function(thetoken){
 
 exports.deleteToken = function(thetoken){
   return new Promise(function (resolve, reject) {
-    console.log('Token '+ thetoken + ' requested to remove');
     // Use the Token model to find the token and remove it
     Token.remove({token: thetoken }, function (err) {
       if (err) {
         return reject(err);
       }
-      console.log('Token '+ thetoken + ' removed');
       resolve({message:'Token '+ thetoken + ' removed'});
     });
   });

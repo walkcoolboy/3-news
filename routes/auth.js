@@ -61,7 +61,6 @@ exports.login = function (req, res) {
     User is logged in (Has a valid access token)
 */
 exports.logout = function (req, res) {
-  console.log('logout req userToken: '+req.userToken);
   if (!req.userToken) return res.json("Token is not provided");
 
   //Sets a header indicating that the login cookie should be deleted
@@ -98,7 +97,6 @@ exports.validateToken = function (req, res, next) {
 
             req.username = userToken.username;
             req.userToken = userToken.token;
-            console.log('validateToken req token: '+req.userToken);
             next();
         })
         .catch((err) => {

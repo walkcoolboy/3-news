@@ -9,8 +9,16 @@ exports.getArticles = function (req, res) {
 
     articleController.getArticles()
         .then((articles) => {
-            console.log(articles);
-            res.json(articles);
+            var response = [];
+            articles.forEach((article) => {
+                response.push({
+                    "title":article.title,
+                    "URL":  req.header('host') + req.url + "\/" + article.articleID
+                });
+            }, this);
+            
+            console.log(response); 
+            res.json(response);
         })
         .catch((err) => {
             res.json(err);
@@ -34,8 +42,9 @@ exports.getArticlesByTag = function (req, res) {
 
 //create endpoint /article for POST
 exports.postArticle = function (req, res) {
+    if(!req.body)res.json("Missing JSON");
 
-    articleController.postArticle(req.params.article_id, req.body.tags)
+    articleController.postArticle(req.params.article_id, req.body)
         .then((message) => {
           res.json(message);
         })
@@ -59,8 +68,9 @@ exports.getArticle = function (req, res) {
 
 // Create endpoint /article/:article_id for PUT
 exports.putArticle = function (req, res) {
-
-    articleController.putArticle(req.params.article_id, req.body.tags)
+    if(!req.body)res.json("Missing JSON");
+    
+    articleController.putArticle(req.params.article_id, req.body)
       .then((message) => {
           res.json(message);
       })
@@ -83,7 +93,6 @@ exports.deleteArticle = function (req, res) {
 
 // GET endpoint for users
 exports.getUser = function (req, res) {
-    if(!req.body)res.json("Malformed request");
     //Check for username
     var username = req.params.username || req.body.username || null;
     if(!username)res.json("Username not provided");
@@ -99,8 +108,7 @@ exports.getUser = function (req, res) {
 
 // POST endpoint for users
 exports.postUser = function (req, res) {
-    if(!req.body)res.json("Malformed request");
-    console.log(req.body);
+    if(!req.body)res.json("Missing JSON");
     //Check for username
     username = req.params.username || req.body.username || null;
 
@@ -121,14 +129,13 @@ exports.postUser = function (req, res) {
 
 // PUT endpoint for users
 exports.putUser = function (req, res) {
-    if(!req.body)res.json("Malformed request");
-
+    if(!req.body)res.json("Missing JSON");
     //Check for username
     var username = req.params.username || req.body.username || null;
     if(!username)res.json("Username not provided");
     //Check for user data
     var userData = req.body.user || null;
-    if(!userData)res.json("Username not provided");
+    if(!userData)res.json("User JSON not provided");
 
     userController.updateUser(username, userData)
       .then((message) => {
@@ -141,7 +148,6 @@ exports.putUser = function (req, res) {
 
 // DELETE endpoint for users
 exports.deleteUser = function (req, res) {
-    if(!req.body)res.json("Malformed request");
 
     //Check for username
     var username = req.params.username || req.body.username || null;

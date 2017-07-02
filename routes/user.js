@@ -41,7 +41,7 @@ exports.getUser = function (req, res) {
     .then((user)=> {
         //Check if they're qualified
         if(user.type != admin)res.redirect("/");
-
+        renderUserPage(req.username, res);
     })
     .catch((err) => {
       res.json(err);

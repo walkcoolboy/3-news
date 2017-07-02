@@ -1,8 +1,86 @@
-NWEN304 Group project
+NWEN304 Group project.
+Group #3.
 
 Authors:
 Clinton Norman
 Jonathan Miller
 Li Li
 
-To start the app, execute 'node index.js'
+To start the app, execute 'node index.js', navigate to localhost in a browser.
+ - If port 80 fails to bind, manually prefix 'https://'.
+ - If using a port other then 443, suffix ':PORT'.
+
+It is also hosted remotely at nwen304-3-news.herokuapp.com.
+
+Testing user accounts:
+username:TEST, password:TEST,
+username:ADMIN, password:ADMIN
+
+
+REST interface:
+
+User permissions:
+ - Admins have access to all routes and commands
+ - Users only have access to their own database element
+
+POST '/users/createUser':
+Takes a username and password, creating a new user and returning an access token for the session.
+
+GET '/users/:username':
+Returns an HTML representation of the specified user.
+
+POST '/api/users/createUser':
+Adds a given JSON representation of a user to the database.
+
+POST '/api/users/:username':
+Differs from the above by specifying the user in the URL.
+
+GET '/api/users/:username':
+Returns a JSON representation of the specified user.
+
+PUT '/api/users/:username':
+Updates (or creates) data on the specified user.
+
+DELETE '/api/users/:username':
+Removes the user from the database. If {"archive":true} is set in the request, will archive the user.
+
+Article permissions:
+ - All visitors can GET any article.
+ - Only admins can use other requests.
+
+GET '/article/:article_id':
+Returns an HTML representation of the specified article.
+
+GET '/:tag';
+GET '/search/:tag[/:page]':
+Returns a HTML page displaying information about, and links to, articles with the specified tag.
+
+GET '/api/article':
+Returns an array of links to articles, and the titles of those articles.
+
+GET '/api/article/:article_id':
+Returns a JSON representation of the specified article.
+
+POST '/api/article/':
+Inserts a new article into the database, using the JSON information provided.
+
+PUT '/api/article/:article_id':
+Updates (or creates) a new article into the database, using the JSON information provided.
+
+DELETE '/api/article/:article_id':
+Deletes an article from the database.
+
+
+
+Error handling:
+
+All REST transactions use JS Promises, where a failure returns the error message to the client.
+
+Route endpoints check for the presence of necessary information, e.g. username, a JSON.
+They return an error message if the request is missing something.
+Some missing values are checked client-side.
+
+Incorrectly formatted JSONs are detected by the 'body-parser' module, returning an error stack trace.
+This behaviour is built into the module.
+
+Errors in node.js execution close the app. On Heroku, it will immediately restart.

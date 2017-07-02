@@ -38,11 +38,11 @@ app.use(function (req, res, next) {
 	// Pass to next layer of middleware
 	next();
 });
-
+var port;
 //Checks if the app is running on Heroku
 if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 	//Do basic HTTP server setup, Heroku will handle HTTPS
-	var port = process.env.PORT || 8080;
+	port = process.env.PORT || 8080;
 	app.listen(port, function () {
  	console.log('App listening on port '+port);
 
@@ -50,7 +50,7 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 else {
 
 	//Run our own HTTPS server
-	var port = process.env.PORT || 443;
+	port = process.env.PORT || 443;
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
@@ -61,7 +61,7 @@ else {
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
     	if (!req.secure)
-      		res.redirect(`https://${req.header('host')}${req.url}`);
+      		res.redirect(`https://${req.header('host')}:${port}${req.url}`);
     	else
       		next();
   	});
@@ -70,17 +70,22 @@ else {
 //Closes the app if an error occurs
 //This will restart the app if it's hosted on Heroku
 process.on('uncaughtException', function(err) {
+	console.log("Uncaught expection");
 	console.log(err);
     process.exit(err);
-})
-
+});
+process.on('error', function(err) {
+	console.log("Error");
+	console.log(err);
+    process.exit(err);
+});
 //End of middleware code
 
 var caching = require('./routes/cache');
 
 //Hosts all files within the directory for access
 //Temporary measure for ease of use
-//TODO: Restrict to relevant files, and set caching policy
+//TODO: Restrict to relevant files
  app.use('/', caching.setFull, express.static(__dirname + '/'));
 
 
@@ -117,8 +122,8 @@ var user = require('./routes/user')
 
 app.post('/users/createUser', caching.setNone, user.createUser)
  	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
- 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
- .delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
+// 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
+// .delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
 
 //-------------
 //ARTICLES
@@ -127,8 +132,8 @@ var article = require('./routes/article');
 var tracking = require('./routes/tracking');
 
 app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
-  	.get('/article/tag/:tag', caching.setVeryShort, article.search)
-  	.put('/article/:article_id', article.addTag);
+//	.get('/article/tag/:tag', caching.setVeryShort, article.search)
+//  .put('/article/:article_id', article.addTag);
 
 app. get('/search/:tag', caching.setVeryShort, article.search)
   	.get('/search/:tag/:page', caching.setVeryShort, article.search);
@@ -139,13 +144,13 @@ app. get('/search/:tag', caching.setVeryShort, article.search)
 //-------------
 var api = require('./routes/api');
 
-app.get('/api/article', api.getArticles)
-   .get('/api/article/tag/:article_tag', api.getArticlesByTag)
-  .post('/api/article/', auth.validateToken, api.postArticle);
+app.get('/api/article',  caching.setVeryShort, api.getArticles)
+   .get('/api/article/tag/:article_tag',  caching.setVeryShort, api.getArticlesByTag)
+  .post('/api/article/',  caching.setNone, auth.validateToken, api.postArticle);
 
-app.get('/api/article/:article_id', api.getArticle)
-   .put('/api/article/:article_id', auth.validateToken, api.putArticle)
-.delete('/api/article/:article_id', auth.validateToken, api.deleteArticle);
+app.get('/api/article/:article_id',  caching.setShort, api.getArticle)
+   .put('/api/article/:article_id',  caching.setNone, auth.validateToken, api.putArticle)
+.delete('/api/article/:article_id',  caching.setNone, auth.validateToken, api.deleteArticle);
 
 app.post('/api/users/createUser', caching.setNone, api.postUser)
    .post('/api/users/:username', caching.setNone, api.postUser)
@@ -158,4 +163,4 @@ app.post('/api/users/createUser', caching.setNone, api.postUser)
 //MUST BE LAST ROUTE ADDED
 //--------------------------------
 
-app.get('/:tag', caching.setShort, article.category);
+app.get('/:tag', caching.setVeryShort, article.category);
