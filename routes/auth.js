@@ -67,7 +67,6 @@ exports.login = function (req, res) {
     User is logged in (Has a valid access token)
 */
 exports.logout = function (req, res) {
-  console.log('logout req userToken: '+req.userToken);
   if (!req.userToken) return res.json("Token is not provided");
 
   //Sets a header indicating that the login cookie should be deleted
@@ -106,7 +105,6 @@ exports.validateToken = function (req, res, next) {
             if(!userToken)res.json("Valid access token was not provided");
             req.username = userToken.username;
             req.userToken = userToken.token;
-            console.log('validateToken req token: '+req.userToken);
             next();
         })
         .catch((err) => {
@@ -130,7 +128,7 @@ exports.googleCallback =  function(req, res) {
     // Successful authentication, create a token for the user.
     var token = authController.generateToken();
     authController.storeToken(req.user, token);
-    res.setHeader("Set-Cookie", ["token="+token+ "; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
+    res.setHeader("Set-Cookie", ["token="+token+ "; username="+req.user+"; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
     res.redirect('/');
 };
 

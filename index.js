@@ -72,12 +72,12 @@ else {
 //Closes the app if an error occurs
 //This will restart the app if it's hosted on Heroku
 process.on('uncaughtException', function(err) {
-	console.log("Uncaught expection");
+	console.log("Uncaught expection:");
 	console.log(err);
     process.exit(err);
 });
 process.on('error', function(err) {
-	console.log("Error");
+	console.log("Error:");
 	console.log(err);
     process.exit(err);
 });

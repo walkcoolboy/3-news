@@ -17,7 +17,6 @@ exports.getArticles = function (req, res) {
                 });
             }, this);
             
-            console.log(response); 
             res.json(response);
         })
         .catch((err) => {
@@ -31,7 +30,6 @@ exports.getArticlesByTag = function (req, res) {
 
     articleController.getArticlesByTag(req.params.article_tag)
         .then((articles) => {
-            console.log(articles);
             res.json(articles);
         })
         .catch((err) => {

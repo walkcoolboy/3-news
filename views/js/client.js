@@ -313,10 +313,7 @@ $(document).ready(function(e) {
 	if(document.cookie)logoutTimer = setTimeout(logout, IDLE_TIME_BEFORE_LOGOUT);
 
 	function handleVisibilityChange() {
-		console.log("vis change");
-
 		if (document[hidden]) {
-			console.log("clear timeout");
 			clearTimeout(logoutTimer);
 			logoutTimer = null;
 		} else {
@@ -330,7 +327,7 @@ $(document).ready(function(e) {
 
 	// Warn if the browser doesn't support addEventListener or the Page Visibility API
 	if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-		console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+		console.log("Timeout function requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
 	} else {
 		// Handle page visibility change
 		document.addEventListener(visibilityChange, handleVisibilityChange, false);
