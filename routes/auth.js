@@ -95,7 +95,8 @@ exports.validateToken = function (req, res, next) {
     if (!cookie) {
       next();
     } else {
-    var token = cookie.substring(cookie.indexOf("=") + 1);
+    var token = cookie.match(/token=(.{32});/)[1];
+    console.log('token is '+token);
     if (!token) {
       next();
     } else {
@@ -128,16 +129,7 @@ exports.googleCallback =  function(req, res) {
     // Successful authentication, create a token for the user.
     var token = authController.generateToken();
     authController.storeToken(req.user, token);
-    res.setHeader("Set-Cookie", ["token="+token+ "; username="+req.user+"; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
+    res.setHeader("Set-Cookie", ["token="+token+ "; username="+req.user+"; max-age="+authController.TOKEN_DURATION/1000+"; path=/"]);
+    res.cookie('username',req.user, {maxAge:authController.TOKEN_DURATION, encode: String});
     res.redirect('/');
-};
-
-//get username
-exports.getUser = function(req,res) {
-  if (!req.user) {
-    return res.json('no user found');
-  } else {
-    return res.json({username:req.user});
-  }
-
 };

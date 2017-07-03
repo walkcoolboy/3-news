@@ -31,11 +31,14 @@ exports.storeToken = function(username, token){
 
 exports.getToken = function(thetoken){
   return new Promise(function (resolve, reject) {
+    if (!thetoken) reject('no token provided');
     // Use the Token model to find the token
     Token.findOne({token: thetoken }, function (err, tokenJson) {
       if (err) {
         return reject(err);
       }
+      console.log('getToken' + tokenJson);
+      if (!tokenJson.expires) return reject(err);
       if(tokenJson.expires < Date.now()){
         exports.deleteToken(thetoken);
         return reject("Token expired");

@@ -6,7 +6,7 @@ $(document).ready(function(e) {
 
 	//apply login specific features
 	if(document.cookie){
-		console.log(document.cookie);
+		console.log('cookie '+document.cookie);
 		hideLoginOpts();
 		if($('body').is('.article-content')){
 			//show article options for logged in user
@@ -21,6 +21,21 @@ $(document).ready(function(e) {
 		return document.cookie;
 	}
 
+	function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 	function hideLoginOpts(){
 		$('#nav-no-login').hide();
 		//display create/user account options
@@ -31,30 +46,12 @@ $(document).ready(function(e) {
 		var user = window.localStorage.getItem('username');
 		if (!user) {
 			//GET username
-			$.ajax({
-				 url: "/auth/getUser",
-				 cache: false,
-				 type: "GET",
-				 success: function(res) {
-					 if (!res.username) return console.log(res);
-					 //Save token in cookie, it expires in 1 day
-					 console.log('have got username '+res.username);
-					 user=res.username;
-					 window.localStorage.setItem('username', user);
-					 $('#username').text(user).css("color", "white");
-			 		//set link to current users profile
-			 		$('.profile').attr('href','/users/'+user);
-				 },
-				 error: function(xhr) {
-					 //create error message
-				 }
-			 });
-
-		} else {
+			var user = getCookie("username");
+			console.log('username: '+user);
+		}
 		$('#username').text(user).css("color", "white");
 		//set link to current users profile
 		$('.profile').attr('href','/users/'+user);
-	  }
 	}
 
 	function showLoginOpts(){

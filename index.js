@@ -22,8 +22,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
-
 var path = require('path');
 
 //-----------------------------------------
@@ -114,8 +112,7 @@ var auth = require('./routes/auth');
 app.post('/auth/login', caching.setNone, auth.login)
    .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
    .get('/auth/google', caching.setNone, auth.google)
-   .get('/auth/google/callback', caching.setNone, auth.googleCallbackAuthenticate, auth.googleCallback)
-   .get('/auth/getUser',caching.setNone,auth.googleCallbackAuthenticate, auth.getUser);
+   .get('/auth/google/callback', caching.setNone, auth.googleCallbackAuthenticate, auth.googleCallback);
 
 
 //-------------
