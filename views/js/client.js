@@ -73,6 +73,12 @@ $(document).ready(function(e) {
 		});
 	});
 
+	$('#google-sign-in').click( function(event){
+		event.preventDefault();
+		console.log("google-sign-in");
+		window.location = "/auth/google";
+	});
+
   $('#sign-out').click( function(event){
 	 event.preventDefault();
 
@@ -216,6 +222,7 @@ $(document).ready(function(e) {
 			alertFail("<strong>Update failed! </strong> login or password too short.");
 			return;
 		}
+		console.log("Updating account");
 		$.ajax({
 	    url: window.location.pathname, //users/username
 	    data: {
@@ -225,6 +232,7 @@ $(document).ready(function(e) {
 	    cache: false,
 	    type: "PUT",
 	    success: function(response){
+	    	console.log("Account updated");
 	    	if(response.success){
 	    		console.log("updated successfully");
 	    		alertSuccess("<strong>Account updated successfully!</strong>");
@@ -243,6 +251,9 @@ $(document).ready(function(e) {
 
 	//stop links working
 	$('.disabled').click(false);
+	$('form').submit(function(event){
+		event.preventDefault();
+	});
 	
 	function alertFail(message){
 					$('.alert-danger').empty();
@@ -255,7 +266,6 @@ $(document).ready(function(e) {
 					$('.alert-success').append(message);
 					$('.alert-success').show().delay(2000).fadeOut(100);
 	}
-
 	//Timeout
 	//https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 	//Will log the user out if the page is continously open and in focus for a duration

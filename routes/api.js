@@ -161,3 +161,16 @@ exports.deleteUser = function (req, res) {
           res.json(err);
       });
 };
+
+// DELETE endpoint for users history
+exports.deleteUserHistory = function (req, res) {
+    //Check for username
+    var username = req.params.username || req.body.username || null;
+    if(!username)res.json("Username not provided");
+
+    if(req.body && req.body.archive){
+        //Do archiving
+    }
+
+    //Delete history
+};

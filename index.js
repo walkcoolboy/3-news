@@ -113,8 +113,8 @@ var auth = require('./routes/auth');
 
 app.post('/auth/login', caching.setNone, auth.login)
    .post('/auth/logout', caching.setNone, auth.validateToken, auth.logout)
-    .get('/auth/google', caching.setNone, auth.google)
-    .get('/auth/google/callback', caching.setNone, auth.googleCallbackAuthenticate, auth.googleCallback);
+   .get('/auth/google', caching.setNone, auth.google)
+   .get('/auth/google/callback', caching.setNone, auth.googleCallbackAuthenticate, auth.googleCallback);
 
 
 //-------------
@@ -124,7 +124,7 @@ var user = require('./routes/user')
 
 app.post('/users/createUser', caching.setNone, user.createUser)
  	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
-// 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
+ 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
 // .delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
 
 //-------------
@@ -134,8 +134,8 @@ var article = require('./routes/article');
 var tracking = require('./routes/tracking');
 
 app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
-//	.get('/article/tag/:tag', caching.setVeryShort, article.search)
-//  .put('/article/:article_id', article.addTag);
+	.get('/article/tag/:tag', caching.setVeryShort, article.search)
+  .put('/article/:article_id', article.addTag);
 
 app. get('/search/:tag', caching.setVeryShort, article.search)
   	.get('/search/:tag/:page', caching.setVeryShort, article.search);
@@ -155,11 +155,12 @@ app.get('/api/article/:article_id',  caching.setShort, api.getArticle)
 .delete('/api/article/:article_id',  caching.setNone, auth.validateToken, api.deleteArticle);
 
 app.post('/api/users/createUser', caching.setNone, api.postUser)
-   .post('/api/users/:username', caching.setNone, api.postUser)
+  .post('/api/users/:username', caching.setNone, api.postUser)
  	.get('/api/users/:username', caching.setPrivate, api.getUser)
  	.put('/api/users/:username', caching.setNone, api.putUser)
- .delete('/api/users/:username', caching.setNone, api.deleteUser);
+  .delete('/api/users/:username', caching.setNone, api.deleteUser);
 
+app.delete('/api/users/:username/history', caching.setNone, api.deleteUserHistory);
 
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
