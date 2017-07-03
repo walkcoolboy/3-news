@@ -29,9 +29,31 @@ $(document).ready(function(e) {
 		});
 		//username stored in local storage
 		var user = window.localStorage.getItem('username');
+		if (!user) {
+			//GET username
+			$.ajax({
+				 url: "/auth/getUser",
+				 cache: false,
+				 type: "GET",
+				 success: function(res) {
+					 if (!res.username) return console.log(res);
+					 //Save token in cookie, it expires in 1 day
+					 user=res.username;
+					 window.localStorage.setItem('username', user);
+					 $('#username').text(user).css("color", "white");
+			 		//set link to current users profile
+			 		$('.profile').attr('href','/users/'+user);
+				 },
+				 error: function(xhr) {
+					 //create error message
+				 }
+			 });
+
+		} else {
 		$('#username').text(user).css("color", "white");
 		//set link to current users profile
 		$('.profile').attr('href','/users/'+user);
+	  }
 	}
 	function showLoginOpts(){
 		$('#nav-no-login').show();
@@ -254,12 +276,12 @@ $(document).ready(function(e) {
 	$('form').submit(function(event){
 		event.preventDefault();
 	});
-	
+
 	function alertFail(message){
 					$('.alert-danger').empty();
 					$('.alert-danger').append(message);
 					$('.alert-danger').show().delay(3000).fadeOut(100);
-	}	
+	}
 
 	function alertSuccess(message){
 					$('.alert-success').empty();
@@ -275,7 +297,7 @@ $(document).ready(function(e) {
 	// Set the name of the hidden property and the change event for visibility
 	var hidden, visibilityChange;
 
-	if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+	if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
 		hidden = "hidden";
 		visibilityChange = "visibilitychange";
 	} else if (typeof document.msHidden !== "undefined") {
@@ -288,7 +310,7 @@ $(document).ready(function(e) {
 
 	var logoutTimer; //Holds a ticking timer
 	if(document.cookie)logoutTimer = setTimeout(logout, IDLE_TIME_BEFORE_LOGOUT);
-	
+
 	function handleVisibilityChange() {
 		console.log("vis change");
 
@@ -309,7 +331,7 @@ $(document).ready(function(e) {
 	if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
 		console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
 	} else {
-		// Handle page visibility change   
+		// Handle page visibility change
 		document.addEventListener(visibilityChange, handleVisibilityChange, false);
 	}
 

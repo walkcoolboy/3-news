@@ -93,9 +93,13 @@ exports.logout = function (req, res) {
 exports.validateToken = function (req, res, next) {
     //Extract login token for cookie header
     var cookie = req.headers['cookie'] || null;
-    if (!cookie) next();
+    if (!cookie) {
+      next();
+    } else {
     var token = cookie.substring(cookie.indexOf("=") + 1);
-    if (!token) next();
+    if (!token) {
+      next();
+    } else {
 
     authController.getToken(token)
         .then((userToken) => {
@@ -110,6 +114,7 @@ exports.validateToken = function (req, res, next) {
             res.setHeader("Set-Cookie", "token="+token+ "; max-age=0; path=/;");
             res.json(err);
         });
+    }}
 };
 
 
@@ -127,4 +132,14 @@ exports.googleCallback =  function(req, res) {
     authController.storeToken(req.user, token);
     res.setHeader("Set-Cookie", ["token="+token+ "; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
     res.redirect('/');
+};
+
+//get username
+exports.getUser = function(req,res) {
+  if (!req.user) {
+    return res.json('no user found');
+  } else {
+    return res.json({username:req.user});
+  }
+
 };
