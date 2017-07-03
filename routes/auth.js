@@ -18,9 +18,9 @@ passport.use(new GoogleStrategy({
         callbackURL     : config.googleAuth.callbackURL
 },
 function(accessToken, refreshToken, profile, cb) {
-        console.log(profile);
+        // console.log(profile);
         userController.getOrCreateUserGoogle(profile, accessToken)
-          .then(authController.storeToken(profile.displayName, accessToken))
+          //.then(authController.storeToken(profile.displayName, accessToken))
           .then(() => { cb(null, profile.displayName); })
           .catch((err) => {
             return cb(err);

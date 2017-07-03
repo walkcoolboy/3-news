@@ -93,7 +93,31 @@ exports.deleteUser = function (username) {
 */
 exports.getOrCreateUserGoogle = function (profile, accessToken) {
   return new Promise(function (resolve, reject) {
-    resolve("dummy code");
+        username = profile.displayName;
+        //check if the username exist or not
+        User.findOne({ name: username }, function (err, user) {
+
+          if (err) {
+            return reject(err);
+          };
+
+          if (!user) {
+
+          //Create a new instance of the User model
+          var theuser = new User();
+          theuser.name = username;
+          theuser.password = accessToken;
+          theuser.type = "google";
+    
+          //save the user info and check for errors
+          theuser.save(function (err) {
+            if (err) {
+              return reject(err);
+            }
+            resolve({ message: 'user added', data: theuser });
+            });
+          };
+        });
   });
 };
 
