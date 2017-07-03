@@ -122,6 +122,6 @@ exports.googleCallback =  function(req, res) {
     // Successful authentication, create a token for the user.
     var token = authController.generateToken();
     authController.storeToken(req.user, token);
-    res.setHeader("Set-Cookie", ["token="+token+ "; username="+req.user+" max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
+    res.setHeader("Set-Cookie", ["token="+token+ "; username="+req.user+"; max-age="+authController.TOKEN_DURATION/1000+"; path=/"])
     res.redirect('/');
 };
