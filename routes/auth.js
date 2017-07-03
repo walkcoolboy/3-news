@@ -2,8 +2,14 @@
 var userController = require('../api/user');
 var authController = require('../api/auth');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var config = require('../config/config').auth;
+
 var passport = require('passport');
+
+if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
+    var config = require('../config/config').authHeroku;
+}else{
+    var config = require('../config/config').auth;
+};
 
 passport.use(new GoogleStrategy({
 
