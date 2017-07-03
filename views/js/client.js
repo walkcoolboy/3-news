@@ -255,4 +255,69 @@ $(document).ready(function(e) {
 					$('.alert-success').append(message);
 					$('.alert-success').show().delay(2000).fadeOut(100);
 	}
+
+	//Timeout
+	//https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+	//Will log the user out if the page is continously open and in focus for a duration
+
+	const IDLE_TIME_BEFORE_LOGOUT = 3600000; //One hour
+
+	// Set the name of the hidden property and the change event for visibility
+	var hidden, visibilityChange;
+
+	if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+		hidden = "hidden";
+		visibilityChange = "visibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+		hidden = "msHidden";
+		visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+		hidden = "webkitHidden";
+		visibilityChange = "webkitvisibilitychange";
+	}
+
+	var logoutTimer; //Holds a ticking timer
+	if(document.cookie)logoutTimer = setTimeout(logout, IDLE_TIME_BEFORE_LOGOUT);
+	
+	function handleVisibilityChange() {
+		console.log("vis change");
+
+		if (document[hidden]) {
+			console.log("clear timeout");
+			clearTimeout(logoutTimer);
+			logoutTimer = null;
+		} else {
+
+			if(!document.cookie || logoutTimer)return;
+
+			//Sets the timeout to 1 hour
+			logoutTimer = setTimeout(logout, IDLE_TIME_BEFORE_LOGOUT);
+		}
+	}
+
+	// Warn if the browser doesn't support addEventListener or the Page Visibility API
+	if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+		console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+	} else {
+		// Handle page visibility change   
+		document.addEventListener(visibilityChange, handleVisibilityChange, false);
+	}
+
+	function logout(){
+		//If user is not logged in
+		if (!document.cookie)return;
+		$.ajax({
+	    url: "/auth/logout",
+	    type: "POST",
+	    xhrFields: { withCredentials: true },
+	    success: function(data, textStatus, xhr) {
+				if (!data.success) return;
+				showLoginOpts();
+				location.reload();
+	    },
+	    error: function(xhr) {
+				//create error message
+	    }
+	});
+	}
 });//End doc.ready
