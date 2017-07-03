@@ -38,6 +38,7 @@ $(document).ready(function(e) {
 				 success: function(res) {
 					 if (!res.username) return console.log(res);
 					 //Save token in cookie, it expires in 1 day
+					 console.log('have got username '+res.username);
 					 user=res.username;
 					 window.localStorage.setItem('username', user);
 					 $('#username').text(user).css("color", "white");
