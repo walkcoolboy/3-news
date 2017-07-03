@@ -208,7 +208,7 @@ $(document).ready(function(e) {
 	    type: "PUT",
 	    success: function(response){
 	    	if(response.success){
-	    		var tagsArray = response.tags;
+	    		var tagsArray = response.data.tags;
 	    		$('.tag-list-footer').children('p').replaceWith("<p></p>"); //removes existing tags
 	    		for(var i= 0; i< tagsArray.length; i++){
 	    			$('.tag-list-footer').children('p').append(
