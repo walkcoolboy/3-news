@@ -50,13 +50,13 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 else {
 
 	//Run our own HTTPS server
-	port = process.env.PORT || 443;
+	port = process.env.PORT || 8443;
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
 	//Set up an http server on port 80 to redirect HTTP requests
 	var http = require('http');
-	http.createServer(app).listen(80);
+	http.createServer(app).listen(8080);
 
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
@@ -122,7 +122,7 @@ var user = require('./routes/user')
 
 app.post('/users/createUser', caching.setNone, user.createUser)
  	.get('/users/:username', caching.setPrivate, auth.validateToken, user.getUser)
-// 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
+ 	.put('/users/:username', caching.setNone, auth.validateToken, user.putUser)
 // .delete('/users/:username', caching.setNone, auth.validateToken, user.deleteUser);
 
 //-------------
@@ -132,8 +132,8 @@ var article = require('./routes/article');
 var tracking = require('./routes/tracking');
 
 app.get('/article/:article_id', auth.validateToken, tracking.log, caching.setShort, article.article)
-//	.get('/article/tag/:tag', caching.setVeryShort, article.search)
-//  .put('/article/:article_id', article.addTag);
+	.get('/article/tag/:tag', caching.setVeryShort, article.search)
+  .put('/article/:article_id', article.addTag);
 
 app. get('/search/:tag', caching.setVeryShort, article.search)
   	.get('/search/:tag/:page', caching.setVeryShort, article.search);
