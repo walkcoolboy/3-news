@@ -37,8 +37,7 @@ exports.getToken = function(thetoken){
       if (err) {
         return reject(err);
       }
-      console.log('getToken' + tokenJson);
-      if (!tokenJson.expires) return reject(err);
+      if (!tokenJson) return reject('no token found');
       if(tokenJson.expires < Date.now()){
         exports.deleteToken(thetoken);
         return reject("Token expired");

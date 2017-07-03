@@ -95,8 +95,7 @@ exports.validateToken = function (req, res, next) {
     if (!cookie) {
       next();
     } else {
-    var token = cookie.match(/token=(.{32});/)[1];
-    console.log('token is '+token);
+    var token = cookie.match(/token=(.{32})/)[1];
     if (!token) {
       next();
     } else {
@@ -123,7 +122,7 @@ exports.google = passport.authenticate('google', { scope : ['profile', 'email'],
 exports.googleCallbackAuthenticate = passport.authenticate('google',  { session: false, failureRedirect: '/' }  );
 
 exports.googleCallback =  function(req, res) {
-    console.log('googleCallback req user '+req.user);
+
     if (!req.user) { return res.redirect('/'); }
 
     // Successful authentication, create a token for the user.
