@@ -193,7 +193,10 @@ $(document).ready(function(e) {
 
 	function addTagProcess(input){
 		console.log(input);
+		console.log(input.split(" "));
+
 		var tagsArr = JSON.stringify(input.split(" "));
+		console.log(tagsArr);
 		var restURL = window.location.pathname; //article/:id
 		requestAddTags(tagsArr, restURL);
 	}
