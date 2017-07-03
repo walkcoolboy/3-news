@@ -160,6 +160,7 @@ app.post('/api/users/createUser', caching.setNone, api.postUser)
  	.put('/api/users/:username', caching.setNone, api.putUser)
  .delete('/api/users/:username', caching.setNone, api.deleteUser);
 
+app.delete('/api/users/:username/history', caching.setNone, api.deleteUserHistory);
 
 //--------------------------------
 //MUST BE LAST ROUTE ADDED
