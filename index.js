@@ -54,14 +54,16 @@ else {
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
-	//Set up an http server on port 80 to redirect HTTP requests
+	//Set up an http server on port 8080 to redirect HTTP requests
 	var http = require('http');
-	http.createServer(app).listen(80);
+	http.createServer(app).listen(8080);
 
 	//Redirects HTTP traffic to https
 	app.use((req, res, next) => {
-    	if (!req.secure)
-      		res.redirect(`https://${req.header('host')}:${port}${req.url}`);
+    	if (!req.secure) {
+          var host = req.headers.host.replace(/:[0-9]+$/g, ""); // strip the port # if any
+      		res.redirect(`https://${host}${req.url}`);
+        }
     	else
       		next();
   	});
