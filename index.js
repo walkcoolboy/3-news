@@ -50,7 +50,7 @@ if(process.env.NODE && ~process.env.NODE.indexOf("heroku")){
 else {
 
 	//Run our own HTTPS server
-	port = process.env.PORT || 443;
+	port = process.env.PORT || 8443;
 	https.createServer(https_options, app).listen(port, 'localhost');
 	console.log('App listening on port '+port);
 
@@ -62,7 +62,7 @@ else {
 	app.use((req, res, next) => {
     	if (!req.secure) {
           var host = req.headers.host.replace(/:[0-9]+$/g, ""); // strip the port # if any
-      		res.redirect(`https://${host}${req.url}`);
+      		res.redirect(`https://${host}:${port}${req.url}`);
         }
     	else
       		next();
