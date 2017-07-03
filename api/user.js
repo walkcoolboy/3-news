@@ -96,7 +96,7 @@ exports.deleteUser = function (username) {
       }
       resolve({message:'user removed', data:user});
     });
-    
+
   });
 
 };
@@ -142,6 +142,7 @@ exports.getOrCreateUserGoogle = function (profile, accessToken) {
  * archive all history of one user
  */
 exports.archiveHistory = function (username){
-
-
+  return new Promise(function (resolve, reject) {
+    return reject('not implemented');
+  })
 };

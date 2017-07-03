@@ -75,27 +75,17 @@ exports.getArticle = function (article_id) {
 //Updates an article in the database
 exports.putArticle = function (article_id, tagsArray) {
   //TODO: Update to do more than tags
-  
+
   return new Promise(function (resolve, reject) {
     // Use the Article model to find a specific article
-    Article.findOne({ articleID: article_id }, function (err, article) {
+    Article.findOneAndUpdate({ articleID: article_id }, {$set:{tags:tagsArray}}, {new:true}, function (err, article) {
       if (err) {
         return reject(err);
       }
       if(!article)return reject("Article "+article_id+"not found");
 
-      // Update the existing article tags
-      article.tags = tagsArray;
-
-      // Save the article and check for errors
-      article.save(function (err) {
-        if (err) {
-          return reject(err);
-        }
-
-        resolve(article);
+      resolve(article);
       });
-    });
   });
 };
 
