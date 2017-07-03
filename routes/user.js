@@ -87,8 +87,7 @@ exports.putUser = function (req, res) {
         }
         user.name = req.body.username;
         user.password = req.body.password;
-        console.log(user.name);
-        console.log(user.password);
+
         res.json({success: true});
         userController.updateUser(req.username, user)
           .then(() => {
