@@ -81,7 +81,22 @@ exports.updateUser = function (username, userJson) {
  */
 exports.deleteUser = function (username) {
   return new Promise(function (resolve, reject) {
-    reject("Not implemented");
+    //first remove all access tokens for that user
+    var Token = require('../models/token');
+    Token.remove({username:username}, function (err) {
+      if (err) {
+        return reject(err);
+      }
+    });
+
+    //Use the User model to find a specific user and remove it
+    User.findOneAndRemove({name:username},function (err, user) {
+      if (err) {
+        return reject(err);
+      }
+      resolve({message:'user removed', data:user});
+    });
+    
   });
 
 };
