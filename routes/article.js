@@ -90,8 +90,10 @@ function getPageRequest(req){
 *
 */
  exports.addTag = function(req, res){
- 	var arrayTagsToAdd = req.body.tags;
- 			articleController.putArticle(req.params.article_id, arrayTagsToAdd)
+
+ 	  var arrayTagsToAdd = req.body.tags;
+
+ 		articleController.putArticle(req.params.article_id, arrayTagsToAdd)
  				.then((article) =>{
  				 	res.json({success: true, data: article });
 				})

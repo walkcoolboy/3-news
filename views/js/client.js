@@ -6,7 +6,6 @@ $(document).ready(function(e) {
 
 	//apply login specific features
 	if(document.cookie){
-		console.log('cookie '+document.cookie);
 		hideLoginOpts();
 		if($('body').is('.article-content')){
 			//show article options for logged in user
@@ -192,21 +191,17 @@ $(document).ready(function(e) {
 	});
 
 	function addTagProcess(input){
-		console.log(input);
-		console.log('input split '+input.split(" "));
-
-		var tagsArr = JSON.stringify(input.split(" "));
-		console.log('tagArr '+tagsArr);
-		var restURL = window.location.pathname; //article/:id
-		requestAddTags(tagsArr, restURL);
+		tagsArray = input.split(' ');
+		dataJSON=JSON.stringify({
+			"tags":tagsArray
+		});
+		requestAddTags(dataJSON);
 	}
 
-	function requestAddTags(tagsArray, restURL){
+	function requestAddTags(dataJSON) {
 			$.ajax({
-	    url: restURL, //article/:article_id
-	    data: {
-	        "tags": tagsArray
-	    },
+	    data: dataJSON,
+			contentType: "application/json",
 	    cache: false,
 	    type: "PUT",
 	    success: function(response){
