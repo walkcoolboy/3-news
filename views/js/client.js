@@ -112,7 +112,7 @@ $(document).ready(function(e) {
 				console.log('sign-out data:'+data);
 				if (!data.success) return;
 				showLoginOpts();
-				location.reload();
+				window.location="/";
 	    },
 	    error: function(xhr) {
 				//create error message
