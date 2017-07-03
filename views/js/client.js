@@ -55,6 +55,7 @@ $(document).ready(function(e) {
 		$('.profile').attr('href','/users/'+user);
 	  }
 	}
+
 	function showLoginOpts(){
 		$('#nav-no-login').show();
 		//display create/user account options
