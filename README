@@ -7,15 +7,15 @@ Jonathan Miller
 Li Li
 
 To start the app, execute 'node index.js', navigate to localhost in a browser.
- - If port 80 fails to bind, manually prefix 'https://'.
- - If using a port other then 443, suffix ':PORT'.
+ - Default HTTP port is 8080, and HTTPS port is 8443
+ - All HTTP request will be redirected to HTTPS
 
-It is also hosted remotely at nwen304-3-news.herokuapp.com.
+It is also hosted remotely at HEROKU at
+ - nwen304-3-news.herokuapp.com
 
 Testing user accounts:
 username:TEST, password:TEST,
 username:ADMIN, password:ADMIN
-
 
 REST interface:
 

@@ -16,7 +16,7 @@ exports.getArticles = function (req, res) {
                     "URL":  req.header('host') + req.url + "\/" + article.articleID
                 });
             }, this);
-            
+
             res.json(response);
         })
         .catch((err) => {
@@ -67,7 +67,7 @@ exports.getArticle = function (req, res) {
 // Create endpoint /article/:article_id for PUT
 exports.putArticle = function (req, res) {
     if(!req.body)res.json("Missing JSON");
-    
+
     articleController.putArticle(req.params.article_id, req.body)
       .then((message) => {
           res.json(message);
@@ -127,12 +127,12 @@ exports.postUser = function (req, res) {
 
 // PUT endpoint for users
 exports.putUser = function (req, res) {
-    if(!req.body)res.json("Missing JSON");
+
     //Check for username
     var username = req.params.username || req.body.username || null;
     if(!username)res.json("Username not provided");
     //Check for user data
-    var userData = req.body.user || null;
+    var userData = req.body || null;
     if(!userData)res.json("User JSON not provided");
 
     userController.updateUser(username, userData)
