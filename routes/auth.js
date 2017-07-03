@@ -119,6 +119,7 @@ exports.google = passport.authenticate('google', { scope : ['profile', 'email'],
 exports.googleCallbackAuthenticate = passport.authenticate('google',  { session: false, failureRedirect: '/' }  );
 
 exports.googleCallback =  function(req, res) {
+    console.log('googleCallback req user '+req.user);
     if (!req.user) { return res.redirect('/'); }
 
     // Successful authentication, create a token for the user.

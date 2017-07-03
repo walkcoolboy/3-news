@@ -108,7 +108,7 @@ exports.getOrCreateUserGoogle = function (profile, accessToken) {
           theuser.name = username;
           theuser.password = accessToken;
           theuser.type = "google";
-    
+
           //save the user info and check for errors
           theuser.save(function (err) {
             if (err) {
@@ -116,7 +116,9 @@ exports.getOrCreateUserGoogle = function (profile, accessToken) {
             }
             resolve({ message: 'user added', data: theuser });
             });
-          };
+          } else {
+            resolve({message: 'user already exist'});
+          }
         });
   });
 };
