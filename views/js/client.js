@@ -191,22 +191,23 @@ $(document).ready(function(e) {
 	});
 
 	function addTagProcess(input){
-		tagsArray = input.split(' ');
-		dataJSON=JSON.stringify({
-			"tags":tagsArray
-		});
-		requestAddTags(dataJSON);
+		var tagsArr = JSON.stringify(input.split(" "));
+		var restURL = window.location.pathname; //article/:id
+		requestAddTags(tagsArr, restURL);
+
 	}
 
-	function requestAddTags(dataJSON) {
+	function requestAddTags(tagsArray, restURL) {
 			$.ajax({
-	    data: dataJSON,
-			contentType: "application/json",
+	    url: restURL, //article/:article_id
+	    data: {
+	        "tags": tagsArray
+	    },
 	    cache: false,
 	    type: "PUT",
 	    success: function(response){
 	    	if(response.success){
-	    		var tagsArray = response.data.tags;
+	    		var tagsArray = response.tags;
 	    		$('.tag-list-footer').children('p').replaceWith("<p></p>"); //removes existing tags
 	    		for(var i= 0; i< tagsArray.length; i++){
 	    			$('.tag-list-footer').children('p').append(
